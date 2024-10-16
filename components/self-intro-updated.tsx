@@ -6,32 +6,33 @@ import Head from 'next/head'
 import { Button } from '@/components/ui/button'
 import { ExternalLink } from 'lucide-react'
 
-const LanguageSwitcher = ({ language, setLanguage }) => {
+type LanguageSwitcherProps = {
+  language: "en" | "ko";
+  setLanguage: (lang: "en" | "ko") => void;
+};
+
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ language, setLanguage }) => {
   return (
     <div className="inline-flex items-center rounded-md bg-[#f6f5f4] p-0.5 text-sm font-medium">
       <button
-        onClick={() => setLanguage('ko')}
+        onClick={() => setLanguage("ko")}
         className={`rounded-md px-3 py-1.5 transition-all ${
-          language === 'ko'
-            ? 'bg-white shadow-sm font-bold'
-            : 'text-[#050005] hover:text-[#0a85d1]'
+          language === "ko" ? "bg-white shadow-sm font-bold" : "text-[#050005] hover:text-[#0a85d1]"
         }`}
       >
         한국어
       </button>
       <button
-        onClick={() => setLanguage('en')}
+        onClick={() => setLanguage("en")}
         className={`rounded-md px-3 py-1.5 transition-all ${
-          language === 'en'
-            ? 'bg-white shadow-sm font-bold'
-            : 'text-[#050005] hover:text-[#0a85d1]'
+          language === "en" ? "bg-white shadow-sm font-bold" : "text-[#050005] hover:text-[#0a85d1]"
         }`}
       >
         English
       </button>
     </div>
-  )
-}
+  );
+};
 
 export function SelfIntroUpdated() {
   const [language, setLanguage] = useState<'en' | 'ko'>('ko')
