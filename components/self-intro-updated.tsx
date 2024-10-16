@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Head from 'next/head'
 import { Button } from '@/components/ui/button'
-import { ExternalLink } from '@geist-ui/icons'
+import { ExternalLink } from 'lucide-react'
 
 const LanguageSwitcher = ({ language, setLanguage }) => {
   return (
