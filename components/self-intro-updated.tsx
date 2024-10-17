@@ -7,32 +7,39 @@ import { Button } from '@/components/ui/button'
 import { ExternalLink } from 'lucide-react'
 
 type LanguageSwitcherProps = {
-  language: "en" | "ko";
-  setLanguage: (lang: "en" | "ko") => void;
-};
+  language: 'en' | 'ko'
+  setLanguage: (lang: 'en' | 'ko') => void
+}
 
-const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ language, setLanguage }) => {
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
+  language,
+  setLanguage,
+}) => {
   return (
     <div className="inline-flex items-center rounded-md bg-[#f6f5f4] p-0.5 text-sm font-medium">
       <button
-        onClick={() => setLanguage("ko")}
+        onClick={() => setLanguage('ko')}
         className={`rounded-md px-3 py-1.5 transition-all ${
-          language === "ko" ? "bg-white shadow-sm font-bold" : "text-[#050005] hover:text-[#0a85d1]"
+          language === 'ko'
+            ? 'bg-white shadow-sm font-bold'
+            : 'text-[#050005] hover:text-[#0a85d1]'
         }`}
       >
         한국어
       </button>
       <button
-        onClick={() => setLanguage("en")}
+        onClick={() => setLanguage('en')}
         className={`rounded-md px-3 py-1.5 transition-all ${
-          language === "en" ? "bg-white shadow-sm font-bold" : "text-[#050005] hover:text-[#0a85d1]"
+          language === 'en'
+            ? 'bg-white shadow-sm font-bold'
+            : 'text-[#050005] hover:text-[#0a85d1]'
         }`}
       >
         English
       </button>
     </div>
-  );
-};
+  )
+}
 
 export function SelfIntroUpdated() {
   const [language, setLanguage] = useState<'en' | 'ko'>('ko')
@@ -186,7 +193,7 @@ export function SelfIntroUpdated() {
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f6f5f4]">
             <Button
               className="w-full col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 bg-[#121212] text-white hover:bg-[#333333] transition-colors duration-300"
-              onClick={() => window.open('https://portfolio.dowha.kim')}
+              onClick={() => window.open(`/things?lang=${language}`, '_self')}
             >
               <span>{content[language].things}</span>
             </Button>
