@@ -1,5 +1,9 @@
-import { SelfIntroUpdated } from '@/components/self-intro-updated'
+import { About } from '@/components/introduction'
 
-export default function Page() {
-  return <SelfIntroUpdated />
+export default function AboutPage() {
+  return (
+    <main>
+      <About />
+    </main>
+  )
 }

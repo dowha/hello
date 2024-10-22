@@ -41,7 +41,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   )
 }
 
-export function SelfIntroUpdated() {
+export function About() {
   const [language, setLanguage] = useState<'en' | 'ko'>('ko')
 
   useEffect(() => {

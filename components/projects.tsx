@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { Drawer } from 'vaul'
@@ -19,19 +19,22 @@ type ProjectItem = {
 
 type Language = 'en' | 'ko'
 
-const thingsContent: Record<Language, { 
-  title: string
-  categories: Record<string, string>
-  items: ProjectItem[]
-  emptyMessage: {
-    noSelection: string
-    noProjects: string
+const thingsContent: Record<
+  Language,
+  {
+    title: string
+    categories: Record<string, string>
+    items: ProjectItem[]
+    emptyMessage: {
+      noSelection: string
+      noProjects: string
+    }
+    drawerLabels: {
+      close: string
+      viewProject: string
+    }
   }
-  drawerLabels: {
-    close: string
-    viewProject: string
-  }
-}> = {
+> = {
   en: {
     title: '📦 Things I have made',
     categories: {
@@ -45,46 +48,59 @@ const thingsContent: Record<Language, {
       {
         uid: 'service-a',
         title: 'Service A',
-        description: 'Task management and workflow optimization solution. Streamlines business processes efficiently.',
+        description:
+          'Task management and workflow optimization solution. Streamlines business processes efficiently.',
         link: 'https://servicea.com',
         categories: ['live', 'experiments'],
         priority: 3,
         updateNotes: [
           { text: 'Initial release', date: '2024.01.23' },
           { text: 'Added task prioritization feature', date: '2024.02.15' },
-          { text: 'Improved user interface for mobile devices', date: '2024.03.10' },
+          {
+            text: 'Improved user interface for mobile devices',
+            date: '2024.03.10',
+          },
         ],
       },
       {
         uid: 'service-b',
         title: 'Service B',
-        description: 'Real-time data analytics platform. Provides actionable insights for businesses.',
+        description:
+          'Real-time data analytics platform. Provides actionable insights for businesses.',
         link: 'https://serviceb.com',
         categories: ['live'],
         priority: 2,
         updateNotes: [
           { text: 'Initial release', date: '2024.01.23' },
-          { text: 'Added real-time data streaming capability', date: '2024.02.15' },
+          {
+            text: 'Added real-time data streaming capability',
+            date: '2024.02.15',
+          },
           { text: 'Enhanced data visualization tools', date: '2024.03.10' },
         ],
       },
       {
         uid: 'experiment-x',
         title: 'Experiment X',
-        description: 'Quantum computing optimization applications. Explores cutting-edge algorithms for complex problem-solving.',
+        description:
+          'Quantum computing optimization applications. Explores cutting-edge algorithms for complex problem-solving.',
         link: 'https://experimentx.com',
         categories: ['experiments'],
         priority: 1,
         updateNotes: [
           { text: 'Initial release', date: '2024.01.23' },
           { text: 'Improved algorithm performance', date: '2024.02.15' },
-          { text: 'Added support for new quantum hardware', date: '2024.03.10' },
+          {
+            text: 'Added support for new quantum hardware',
+            date: '2024.03.10',
+          },
         ],
       },
       {
         uid: 'toy-alpha',
         title: 'Toy Alpha',
-        description: 'Generative art algorithms and creative coding. Pushes the boundaries of computational creativity.',
+        description:
+          'Generative art algorithms and creative coding. Pushes the boundaries of computational creativity.',
         link: 'https://toyalpha.com',
         categories: ['toy'],
         priority: 0,
@@ -97,7 +113,8 @@ const thingsContent: Record<Language, {
       {
         uid: 'legacy-1',
         title: 'Legacy 1.0',
-        description: 'Deprecated inventory management system from 2018. Served as a foundation for modern logistics solutions.',
+        description:
+          'Deprecated inventory management system from 2018. Served as a foundation for modern logistics solutions.',
         link: 'https://legacy1.com',
         categories: ['old'],
         priority: 0,
@@ -108,28 +125,31 @@ const thingsContent: Record<Language, {
       },
     ],
     emptyMessage: {
-      noSelection: "🕵️‍♂️ Oops! Looks like my projects are playing hide and seek. Click a category to coax them out of hiding!",
-      noProjects: "🚀 Houston, we have a situation! No projects found in this category. Time to brew some coffee and code like there's no tomorrow!"
+      noSelection:
+        '🕵️‍♂️ Oops! Looks like my projects are playing hide and seek. Click a category to coax them out of hiding!',
+      noProjects:
+        "🚀 Houston, we have a situation! No projects found in this category. Time to brew some coffee and code like there's no tomorrow!",
     },
     drawerLabels: {
-      close: "Close",
-      viewProject: "View Project"
-    }
+      close: 'Close',
+      viewProject: 'View Project',
+    },
   },
   ko: {
     title: '📦 내가 만든 것들',
     categories: {
       live: '🔴 라이브 서비스',
-      experiments: '🌱 실험',
+      experiments: '🌱 실험들',
       toy: '🦖 토이 프로젝트',
-      learning: '🎓 학습 및 연습',
-      old: '🪦 구 프로젝트',
+      learning: '🎓 학습과 연습',
+      old: '🪦 오래된 프로젝트',
     },
     items: [
       {
         uid: 'service-a',
         title: '서비스 A',
-        description: '작업 관리 및 워크플로우 최적화 솔루션. 비즈니스 프로세스를 효율적으로 간소화합니다.',
+        description:
+          '작업 관리 및 워크플로우 최적화 솔루션. 비즈니스 프로세스를 효율적으로 간소화합니다.',
         link: 'https://servicea.com',
         categories: ['live', 'experiments'],
         priority: 3,
@@ -142,7 +162,8 @@ const thingsContent: Record<Language, {
       {
         uid: 'service-b',
         title: '서비스 B',
-        description: '실시간 데이터 분석 플랫폼. 기업에 실행 가능한 인사이트를 제공합니다.',
+        description:
+          '실시간 데이터 분석 플랫폼. 기업에 실행 가능한 인사이트를 제공합니다.',
         link: 'https://serviceb.com',
         categories: ['live'],
         priority: 2,
@@ -155,7 +176,8 @@ const thingsContent: Record<Language, {
       {
         uid: 'experiment-x',
         title: '실험 X',
-        description: '양자 컴퓨팅 최적화 애플리케이션. 복잡한 문제 해결을 위한 최첨단 알고리즘을 탐구합니다.',
+        description:
+          '양자 컴퓨팅 최적화 애플리케이션. 복잡한 문제 해결을 위한 최첨단 알고리즘을 탐구합니다.',
         link: 'https://experimentx.com',
         categories: ['experiments'],
         priority: 1,
@@ -168,7 +190,8 @@ const thingsContent: Record<Language, {
       {
         uid: 'toy-alpha',
         title: '토이 알파',
-        description: '생성 아트 알고리즘과 창의적 코딩. 컴퓨테이셔널 창의성의 경계를 넓힙니다.',
+        description:
+          '생성 아트 알고리즘과 창의적 코딩. 컴퓨테이셔널 창의성의 경계를 넓힙니다.',
         link: 'https://toyalpha.com',
         categories: ['toy'],
         priority: 0,
@@ -181,7 +204,8 @@ const thingsContent: Record<Language, {
       {
         uid: 'legacy-1',
         title: '레거시 1.0',
-        description: '2018년부터 사용되지 않는 재고 관리 시스템. 현대적인 물류 솔루션의 기초 역할을 했습니다.',
+        description:
+          '2018년부터 사용되지 않는 재고 관리 시스템. 현대적인 물류 솔루션의 기초 역할을 했습니다.',
         link: 'https://legacy1.com',
         categories: ['old'],
         priority: 0,
@@ -192,19 +216,21 @@ const thingsContent: Record<Language, {
       },
     ],
     emptyMessage: {
-      noSelection: "🕵️‍♂️ 어라? 프로젝트들이 숨바꼭질을 하는 것 같아요. 카테고리를 클릭해서 그들을 찾아주세요!",
-      noProjects: "🚀 휴스턴, 문제가 생겼어요! 이 카테고리에 프로젝트가 없습니다. 커피 한 잔 마시고 코딩 모드 돌입해야겠어요!"
+      noSelection:
+        '🕵️‍♂️ 어라? 프로젝트들이 숨바꼭질을 하는 것 같아요. 카테고리를 클릭해서 그들을 찾아주세요!',
+      noProjects:
+        '🚀 휴스턴, 문제가 생겼어요! 이 카테고리에 프로젝트가 없습니다. 커피 한 잔 마시고 코딩 모드 돌입해야겠어요!',
     },
     drawerLabels: {
-      close: "닫기",
-      viewProject: "프로젝트 보기"
-    }
+      close: '닫기',
+      viewProject: '프로젝트 보기',
+    },
   },
 }
 
 export default function Things() {
   const searchParams = useSearchParams()
-  const [language, setLanguage] = useState<Language>('en')
+  const [language, setLanguage] = useState<Language>('ko')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
 
   useEffect(() => {
@@ -224,15 +250,15 @@ export default function Things() {
   const content = thingsContent[language]
 
   const toggleFilter = (category: string) => {
-    setActiveFilters(prev =>
+    setActiveFilters((prev) =>
       prev.includes(category)
-        ? prev.filter(cat => cat !== category)
+        ? prev.filter((cat) => cat !== category)
         : [...prev, category]
     )
   }
 
-  const filteredProjects = content.items.filter(project =>
-    project.categories.some(cat => activeFilters.includes(cat))
+  const filteredProjects = content.items.filter((project) =>
+    project.categories.some((cat) => activeFilters.includes(cat))
   )
 
   const sortedProjects = filteredProjects.sort((a, b) => {
@@ -242,8 +268,12 @@ export default function Things() {
     return a.title.localeCompare(b.title, language === 'ko' ? 'ko' : 'en')
   })
 
-  const currentProjects = sortedProjects.filter(project => !project.categories.includes('old'))
-  const oldProjects = sortedProjects.filter(project => project.categories.includes('old'))
+  const currentProjects = sortedProjects.filter(
+    (project) => !project.categories.includes('old')
+  )
+  const oldProjects = sortedProjects.filter((project) =>
+    project.categories.includes('old')
+  )
 
   const ProjectCard = ({ project }: { project: ProjectItem }) => (
     <Drawer.Root>
@@ -255,26 +285,30 @@ export default function Things() {
               className="flex-grow"
               style={{
                 backgroundColor:
-                  cat === 'live' ? '#ff0000' :
-                  cat === 'experiments' ? '#90EE90' :
-                  cat === 'toy' ? '#008000' :
-                  cat === 'learning' ? '#FFFF00' :
-                  cat === 'old' ? '#696969' : 'transparent'
+                  cat === 'live'
+                    ? '#ff0000'
+                    : cat === 'experiments'
+                    ? '#90EE90'
+                    : cat === 'toy'
+                    ? '#008000'
+                    : cat === 'learning'
+                    ? '#FFFF00'
+                    : cat === 'old'
+                    ? '#696969'
+                    : 'transparent',
               }}
             />
           ))}
         </div>
-        <div className={`text-sm transition-colors duration-300 ${
-          project.categories.includes('old') 
-            ? 'text-gray-500 hover:text-gray-700' 
-            : 'hover:text-[#0a85d1]'
-        }`}>
-          <h3 className="text-sm font-medium mb-1">
-            {project.title}
-          </h3>
-          <p className="text-xs line-clamp-2">
-            {project.description}
-          </p>
+        <div
+          className={`text-sm transition-colors duration-300 ${
+            project.categories.includes('old')
+              ? 'text-gray-500 hover:text-gray-700'
+              : 'hover:text-[#0a85d1]'
+          }`}
+        >
+          <h3 className="text-sm font-medium mb-1">{project.title}</h3>
+          <p className="text-xs line-clamp-2">{project.description}</p>
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
@@ -298,7 +332,10 @@ export default function Things() {
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.categories.map((category) => (
-                  <span key={category} className="text-xs bg-gray-100 text-gray-800 rounded-md px-2 py-1">
+                  <span
+                    key={category}
+                    className="text-xs bg-gray-100 text-gray-800 rounded-md px-2 py-1"
+                  >
                     {content.categories[category]}
                   </span>
                 ))}
@@ -329,33 +366,37 @@ export default function Things() {
   return (
     <div className="flex flex-col items-start justify-start min-h-screen bg-white text-[#050005] p-4 font-pretendard">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
-        <Link href={`/?lang=${language}`} passHref>
+        <Link href={`/`} passHref>
           <Button variant="ghost" className="mb-4">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back
           </Button>
         </Link>
         <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
-        
+
         <div className="flex flex-wrap gap-2 mb-4">
-  {Object.entries(content.categories).map(([key, value], index, array) => (
-    <div key={key} className="flex items-center">  {/* Fragment를 div로 변경하고 key 추가 */}
-      <button
-        onClick={() => toggleFilter(key)}
-        className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
-          activeFilters.includes(key)
-            ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
-            : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
-        }`}
-      >
-        {value}
-      </button>
-      {key === 'learning' && index !== array.length - 1 && (
-        <span className="text-gray-300 mx-1">|</span>
-      )}
-    </div>
-  ))}
-</div>
-        
+          {Object.entries(content.categories).map(
+            ([key, value], index, array) => (
+              <div key={key} className="flex items-center">
+                {' '}
+                {/* Fragment를 div로 변경하고 key 추가 */}
+                <button
+                  onClick={() => toggleFilter(key)}
+                  className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
+                    activeFilters.includes(key)
+                      ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
+                      : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
+                  }`}
+                >
+                  {value}
+                </button>
+                {key === 'learning' && index !== array.length - 1 && (
+                  <span className="text-gray-300 mx-1">|</span>
+                )}
+              </div>
+            )
+          )}
+        </div>
+
         <div className="space-y-6">
           {activeFilters.length > 0 ? (
             sortedProjects.length > 0 ? (
