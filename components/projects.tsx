@@ -337,25 +337,24 @@ export default function Things() {
         <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
         
         <div className="flex flex-wrap gap-2 mb-4">
-          {Object.entries(content.categories).map(([key, value], index, array) => (
-            <>
-              <button
-                key={key}
-                onClick={() => toggleFilter(key)}
-                className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
-                  activeFilters.includes(key)
-                    ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
-                    : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
-                }`}
-              >
-                {value}
-              </button>
-              {key === 'learning' && index !== array.length - 1 && (
-                <span className="text-gray-300 mx-1">|</span>
-              )}
-            </>
-          ))}
-        </div>
+  {Object.entries(content.categories).map(([key, value], index, array) => (
+    <div key={key} className="flex items-center">  {/* Fragment를 div로 변경하고 key 추가 */}
+      <button
+        onClick={() => toggleFilter(key)}
+        className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
+          activeFilters.includes(key)
+            ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
+            : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
+        }`}
+      >
+        {value}
+      </button>
+      {key === 'learning' && index !== array.length - 1 && (
+        <span className="text-gray-300 mx-1">|</span>
+      )}
+    </div>
+  ))}
+</div>
         
         <div className="space-y-6">
           {activeFilters.length > 0 ? (
