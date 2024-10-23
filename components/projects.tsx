@@ -10,11 +10,12 @@ import { Drawer } from 'vaul'
 type ProjectItem = {
   uid: string
   title: string
-  description: string
-  link: string
+  shortDescription: string
+  longDescription: string
+  link?: string
   categories: string[]
   priority: number
-  updateNotes: { text: string; date: string }[]
+  updateNotes: { text: string; date: string; log?: string }[]
 }
 
 type Language = 'en' | 'ko'
@@ -48,14 +49,19 @@ const thingsContent: Record<
       {
         uid: 'service-a',
         title: 'Service A',
-        description:
-          'Task management and workflow optimization solution. Streamlines business processes efficiently.',
+        shortDescription: 'Task management and workflow optimization solution.',
+        longDescription:
+          'Service A is a comprehensive task management and workflow optimization solution designed to streamline business processes efficiently. It offers intuitive interfaces for task assignment, progress tracking, and performance analytics, enabling teams to collaborate seamlessly and boost productivity.',
         link: 'https://servicea.com',
         categories: ['live', 'experiments'],
         priority: 3,
         updateNotes: [
           { text: 'Initial release', date: '2024.01.23' },
-          { text: 'Added task prioritization feature', date: '2024.02.15' },
+          {
+            text: 'Added task prioritization feature',
+            date: '2024.02.15',
+            log: 'Implemented a new algorithm for task prioritization',
+          },
           {
             text: 'Improved user interface for mobile devices',
             date: '2024.03.10',
@@ -65,8 +71,9 @@ const thingsContent: Record<
       {
         uid: 'service-b',
         title: 'Service B',
-        description:
-          'Real-time data analytics platform. Provides actionable insights for businesses.',
+        shortDescription: 'Real-time data analytics platform.',
+        longDescription:
+          'Service B is a cutting-edge real-time data analytics platform that provides actionable insights for businesses. Leveraging advanced algorithms and machine learning, it processes vast amounts of data in real-time, offering valuable insights that drive informed decision-making and strategic planning.',
         link: 'https://serviceb.com',
         categories: ['live'],
         priority: 2,
@@ -75,6 +82,7 @@ const thingsContent: Record<
           {
             text: 'Added real-time data streaming capability',
             date: '2024.02.15',
+            log: 'Integrated Apache Kafka for real-time data processing',
           },
           { text: 'Enhanced data visualization tools', date: '2024.03.10' },
         ],
@@ -82,9 +90,9 @@ const thingsContent: Record<
       {
         uid: 'experiment-x',
         title: 'Experiment X',
-        description:
-          'Quantum computing optimization applications. Explores cutting-edge algorithms for complex problem-solving.',
-        link: 'https://experimentx.com',
+        shortDescription: 'Quantum computing optimization applications.',
+        longDescription:
+          "Experiment X is a groundbreaking project exploring quantum computing optimization applications. It delves into cutting-edge algorithms for complex problem-solving, pushing the boundaries of what's possible with quantum technologies. This experiment aims to revolutionize fields such as cryptography, drug discovery, and financial modeling.",
         categories: ['experiments'],
         priority: 1,
         updateNotes: [
@@ -93,14 +101,16 @@ const thingsContent: Record<
           {
             text: 'Added support for new quantum hardware',
             date: '2024.03.10',
+            log: 'Integrated with IBM Q System One',
           },
         ],
       },
       {
         uid: 'toy-alpha',
         title: 'Toy Alpha',
-        description:
-          'Generative art algorithms and creative coding. Pushes the boundaries of computational creativity.',
+        shortDescription: 'Generative art algorithms and creative coding.',
+        longDescription:
+          'Toy Alpha is an exciting project that explores generative art algorithms and creative coding. It pushes the boundaries of computational creativity, generating unique and mesmerizing visual artworks. This project serves as a playground for experimenting with various algorithmic approaches to art creation.',
         link: 'https://toyalpha.com',
         categories: ['toy'],
         priority: 0,
@@ -113,9 +123,9 @@ const thingsContent: Record<
       {
         uid: 'legacy-1',
         title: 'Legacy 1.0',
-        description:
-          'Deprecated inventory management system from 2018. Served as a foundation for modern logistics solutions.',
-        link: 'https://legacy1.com',
+        shortDescription: 'Deprecated inventory management system from 2018.',
+        longDescription:
+          'Legacy 1.0 is a deprecated inventory management system that was developed in 2018. Although no longer in active use, it served as a crucial foundation for modern logistics solutions. This system pioneered several features that have since become standard in inventory management software.',
         categories: ['old'],
         priority: 0,
         updateNotes: [
@@ -126,9 +136,9 @@ const thingsContent: Record<
     ],
     emptyMessage: {
       noSelection:
-        '🕵️‍♂️ Oops! Looks like my projects are playing hide and seek. Click a category to coax them out of hiding!',
+        '🔍 Whoops! Can’t seem to find any projects here. Click a category to see if they pop up!',
       noProjects:
-        "🚀 Houston, we have a situation! No projects found in this category. Time to brew some coffee and code like there's no tomorrow!",
+        '☕ No projects in this category yet. Time for a coffee break, then back to making some commits!',
     },
     drawerLabels: {
       close: 'Close',
@@ -148,50 +158,65 @@ const thingsContent: Record<
       {
         uid: 'service-a',
         title: '서비스 A',
-        description:
-          '작업 관리 및 워크플로우 최적화 솔루션. 비즈니스 프로세스를 효율적으로 간소화합니다.',
+        shortDescription: '작업 관리 및 워크플로우 최적화 솔루션.',
+        longDescription:
+          '서비스 A는 비즈니스 프로세스를 효율적으로 간소화하도록 설계된 종합적인 작업 관리 및 워크플로우 최적화 솔루션입니다. 작업 할당, 진행 상황 추적 및 성과 분석을 위한 직관적인 인터페이스를 제공하여 팀이 원활하게 협업하고 생산성을 높일 수 있도록 합니다.',
         link: 'https://servicea.com',
         categories: ['live', 'experiments'],
         priority: 3,
         updateNotes: [
           { text: '초기 출시', date: '2024.01.23' },
-          { text: '작업 우선 순위 지정 기능 추가', date: '2024.02.15' },
+          {
+            text: '작업 우선 순위 지정 기능 추가',
+            date: '2024.02.15',
+            log: '작업 우선순위 지정을 위한 새로운 알고리즘 구현',
+          },
           { text: '모바일 장치 사용자 인터페이스 개선', date: '2024.03.10' },
         ],
       },
       {
         uid: 'service-b',
         title: '서비스 B',
-        description:
-          '실시간 데이터 분석 플랫폼. 기업에 실행 가능한 인사이트를 제공합니다.',
+        shortDescription: '실시간 데이터 분석 플랫폼.',
+        longDescription:
+          '서비스 B는 기업에 실행 가능한 인사이트를 제공하는 최첨단 실시간 데이터 분석 플랫폼입니다. 고급 알고리즘과 기계 학습을 활용하여 방대한 양의 데이터를 실시간으로 처리하여 정보에 입각한 의사 결정과 전략적 계획을 추진하는 귀중한 인사이트를 제공합니다.',
         link: 'https://serviceb.com',
         categories: ['live'],
         priority: 2,
         updateNotes: [
           { text: '초기 출시', date: '2024.01.23' },
-          { text: '실시간 데이터 스트리밍 기능 추가', date: '2024.02.15' },
+          {
+            text: '실시간 데이터 스트리밍 기능 추가',
+            date: '2024.02.15',
+            log: '실시간 데이터 처리를 위한 Apache Kafka 통합',
+          },
           { text: '데이터 시각화 도구 개선', date: '2024.03.10' },
         ],
       },
       {
         uid: 'experiment-x',
         title: '실험 X',
-        description:
-          '양자 컴퓨팅 최적화 애플리케이션. 복잡한 문제 해결을 위한 최첨단 알고리즘을 탐구합니다.',
-        link: 'https://experimentx.com',
+        shortDescription: '양자 컴퓨팅 최적화 애플리케이션.',
+        longDescription:
+          '실험 X는 양자 컴퓨팅 최적화 애플리케이션을 탐구하는 혁신적인 프로젝트입니다. 복잡한 문제 해결을 위한 최첨단 알고리즘을 탐구하여 양자 기술로 가능한 것의 경계를 넓힙니다. 이 실험은 암호학, 신약 발견 및 금융 모델링과 같은 분야에 혁명을 일으키는 것을 목표로 합니다.',
         categories: ['experiments'],
         priority: 1,
         updateNotes: [
           { text: '초기 출시', date: '2024.01.23' },
           { text: '알고리즘 성능 개선', date: '2024.02.15' },
-          { text: '새로운 양자 하드웨어 지원 추가', date: '2024.03.10' },
+          {
+            text: '새로운 양자 하드웨어 지원 추가',
+            date: '2024.03.10',
+            log: 'IBM Q System One과 통합',
+          },
         ],
       },
       {
         uid: 'toy-alpha',
         title: '토이 알파',
-        description:
-          '생성 아트 알고리즘과 창의적 코딩. 컴퓨테이셔널 창의성의 경계를 넓힙니다.',
+        shortDescription: '생성 아트 알고리즘과 창의적 코딩.',
+        longDescription:
+          '토이 알파는 생성 아트 알고리즘과 창의적 코딩을 탐구하는 흥미진진한 프로젝트입니다. 컴퓨테이셔널 창의성의 경계를 넓혀 독특하고 매혹적인 시각 예술 작품을 생성합니다. 이 프로젝트는 예술 창작을 위한 다양한 알고리즘적 접근 방식을 실험하는 놀이터 역할을 합니다.',
         link: 'https://toyalpha.com',
         categories: ['toy'],
         priority: 0,
@@ -204,9 +229,9 @@ const thingsContent: Record<
       {
         uid: 'legacy-1',
         title: '레거시 1.0',
-        description:
-          '2018년부터 사용되지 않는 재고 관리 시스템. 현대적인 물류 솔루션의 기초 역할을 했습니다.',
-        link: 'https://legacy1.com',
+        shortDescription: '2018년부터 사용되지 않는 재고 관리 시스템.',
+        longDescription:
+          '레거시 1.0은 2018년에 개발된 더 이상 사용되지 않는 재고 관리 시스템입니다. 더 이상 활발히 사용되지는 않지만 현대적인 물류 솔루션의 중요한 기초 역할을 했습니다. 이 시스템은 이후 재고 관리 소프트웨어의 표준이 된 여러 기능을 선보였습니다.',
         categories: ['old'],
         priority: 0,
         updateNotes: [
@@ -217,9 +242,9 @@ const thingsContent: Record<
     ],
     emptyMessage: {
       noSelection:
-        '🕵️‍♂️ 어라? 프로젝트들이 숨바꼭질을 하는 것 같아요. 카테고리를 클릭해서 그들을 찾아주세요!',
+        '🕵️‍♂️ 어라? 프로젝트들이 보이지 않네요. 카테고리를 클릭해서 프로젝트를 찾아보세요!',
       noProjects:
-        '🚀 휴스턴, 문제가 생겼어요! 이 카테고리에 프로젝트가 없습니다. 커피 한 잔 마시고 코딩 모드 돌입해야겠어요!',
+        '👨‍🌾 아직 이 카테고리에는 진행한 프로젝트가 없어요. 커피 한 잔하고 다시 열심히 잔디 심으러 갈게요!',
     },
     drawerLabels: {
       close: '닫기',
@@ -308,27 +333,29 @@ export default function Things() {
           }`}
         >
           <h3 className="text-sm font-medium mb-1">{project.title}</h3>
-          <p className="text-xs line-clamp-2">{project.description}</p>
+          <p className="text-xs line-clamp-2">{project.shortDescription}</p>
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content className="bg-white flex flex-col rounded-t-[10px] h-[60vh] mt-24 fixed bottom-0 left-0 right-0">
-          <div className="p-4 bg-white rounded-t-[10px] flex-1 overflow-auto">
+        <Drawer.Content className="bg-white flex flex-col rounded-t-[10px] h-[40vh] mt-[60vh] fixed bottom-0 left-0 right-0 overflow-hidden">
+          <div className="p-4 bg-white rounded-t-[10px] flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8" />
-            <div className="max-w-md mx-auto">
+            <div className="max-w-md mx-auto pb-6">
               <div className="flex justify-between items-start mb-2">
-                <Drawer.Title className="font-medium text-[15px]">
+                <Drawer.Title className="font-medium text-[15px] flex items-center">
                   {project.title}
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-primary/80 ml-2"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  )}
                 </Drawer.Title>
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                </a>
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.categories.map((category) => (
@@ -341,16 +368,25 @@ export default function Things() {
                 ))}
               </div>
               <p className="text-gray-600 mb-4 text-sm">
-                {project.description}
+                {project.longDescription}
               </p>
-              <div className="mt-4">
-                <h4 className="font-medium text-sm mb-2">Update Notes:</h4>
-                <div className="bg-gray-100 p-3 rounded-md max-h-48 overflow-y-auto">
-                  <ul className="list-none text-sm text-gray-600 space-y-2">
+              <div className="mt-4 text-sm">
+                <h4 className="font-medium mb-2">
+                  <strong>Voyage Log</strong>
+                </h4>
+                <div className="bg-gray-100 p-3 rounded-md max-h-48 overflow-y-auto mb-6">
+                  <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
                     {project.updateNotes.map((note, index) => (
-                      <li key={index} className="flex justify-between">
-                        <span>{note.text}</span>
-                        <span className="text-gray-400">{note.date}</span>
+                      <li key={index} className="flex flex-col pt-2 first:pt-0">
+                        <div className="flex justify-between">
+                          <span>{note.text}</span>
+                          <span className="text-gray-400">{note.date}</span>
+                        </div>
+                        {note.log && (
+                          <span className="text-xs text-gray-500 mt-1">
+                            {note.log}
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -377,8 +413,6 @@ export default function Things() {
           {Object.entries(content.categories).map(
             ([key, value], index, array) => (
               <div key={key} className="flex items-center">
-                {' '}
-                {/* Fragment를 div로 변경하고 key 추가 */}
                 <button
                   onClick={() => toggleFilter(key)}
                   className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
@@ -430,6 +464,11 @@ export default function Things() {
           )}
         </div>
       </div>
+      <footer className="w-full border-t border-gray-200 fixed bottom-0 left-0 right-0 h-126 flex items-center justify-center bg-white">
+        <div className="max-w-md mx-auto text-center text-xs text-gray-500 py-2">
+          ⬢ Proudly generalist, embracing an open-source mindset.
+          </div>
+        </footer>
     </div>
   )
 }
