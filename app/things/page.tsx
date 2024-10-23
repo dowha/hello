@@ -1,6 +1,15 @@
 import { Suspense } from 'react'
 import Things from '@/components/projects'
 
+export const metadata = {
+  title: 'Things',
+  description: 'Things I have made.',
+  openGraph: {
+    title: 'Things',
+    description: 'Things I have made.',
+  },
+}
+
 export default function ThingsPage() {
   return (
     <Suspense

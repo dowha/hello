@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Head from 'next/head'
 import { Button } from '@/components/ui/button'
 import { ExternalLink } from 'lucide-react'
 
@@ -57,13 +56,12 @@ export function About() {
       title: 'B2B SaaS Specialist in Planning and Marketing',
       keywords: ['B2B', 'SaaS', 'multipotentialite', 'tech-savvy'],
       intro:
-        "Hello! I'm a passionate B2B SaaS specialist with 5 years of experience in creating innovative solutions. I specialize in product planning<sup>1</sup>, marketing strategies<sup>2</sup>, and user experience design<sup>3</sup> for SaaS platforms.",
+        "Hello! I'm a passionate B2B SaaS specialist with 5 years of experience in creating innovative solutions. I specialize in product planning, marketing strategies, and user experience design for SaaS platforms.",
       journey:
-        "My journey in the SaaS industry began with solving complex business problems through technology. I've honed my skills in market analysis and growth hacking techniques.",
+        "After working at two NGOs and Toss Lab<sup>1</sup>, I'm currently working in the Cloud Service Team at Fasoo<sup>2</sup>.",
       footnotes: [
-        { id: 1, url: 'https://jandi.com', text: 'Product Planning' },
-        { id: 2, url: 'https://jandi.com', text: 'Marketing Strategy' },
-        { id: 3, url: 'https://jandi.com', text: 'UX Design' },
+        { id: 1, url: 'https://jandi.com', text: 'A SaaS startup that provides JANDI, a business collaboration tool' },
+        { id: 2, url: 'https://fasoo.com', text: 'Security-focused enterprise software company' },
       ],
       things: 'Things I have made→',
       button: ['Email', 'Blog', 'LinkedIn', 'GitHub'],
@@ -73,13 +71,12 @@ export function About() {
       title: 'B2B SaaS 전문 기획자 및 마케터',
       keywords: ['B2B', 'SaaS', '다재다능', '기술 친화적'],
       intro:
-        '안녕하세요! 저는 혁신적인 솔루션을 만드는 데 5년의 경험을 가진 열정적인 B2B SaaS 전문가입니다. SaaS 플랫폼을 위한 제품 기획<sup>1</sup>, 마케팅 전략<sup>2</sup> 및 사용자 경험 디자인<sup>3</sup>을 전문으로 합니다.',
+        '안녕하세요! 저는 혁신적인 솔루션을 만드는 데 5년의 경험을 가진 열정적인 B2B SaaS 전문가입니다. SaaS 플랫폼을 위한 제품 기획, 마케팅 전략 및 사용자 경험 디자인을 전문으로 합니다.',
       journey:
-        'SaaS 업계에서의 제 여정은 기술을 통해 복잡한 비즈니스 문제를 해결하는 것으로 시작되었습니다. 시장 분석과 그로스 해킹 기법에 대한 기술을 연마해 왔습니다.',
+        '두 NGO와 토스랩<sup>1</sup>을 거쳐 현재 파수<sup>2</sup> 클라우드서비스팀에서 일하고 있습니다.',
       footnotes: [
-        { id: 1, url: 'https://jandi.com', text: '제품 기획' },
-        { id: 2, url: 'https://jandi.com', text: '마케팅 전략' },
-        { id: 3, url: 'https://jandi.com', text: 'UX 디자인' },
+        { id: 1, url: 'https://jandi.com', text: '업무용 협업툴 잔디(JANDI)를 서비스하는 SaaS 스타트업' },
+        { id: 2, url: 'https://fasoo.com', text: '보안에 특화된 엔터프라이즈 소프트웨어 기업' },
       ],
       things: '내가 만든 것들→',
       button: ['이메일', '블로그', '링크드인', '깃헙'],
@@ -88,14 +85,6 @@ export function About() {
 
   return (
     <>
-      <Head>
-        <title>
-          {content[language].name} - {content[language].title}
-        </title>
-        <meta name="description" content={content[language].intro} />
-        <meta name="keywords" content={content[language].keywords.join(', ')} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <div className="flex flex-col items-center justify-center min-h-screen bg-white text-[#050005] p-4 font-pretendard">
         <style jsx global>{`
           @font-face {
@@ -186,9 +175,8 @@ export function About() {
               className={`text-[16px] leading-relaxed ${
                 language === 'ko' ? 'korean-text' : ''
               }`}
-            >
-              {content[language].journey}
-            </p>
+              dangerouslySetInnerHTML={{ __html: content[language].journey }}
+            />
           </div>
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f6f5f4]">
             <Button
@@ -199,7 +187,7 @@ export function About() {
             </Button>
             <Button
               className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 bg-white text-[#050005] border border-[#e0e0e0] hover:bg-[#f0f0f0] transition-colors duration-300"
-              onClick={() => window.open('mailto:mail@dowha.kim')}
+              onClick={() => window.open('mailto:hello@dowha.kim')}
             >
               <span>{content[language].button[0]}</span>
             </Button>
@@ -233,7 +221,7 @@ export function About() {
           <div className="text-[10px] md:text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20">
             {content[language].footnotes.map((footnote) => (
               <p key={footnote.id} className="flex items-center">
-                <sup className="text-xs font-normal mr-1">{footnote.id}</sup>
+                <sup className="text-xss font-normal mr-1">{footnote.id}</sup>
                 <a
                   href={footnote.url}
                   target="_blank"
@@ -247,6 +235,11 @@ export function About() {
             ))}
           </div>
         </div>
+        <footer className="w-full border-t border-gray-200 fixed bottom-0 left-0 right-0 h-126 flex items-center justify-center bg-white">
+        <div className="max-w-md mx-auto text-center text-xs text-gray-500 py-2">
+          ⬢ Proudly generalist, embracing an open-source mindset.
+          </div>
+        </footer>
       </div>
     </>
   )
