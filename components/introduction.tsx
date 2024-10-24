@@ -87,7 +87,7 @@ export function About({ language }: AboutProps) {
             </div>
             <div className="flex flex-col justify-center text-center">
               <h1
-                className={`text-lg ${
+                className={`text-lg md:text-base ${
                   language === 'ko' ? 'korean-text' : ''
                 }`}
                 style={{ fontWeight: 600 }}
@@ -95,7 +95,7 @@ export function About({ language }: AboutProps) {
                 {content[language].name}
               </h1>
               <p
-                className={`text-base mt-1 ${
+                className={`text-base mt-1 md:text-sm ${
                   language === 'ko' ? 'korean-text' : ''
                 }`}
                 style={{ fontWeight: 400 }}
@@ -113,7 +113,7 @@ export function About({ language }: AboutProps) {
               dangerouslySetInnerHTML={{ __html: content[language].intro }}
             />
             <p
-              className={`text-base leading-relaxed ${
+              className={`text-base leading-relaxed md:text-sm ${
                 language === 'ko' ? 'korean-text' : ''
               }`}
               dangerouslySetInnerHTML={{ __html: content[language].journey }}
@@ -161,7 +161,7 @@ export function About({ language }: AboutProps) {
               <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
           </div>
-          <div className="text-xss md:text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20">
+          <div className="text-xss md:text-xss text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20">
             {content[language].footnotes.map((footnote) => (
               <p key={footnote.id} className="flex items-center">
                 <sup className="text-xss font-normal mr-1">{footnote.id}</sup>
