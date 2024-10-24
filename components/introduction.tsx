@@ -10,7 +10,7 @@ type AboutProps = {
   onLanguageChange: (language: 'en' | 'ko') => void
 }
 
-export function About({ language, onLanguageChange }: AboutProps) {
+export function About({ language }: AboutProps) {
   const content = {
     en: {
       name: 'DOWHA KIM',
