@@ -1,11 +1,12 @@
 import './globals.css'
+import Footer from '@/components/footer'
 
 export const metadata = {
   title: {
-    template: '%s | DOWHA KIM',
-    default: 'DOWHA KIM',
+    template: '%s | Dowha Kim',
+    default: 'Dowha Kim',
   },
-  description: 'Dowha Kim, a B2B SaaS specialist.',
+  description: 'Dowha Kim, a Digital Maker and B2B SaaS Specialist.',
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className="antialiased">
         {children}
+        <Footer />
       </body>
     </html>
   )

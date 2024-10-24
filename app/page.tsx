@@ -1,18 +1,21 @@
+'use client'
+
+import { useState } from 'react'
 import { About } from '@/components/introduction'
+import GNB from '@/components/gnb'
 
-export const metadata = {
-  title: 'Hello, I am Dowha Kim!', 
-  description: 'B2B SaaS Specialist.',
-  openGraph: {
-    title: 'Hello, I am Dowha Kim!',
-    description: 'B2B SaaS Specialist.',
-  },
-}
+export default function Page() {
+  const [language, setLanguage] = useState<'en' | 'ko'>('ko')
 
-export default function AboutPage() {
   return (
-    <main>
-      <About />
-    </main>
+    <>
+      <GNB
+        showLanguage={true}
+        showTheme={true}
+        currentLanguage={language}
+        onLanguageChange={setLanguage}
+      />
+      <About language={language} onLanguageChange={setLanguage} />
+    </>
   )
 }
