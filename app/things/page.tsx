@@ -1,12 +1,13 @@
 import { Suspense } from 'react'
 import Things from '@/components/projects'
+import GNB from '@/components/gnb'
 
 export const metadata = {
-  title: 'Things',
-  description: 'Things I have made.',
+  title: 'Things I have made',
+  description: 'Explore my creations, including live services, experiments, toy projects, learning exercises, and legacy works, reflecting my identity as a digital maker.',
   openGraph: {
-    title: 'Things',
-    description: 'Things I have made.',
+    title: 'Things I have made.',
+    description: 'Explore my creations, including live services, experiments, toy projects, learning exercises, and legacy works, reflecting my identity as a digital maker.',
   },
 }
 
@@ -22,6 +23,7 @@ export default function ThingsPage() {
         </div>
       }
     >
+      <GNB showLanguage={false} showTheme={true} /> 
       <Things />
     </Suspense>
   )

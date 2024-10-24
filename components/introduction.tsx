@@ -1,82 +1,57 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { ExternalLink } from 'lucide-react'
+import CommandPalette from '@/components/commandpalette' // Adjust the import path as necessary
 
-type LanguageSwitcherProps = {
+type AboutProps = {
   language: 'en' | 'ko'
-  setLanguage: (lang: 'en' | 'ko') => void
+  onLanguageChange: (language: 'en' | 'ko') => void
 }
 
-const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
-  language,
-  setLanguage,
-}) => {
-  return (
-    <div className="inline-flex items-center rounded-md bg-[#f6f5f4] p-0.5 text-sm font-medium">
-      <button
-        onClick={() => setLanguage('ko')}
-        className={`rounded-md px-3 py-1.5 transition-all ${
-          language === 'ko'
-            ? 'bg-white shadow-sm font-bold'
-            : 'text-[#050005] hover:text-[#0a85d1]'
-        }`}
-      >
-        한국어
-      </button>
-      <button
-        onClick={() => setLanguage('en')}
-        className={`rounded-md px-3 py-1.5 transition-all ${
-          language === 'en'
-            ? 'bg-white shadow-sm font-bold'
-            : 'text-[#050005] hover:text-[#0a85d1]'
-        }`}
-      >
-        English
-      </button>
-    </div>
-  )
-}
-
-export function About() {
-  const [language, setLanguage] = useState<'en' | 'ko'>('ko')
-
-  useEffect(() => {
-    const userLanguage = navigator.language || navigator.languages[0]
-    if (!userLanguage.startsWith('ko')) {
-      setLanguage('en')
-    }
-  }, [])
-
+export function About({ language }: AboutProps) {
   const content = {
     en: {
       name: 'DOWHA KIM',
-      title: 'B2B SaaS Specialist in Planning and Marketing',
-      keywords: ['B2B', 'SaaS', 'multipotentialite', 'tech-savvy'],
+      title: 'Digital Maker | B2B SaaS Specialist',
       intro:
-        "Hello! I'm a passionate B2B SaaS specialist with 5 years of experience in creating innovative solutions. I specialize in product planning, marketing strategies, and user experience design for SaaS platforms.",
+        'I enjoy observing the world, imagining new possibilities, recording ideas, making plans, collecting quality information, and sharing that information with those who need it. I also like exploring my neighborhood, discovering treasures among the flood of web novels, and becoming a regular at certain places.',
       journey:
-        "After working at two NGOs and Toss Lab<sup>1</sup>, I'm currently working in the Cloud Service Team at Fasoo<sup>2</sup>.",
+        'I am currently working as a B2B SaaS specialist in the Fasoo<sup>1</sup> Cloud Services Team. Previously, I was responsible for marketing, communications, and PR at Toss Lab<sup>2</sup> and two NGOs.',
       footnotes: [
-        { id: 1, url: 'https://jandi.com', text: 'A SaaS startup that provides JANDI, a business collaboration tool' },
-        { id: 2, url: 'https://fasoo.com', text: 'Security-focused enterprise software company' },
+        {
+          id: 1,
+          url: 'https://fasoo.com',
+          text: 'Security-focused enterprise software company',
+        },
+        {
+          id: 2,
+          url: 'https://jandi.com',
+          text: 'A SaaS startup that provides JANDI, a business collaboration tool',
+        },
       ],
       things: 'Things I have made→',
       button: ['Email', 'Blog', 'LinkedIn', 'GitHub'],
     },
     ko: {
-      name: '김도화',
-      title: 'B2B SaaS 전문 기획자 및 마케터',
-      keywords: ['B2B', 'SaaS', '다재다능', '기술 친화적'],
+      name: '김도화(a.k.a. 파도)',
+      title: '디지털 메이커 | B2B SaaS 전문가',
       intro:
-        '안녕하세요! 저는 혁신적인 솔루션을 만드는 데 5년의 경험을 가진 열정적인 B2B SaaS 전문가입니다. SaaS 플랫폼을 위한 제품 기획, 마케팅 전략 및 사용자 경험 디자인을 전문으로 합니다.',
+        "저는 세상을 관찰하는 것, 새로운 무언가를 상상하는 것, 아이디어를 기록하는 것, 계획을 세우는 것, 양질의 정보를 수집하는 것, 필요한 사람에게 그 정보를 전달하는 것을 즐깁니다. 동네를 탐험하는 것, 쏟아지는 웹소설 작품 속에서 보물을 찾는 것, 어떤 곳의 단골이 되는 것도 좋아합니다. <strong>끝없이 파도쳐도, 멀리서 보면 잔잔해 보이는 바다 같은 삶을 지향합니다.</strong> 어떤 사람들은 저를 '파도'라고 부릅니다.",
       journey:
-        '두 NGO와 토스랩<sup>1</sup>을 거쳐 현재 파수<sup>2</sup> 클라우드서비스팀에서 일하고 있습니다.',
+        '현재 B2B SaaS(Software as a Service) 전문가로서 파수<sup>1</sup> 클라우드서비스팀의 기획자로 일하고 있습니다. 이전에는 토스랩<sup>2</sup>과 두 곳의 비영리 단체에서 마케팅, 커뮤니케이션, PR을 담당했습니다.',
       footnotes: [
-        { id: 1, url: 'https://jandi.com', text: '업무용 협업툴 잔디(JANDI)를 서비스하는 SaaS 스타트업' },
-        { id: 2, url: 'https://fasoo.com', text: '보안에 특화된 엔터프라이즈 소프트웨어 기업' },
+        {
+          id: 1,
+          url: 'https://fasoo.com',
+          text: '보안에 특화된 엔터프라이즈 소프트웨어 기업',
+        },
+        {
+          id: 2,
+          url: 'https://jandi.com',
+          text: '업무용 협업툴 잔디(JANDI)를 서비스하는 SaaS 스타트업',
+        },
       ],
       things: '내가 만든 것들→',
       button: ['이메일', '블로그', '링크드인', '깃헙'],
@@ -87,29 +62,6 @@ export function About() {
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-white text-[#050005] p-4 font-pretendard">
         <style jsx global>{`
-          @font-face {
-            font-family: 'Pretendard';
-            src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-              format('woff');
-            font-weight: 400;
-            font-style: normal;
-          }
-
-          @font-face {
-            font-family: 'Pretendard';
-            src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
-              format('woff');
-            font-weight: 600;
-            font-style: normal;
-          }
-
-          body {
-            font-family: 'Pretendard', sans-serif;
-          }
-
-          ::selection {
-            background-color: #e6f3ff;
-          }
           .external-link-icon {
             display: none;
             margin-left: 4px;
@@ -118,9 +70,7 @@ export function About() {
             display: inline;
           }
         `}</style>
-        <div className="fixed top-4 right-4">
-          <LanguageSwitcher language={language} setLanguage={setLanguage} />
-        </div>
+
         <div className="max-w-md w-full space-y-4">
           <div className="flex flex-col items-center space-y-2 pb-3">
             <div className="relative w-14 h-14">
@@ -152,16 +102,7 @@ export function About() {
               >
                 {content[language].title}
               </p>
-              <div className="flex flex-wrap justify-center mt-2 gap-2">
-                {content[language].keywords.map((keyword, index) => (
-                  <span
-                    key={index}
-                    className="bg-gray-100 text-gray-600 px-2 py-1 rounded-md text-xs transition-colors duration-300 hover:bg-blue-50"
-                  >
-                    {keyword}
-                  </span>
-                ))}
-              </div>
+              <CommandPalette language={language} />{' '}
             </div>
           </div>
           <div className="space-y-4 h-64 overflow-y-auto text-left">
@@ -183,7 +124,9 @@ export function About() {
               className="w-full col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 bg-[#121212] text-white hover:bg-[#333333] transition-colors duration-300"
               onClick={() => window.open(`/things?lang=${language}`, '_self')}
             >
-              <span>{content[language].things}</span>
+              <span>
+                <strong>{content[language].things}</strong>
+              </span>
             </Button>
             <Button
               className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 bg-white text-[#050005] border border-[#e0e0e0] hover:bg-[#f0f0f0] transition-colors duration-300"
@@ -235,11 +178,6 @@ export function About() {
             ))}
           </div>
         </div>
-        <footer className="w-full border-t border-gray-200 fixed bottom-0 left-0 right-0 h-126 flex items-center justify-center bg-white">
-        <div className="max-w-md mx-auto text-center text-xs text-gray-500 py-2">
-          ⬢ Proudly generalist, embracing an open-source mindset.
-          </div>
-        </footer>
       </div>
     </>
   )
