@@ -9,6 +9,13 @@ type CommandPaletteProps = {
 const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const [platform, setPlatform] = useState('')
+
+  useEffect(() => {
+    if (typeof navigator !== 'undefined') {
+      setPlatform(navigator.platform.includes('Mac') ? '⌘' : 'Ctrl')
+    }
+  }, [])
 
   const content = {
     en: {
@@ -67,7 +74,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
         <span>{currentContent.buttonText}</span>
         <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500">
           <span className="text-xs">
-            {navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'}
+            {platform}
           </span>
           K
         </kbd>
