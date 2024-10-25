@@ -339,10 +339,10 @@ export default function Things() {
           ))}
         </div>
         <div
-          className={`text-sm transition-colors duration-300 ${
+          className={`text-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
             project.categories.includes('old')
               ? 'text-gray-500 hover:text-gray-700'
-              : 'hover:text-[#0a85d1]'
+              : 'hover:text-[#050005]'
           }`}
         >
           <h3 className="text-sm font-medium mb-1">{project.title}</h3>
@@ -413,7 +413,7 @@ export default function Things() {
   )
 
     return (
-    <div className="flex flex-col items-start justify-start min-h-screen bg-white text-[#050005] p-4 font-pretendard">
+    <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
         <Link href={`/`} passHref>
           <Button variant="ghost" className="mb-4">
@@ -428,7 +428,7 @@ export default function Things() {
   onClick={() => setShowFullDescription(!showFullDescription)}
 >
   <div className="flex items-center">
-    <div className="relative w-4 h-4 mr-2">
+    <div className="relative w-4 h-4 mr-1">
       {showFullDescription ? (
         <>
           <Eye className="w-4 h-4 group-hover:hidden" />
