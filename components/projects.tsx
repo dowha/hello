@@ -423,21 +423,21 @@ export default function Things() {
         <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
-       <div 
-  className="flex items-center justify-between mb-2 cursor-pointer hover:[&_svg]:hidden"
+      <div 
+  className="flex items-center justify-between mb-2 cursor-pointer"
   onClick={() => setShowFullDescription(!showFullDescription)}
 >
   <div className="flex items-center">
     <div className="relative w-4 h-4 mr-2">
       {showFullDescription ? (
         <>
-          <Eye className="w-4 h-4" />
-          <EyeOff className="w-4 h-4 absolute inset-0 hidden hover:block" />
+          <Eye className="w-4 h-4 group-hover:hidden" />
+          <EyeOff className="w-4 h-4 hidden group-hover:block absolute inset-0" />
         </>
       ) : (
         <>
-          <EyeOff className="w-4 h-4" />
-          <Eye className="w-4 h-4 absolute inset-0 hidden hover:block" />
+          <EyeOff className="w-4 h-4 group-hover:hidden" />
+          <Eye className="w-4 h-4 hidden group-hover:block absolute inset-0" />
         </>
       )}
     </div>
