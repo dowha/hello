@@ -413,7 +413,7 @@ export default function Things() {
   )
 
     return (
-    <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 font-pretendard">
+    <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
         <Link href={`/`} passHref>
           <Button variant="ghost" className="mb-4">

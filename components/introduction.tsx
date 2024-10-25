@@ -60,7 +60,7 @@ export function About({ language }: AboutProps) {
 
 return (
     <>
-      <div className="flex flex-col items-center justify-center bg-white text-[#050005] p-4 font-pretendard">
+      <div className="flex flex-col items-center justify-center bg-white text-[#050005] p-4">
         <style jsx global>{`
           .external-link-icon {
             display: none;

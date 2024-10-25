@@ -109,7 +109,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
                 <kbd
-                  className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500 cursor-pointer"
+                  className="inline-flex h-6 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500 cursor-pointer"
                   onClick={() => setOpen(false)}
                 >
                   {escLabel}
