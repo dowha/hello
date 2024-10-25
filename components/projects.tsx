@@ -423,19 +423,27 @@ export default function Things() {
         <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
-          <div 
-            className="flex items-center justify-between mb-2 cursor-pointer"
-            onClick={() => setShowFullDescription(!showFullDescription)}
-          >
-            <div className="flex items-center">
-              {showFullDescription ? (
-                <EyeOff className="w-4 h-4 mr-2" />
-              ) : (
-                <Eye className="w-4 h-4 mr-2" />
-              )}
-              <p className="text-sm">{content.subtitle}</p>
-            </div>
-          </div>
+       <div 
+  className="flex items-center justify-between mb-2 cursor-pointer hover:[&_svg]:hidden"
+  onClick={() => setShowFullDescription(!showFullDescription)}
+>
+  <div className="flex items-center">
+    <div className="relative w-4 h-4 mr-2">
+      {showFullDescription ? (
+        <>
+          <Eye className="w-4 h-4" />
+          <EyeOff className="w-4 h-4 absolute inset-0 hidden hover:block" />
+        </>
+      ) : (
+        <>
+          <EyeOff className="w-4 h-4" />
+          <Eye className="w-4 h-4 absolute inset-0 hidden hover:block" />
+        </>
+      )}
+    </div>
+    <p className="text-sm">{content.subtitle}</p>
+  </div>
+</div>
           {showFullDescription && (
             <div className="mt-2 text-sm text-gray-600">
               {content.subtitleDescription.map((paragraph, index) => (
