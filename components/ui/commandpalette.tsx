@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
-import { Dialog, DialogContent } from './ui/dialog'
+import { Dialog, DialogContent } from './dialog'
 
 type Language = 'en' | 'ko'
 type CommandPaletteProps = {

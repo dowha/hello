@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { About } from '@/components/introduction'
-import GNB from '@/components/gnb'
+import GNB from '@/components/ui/gnb'
 
 export default function Page() {
   const [language, setLanguage] = useState<'en' | 'ko'>('ko')

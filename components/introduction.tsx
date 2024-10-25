@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { ExternalLink } from 'lucide-react'
-import CommandPalette from '@/components/commandpalette' // Adjust the import path as necessary
+import CommandPalette from '@/components/ui/commandpalette' // Adjust the import path as necessary
 
 type AboutProps = {
   language: 'en' | 'ko'
