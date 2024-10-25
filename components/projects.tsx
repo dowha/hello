@@ -261,9 +261,7 @@ const thingsContent: Record<
     drawerLabels: {
       close: '닫기',
       viewProject: '프로젝트 보기',
-    },
-    readMore: '더 보기',
-    readLess: '접기',
+    }
   },
 }
 
