@@ -81,8 +81,9 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-<DialogContent className="p-0 custom-dialog-content border mx-4 sm:mx-auto max-w-[90%] sm:max-w-[600px]">          <div className="rounded-lg bg-white">
-            <div className="border-b px-3 py-2">
+<DialogContent className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden">
+  <div className="w-full bg-white">     
+    <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
                 <input
