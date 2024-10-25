@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import Things from '@/components/projects'
-import GNB from '@/components/gnb'
+import GNB from '@/components/ui/gnb'
 
 export const metadata = {
   title: 'Things I have made',

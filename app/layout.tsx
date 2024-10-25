@@ -1,5 +1,5 @@
 import './globals.css'
-import Footer from '@/components/footer'
+import Footer from '@/components/ui/footer'
 
 export const metadata = {
   title: {
@@ -12,6 +12,9 @@ export const metadata = {
     locale: 'ko_KR',
     url: 'https://www.dowha.kim',
   },
+  icons: {
+		icon: "/favicon.ico",
+	},
 }
 
 export default function RootLayout({
