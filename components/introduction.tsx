@@ -58,7 +58,7 @@ export function About({ language }: AboutProps) {
     },
   }
 
-  return (
+return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-white text-[#050005] p-4 font-pretendard">
         <style jsx global>{`
@@ -86,34 +86,24 @@ export function About({ language }: AboutProps) {
               </div>
             </div>
             <div className="flex flex-col justify-center text-center">
-              <h1
-                className={`text-lg md:text-base ${
-                  language === 'ko' ? 'korean-text' : ''
-                }`}
-                style={{ fontWeight: 600 }}
-              >
+              <h1 className={`text-lg font-semibold ${language === 'ko' ? 'korean-text' : ''}`}>
                 {content[language].name}
               </h1>
-              <p
-                className={`text-base mt-1 md:text-sm ${
-                  language === 'ko' ? 'korean-text' : ''
-                }`}
-                style={{ fontWeight: 400 }}
-              >
+              <p className={`text-sm md:text-base mt-1 ${language === 'ko' ? 'korean-text' : ''}`}>
                 {content[language].title}
               </p>
-              <CommandPalette language={language} />{' '}
+              <CommandPalette language={language} />
             </div>
           </div>
           <div className="space-y-4 h-64 overflow-y-auto text-left">
             <p
-              className={`text-base leading-relaxed ${
+              className={`text-sm md:text-base leading-relaxed ${
                 language === 'ko' ? 'korean-text' : ''
               }`}
               dangerouslySetInnerHTML={{ __html: content[language].intro }}
             />
             <p
-              className={`text-base leading-relaxed md:text-sm ${
+              className={`text-sm md:text-base leading-relaxed ${
                 language === 'ko' ? 'korean-text' : ''
               }`}
               dangerouslySetInnerHTML={{ __html: content[language].journey }}
@@ -161,10 +151,10 @@ export function About({ language }: AboutProps) {
               <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
           </div>
-          <div className="text-xss md:text-xss text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20">
+          <div className="text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20">
             {content[language].footnotes.map((footnote) => (
               <p key={footnote.id} className="flex items-center">
-                <sup className="text-xss font-normal mr-1">{footnote.id}</sup>
+                <sup className="text-xs font-normal mr-1">{footnote.id}</sup>
                 <a
                   href={footnote.url}
                   target="_blank"
