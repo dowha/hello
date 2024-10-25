@@ -6,7 +6,7 @@ export const metadata = {
     template: '%s | Dowha Kim',
     default: 'Dowha Kim',
   },
-  description: 'Dowha Kim, a Digital Maker and B2B SaaS Specialist.',
+  description: 'a Digital Maker and B2B SaaS Specialist.',
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="antialiased">
+      <body className="antialiased min-h-screen">
         {children}
         <Footer />
       </body>

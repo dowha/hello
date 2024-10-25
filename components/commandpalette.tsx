@@ -117,7 +117,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                         
                         console.log(`Navigating to ${item.href}`)
                       }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
+                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 cursor-not-allowed hover:bg-gray-50 transition-colors duration-200"
                     >
                       {item.title}
                     </button>
