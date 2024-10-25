@@ -423,8 +423,8 @@ export default function Things() {
         <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
-      <div 
-  className="flex items-center justify-between mb-2 cursor-pointer"
+     <div 
+  className="flex items-center justify-between mb-2 cursor-pointer group"
   onClick={() => setShowFullDescription(!showFullDescription)}
 >
   <div className="flex items-center">
