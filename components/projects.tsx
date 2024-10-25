@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Eye, EyeOff } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { Drawer } from 'vaul'
 
@@ -36,8 +36,6 @@ const thingsContent: Record<
       close: string
       viewProject: string
     }
-    readMore: string
-    readLess: string
   }
 > = {
   en: {
@@ -153,8 +151,6 @@ const thingsContent: Record<
       close: 'Close',
       viewProject: 'View Project',
     },
-    readMore: 'Read More',
-    readLess: 'Close',
   },
   ko: {
     title: '📦 내가 만든 것들',
@@ -265,9 +261,7 @@ const thingsContent: Record<
     drawerLabels: {
       close: '닫기',
       viewProject: '프로젝트 보기',
-    },
-    readMore: '더 보기',
-    readLess: '접기',
+    }
   },
 }
 
@@ -418,7 +412,7 @@ export default function Things() {
     </Drawer.Root>
   )
 
-  return (
+    return (
     <div className="flex flex-col items-start justify-start min-h-screen bg-white text-[#050005] p-4 font-pretendard">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
         <Link href={`/`} passHref>
@@ -429,20 +423,27 @@ export default function Things() {
         <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm">{content.subtitle}</p>
-            <button
-              onClick={() => setShowFullDescription(!showFullDescription)}
-              className="text-xs text-blue-500 hover:text-blue-600 flex items-center"
-            >
-              {showFullDescription ? content.readLess : content.readMore}
-              {showFullDescription ? (
-                <ChevronUp className="w-3 h-3 ml-1" />
-              ) : (
-                <ChevronDown className="w-3 h-3 ml-1" />
-              )}
-            </button>
-          </div>
+     <div 
+  className="flex items-center justify-between mb-2 cursor-pointer group"
+  onClick={() => setShowFullDescription(!showFullDescription)}
+>
+  <div className="flex items-center">
+    <div className="relative w-4 h-4 mr-2">
+      {showFullDescription ? (
+        <>
+          <Eye className="w-4 h-4 group-hover:hidden" />
+          <EyeOff className="w-4 h-4 hidden group-hover:block absolute inset-0" />
+        </>
+      ) : (
+        <>
+          <EyeOff className="w-4 h-4 group-hover:hidden" />
+          <Eye className="w-4 h-4 hidden group-hover:block absolute inset-0" />
+        </>
+      )}
+    </div>
+    <p className="text-sm">{content.subtitle}</p>
+  </div>
+</div>
           {showFullDescription && (
             <div className="mt-2 text-sm text-gray-600">
               {content.subtitleDescription.map((paragraph, index) => (
