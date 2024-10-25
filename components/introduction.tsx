@@ -16,7 +16,7 @@ export function About({ language }: AboutProps) {
       name: 'DOWHA KIM',
       title: 'Digital Maker | B2B SaaS Specialist',
       intro:
-        'I enjoy observing the world, imagining new possibilities, recording ideas, making plans, collecting quality information, and sharing that information with those who need it. I also like exploring my neighborhood, discovering treasures among the flood of web novels, and becoming a regular at certain places.',
+        'I enjoy observing the world, imagining new possibilities, recording ideas, making plans, collecting quality information, and sharing the right information with those who need it. I also like exploring my neighborhood, discovering treasures among the flood of web novels, and becoming a regular at certain places.',
       journey:
         'I am currently working as a B2B SaaS specialist in the Fasoo<sup>1</sup> Cloud Services Team. Previously, I was responsible for marketing, communications, and PR at Toss Lab<sup>2</sup> and two NGOs.',
       footnotes: [
@@ -38,7 +38,7 @@ export function About({ language }: AboutProps) {
       name: '김도화(a.k.a. 파도)',
       title: '디지털 메이커 | B2B SaaS 전문가',
       intro:
-        "저는 세상을 관찰하는 것, 새로운 무언가를 상상하는 것, 아이디어를 기록하는 것, 계획을 세우는 것, 양질의 정보를 수집하는 것, 필요한 사람에게 그 정보를 전달하는 것을 즐깁니다. 동네를 탐험하는 것, 쏟아지는 웹소설 속에서 보물 같은 작품을 찾는 것, 어떤 곳의 단골이 되는 것도 좋아합니다. <strong>끝없이 파도쳐도, 멀리서 보면 잔잔해 보이는 바다 같은 삶을 지향합니다.</strong> 어떤 사람들은 저를 '파도'라고 부릅니다.",
+        "저는 세상을 관찰하는 것, 새로운 무언가를 상상하는 것, 아이디어를 기록하는 것, 계획을 세우는 것, 양질의 정보를 수집하는 것, 필요한 사람에게 적합한 정보를 전달하는 것을 즐깁니다. 동네를 탐험하는 것, 쏟아지는 웹소설 속에서 보물 같은 작품을 찾는 것, 어떤 곳의 단골이 되는 것도 좋아합니다. 어떤 사람들은 저를 '파도'라고 부르는데요. <strong>끝없이 파도쳐도, 멀리서 보면 잔잔해 보이는 바다 같은 삶을 지향합니다.</strong>",
       journey:
         '현재 B2B SaaS(Software as a Service) 전문가로서 파수<sup>1</sup> 클라우드서비스팀의 기획자로 일하고 있습니다. 이전에는 토스랩<sup>2</sup>과 두 곳의 비영리 단체에서 마케팅, 커뮤니케이션, PR을 담당했습니다.',
       footnotes: [
@@ -95,7 +95,7 @@ return (
               <CommandPalette language={language} />
             </div>
           </div>
-          <div className="space-y-4 h-64 overflow-y-auto text-left">
+          <div className="space-y-4 h-64 text-left">
             <p
               className={`text-sm md:text-base leading-relaxed ${
                 language === 'ko' ? 'korean-text' : ''

@@ -27,11 +27,11 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       navigation: 'Navigation',
       noResults: 'No results found.',
       navItems: [
-        { title: 'CV/Resume', href: '/cv' },
-        { title: 'Bag', href: '/bag' },
-        { title: 'STACKed', href: '/stacked' },
-        { title: 'Repertoire', href: '/repertoire' },
-        { title: 'Attribution', href: '/attribution' },
+        { title: 'CV/Resume', href: '/' },
+        { title: 'Bag', href: '/' },
+        { title: 'STACKed', href: '/' },
+        { title: 'Repertoire', href: '/' },
+        { title: 'Attribution', href: '/' },
       ],
     },
     ko: {
@@ -40,11 +40,11 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       navigation: 'Navigation',
       noResults: '검색 결과가 없습니다.',
       navItems: [
-        { title: 'CV/Resume', href: '/cv' },
-        { title: "What's in my (hypothetical) Bag?", href: '/bag' },
-        { title: 'STACKed', href: '/stacked' },
-        { title: 'Repertoire', href: '/repertoire' },
-        { title: 'Attribution', href: '/attribution' },
+        { title: 'CV/Resume', href: '/' },
+        { title: "What's in my (hypothetical) Bag?", href: '/' },
+        { title: 'STACKed', href: '/' },
+        { title: 'Repertoire', href: '/' },
+        { title: 'Attribution', href: '/' },
       ],
     },
   }
@@ -74,7 +74,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const escLabel = isMobile
     ? language === 'en'
       ? 'Close'
-      : '닫기'
+      : 'x'
     : 'ESC'
 
   const shortcutLabel = isMobile
@@ -109,7 +109,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
                 <kbd
-                  className="inline-flex h-6 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500 cursor-pointer"
+                  className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500 cursor-pointer"
                   onClick={() => setOpen(false)}
                 >
                   {escLabel}
@@ -134,7 +134,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                         setOpen(false)
                         console.log(`Navigating to ${item.href}`)
                       }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
+                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 cursor-not-allowed hover:bg-gray-50 transition-colors duration-200"
                     >
                       {item.title}
                     </button>

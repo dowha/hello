@@ -339,10 +339,10 @@ export default function Things() {
           ))}
         </div>
         <div
-          className={`text-sm transition-colors duration-300 ${
+          className={`text-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
             project.categories.includes('old')
               ? 'text-gray-500 hover:text-gray-700'
-              : 'hover:text-[#0a85d1]'
+              : 'hover:text-[#050005]'
           }`}
         >
           <h3 className="text-sm font-medium mb-1">{project.title}</h3>
