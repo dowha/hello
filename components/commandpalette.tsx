@@ -68,7 +68,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     <div className="flex justify-center items-center">
       <button
         onClick={() => setOpen(true)}
-        className="mt-3 w-[260px] flex items-center gap-2 h-10 px-4 rounded-lg border border-gray-200 text-xs hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="mt-3 w-[260px] flex items-center gap-2 h-10 px-4 rounded-lg border border-gray-200 text-gray-500 text-xs hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
       >
         <Search className="w-3 h-3" />
         <span>{currentContent.buttonText}</span>
