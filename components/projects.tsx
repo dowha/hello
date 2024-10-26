@@ -40,7 +40,7 @@ const thingsContent: Record<
 > = {
   en: {
     title: '📦 Things I have made',
-    subtitle: 'What kind of toys did you like the most when you were young?',
+    subtitle: 'What toys did you like the most when you were young?',
     subtitleDescription: [
       "One of my favorite toys as a child was Lego. Is that a bit cliché? Perhaps what made it different for me was that my parents only bought me a freestyle Lego box, and I had to create everything with just that. I think that was when I first experienced the joy of making something I wanted without any manuals or guides (even if it wasn't perfect). The most memorable thing I built with Lego was a Battlecruiser, an aerial unit from the game Starcraft, using parts that resembled a fortress.",
       "With that same joy, I wrote poetry in high school. I enjoyed mixing and matching words and sentences to create appropriate expressions, and I achieved some good results. After that, as an adult, I struggled to find any toys that excited me. However, looking back over the years, I realized that since the sixth grade, I've been 'haphazardly' creating websites throughout my life. The language of the web, which I didn't fully understand, was my lifelong toy. Though I don't have professional knowledge, in this age of AI, I plan to leverage various tools to create and showcase many fun things."
@@ -143,7 +143,7 @@ const thingsContent: Record<
     ],
     emptyMessage: {
       noSelection:
-        '🔍 Whoops! No projects found here. Click a category to see if they show up!',
+        '🔍 Whoops! No projects found here. Pick a category to see if they show up!',
       noProjects:
         '☕ No projects in this category yet. Time for a coffee break, then back to making some commits!',
     },
@@ -254,7 +254,7 @@ const thingsContent: Record<
     ],
     emptyMessage: {
       noSelection:
-        '🕵️‍♂️ 어라? 프로젝트들이 보이지 않네요. 카테고리를 클릭해서 프로젝트를 찾아보세요!',
+        '🕵️‍♂️ 어라? 프로젝트들이 보이지 않네요. 카테고리를 선택해서 프로젝트를 찾아보세요!',
       noProjects:
         '👨‍🌾 아직 이 카테고리에는 진행한 프로젝트가 없어요. 커피 한 잔하고 다시 열심히 잔디 심으러 갈게요!',
     },

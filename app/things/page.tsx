@@ -14,15 +14,17 @@ export const metadata = {
 export default function ThingsPage() {
   return (
     <Suspense
-      fallback={
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-            <p className="mt-2 text-sm text-gray-600">Loading...</p>
-          </div>
+    fallback={
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="text-center">
+        <div className="inline-block">
+          <div className="w-8 h-8 rounded-full border-4 border-gray-400 border-t-transparent animate-spin"></div>
         </div>
-      }
-    >
+        <p className="mt-2 text-sm text-gray-500 font-medium">Loading...</p>
+      </div>
+    </div>
+    }
+  >
       <GNB showLanguage={false} showTheme={true} /> 
       <Things />
     </Suspense>
