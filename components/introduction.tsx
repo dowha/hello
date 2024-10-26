@@ -60,7 +60,7 @@ export function About({ language }: AboutProps) {
 
 return (
     <>
-      <div className="flex flex-col items-center justify-center bg-white text-[#050005] p-4">
+      <div className="flex flex-col items-center justify-center bg-white text-[#050005] p-4 pb-8">
         <style jsx global>{`
           .external-link-icon {
             display: none;
@@ -151,7 +151,7 @@ return (
               <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
           </div>
-          <div className="text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20">
+          <div className="text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20 mb-2">
             {content[language].footnotes.map((footnote) => (
               <p key={footnote.id} className="flex items-center">
                 <sup className="text-xss font-normal mr-1">{footnote.id}</sup>
