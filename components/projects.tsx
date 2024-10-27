@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, ExternalLink, Eye, EyeOff } from 'lucide-react'
+import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { Drawer } from 'vaul'
+import Drawer from '@/components/ui/drawer'
 
 type ProjectItem = {
   uid: string
@@ -40,11 +40,11 @@ const thingsContent: Record<
 > = {
   en: {
     title: '📦 Things I have made',
-    subtitle: 'What kind of toys did you like the most when you were young?',
+    subtitle: 'What toys did you like the most when you were young?',
     subtitleDescription: [
       "One of my favorite toys as a child was Lego. Is that a bit cliché? Perhaps what made it different for me was that my parents only bought me a freestyle Lego box, and I had to create everything with just that. I think that was when I first experienced the joy of making something I wanted without any manuals or guides (even if it wasn't perfect). The most memorable thing I built with Lego was a Battlecruiser, an aerial unit from the game Starcraft, using parts that resembled a fortress.",
-      "With that same joy, I wrote poetry in high school. I enjoyed mixing and matching words and sentences to create appropriate expressions, and I achieved some good results. After that, as an adult, I struggled to find any toys that excited me. However, looking back over the years, I realized that since the sixth grade, I've been 'haphazardly' creating websites throughout my life. The language of the web, which I didn't fully understand, was my lifelong toy. Though I don't have professional knowledge, in this age of AI, I plan to leverage various tools to create and showcase many fun things."
-  ],
+      "With that same joy, I wrote poetry in high school. I enjoyed mixing and matching words and sentences to create appropriate expressions, and I achieved some good results. After that, as an adult, I struggled to find any toys that excited me. However, looking back over the years, I realized that since the sixth grade, I've been 'haphazardly' creating websites throughout my life. The language of the web, which I didn't fully understand, was my lifelong toy. Though I don't have professional knowledge, in this age of AI, I plan to leverage various tools to create and showcase many fun things.",
+    ],
     categories: {
       live: '🔴 Live Services',
       experiments: '🌱 Experiments',
@@ -143,7 +143,7 @@ const thingsContent: Record<
     ],
     emptyMessage: {
       noSelection:
-        '🔍 Whoops! No projects found here. Click a category to see if they show up!',
+        '🔍 Whoops! No projects found here. Pick a category to see if they show up!',
       noProjects:
         '☕ No projects in this category yet. Time for a coffee break, then back to making some commits!',
     },
@@ -157,7 +157,7 @@ const thingsContent: Record<
     subtitle: '어릴 때 어떤 장난감을 가장 좋아했나요?',
     subtitleDescription: [
       '어린 시절 제가 가장 좋아했던 장난감 중 하나는 바로 레고였습니다. 좀 뻔한가요? 어쩌면 남들과 조금 달랐던 지점은 저희 부모님께서 저한테 프리스타일 레고 박스 하나만을 사주셨고, 전 그것만을 가지고 모든 걸 만들어야 했다는 것입니다. 어떤 매뉴얼이나 정보도 없이 (완벽하지 않더라도) 내가 만들고 싶은 무언가를 만드는 재미를 그때 처음 느낀 것 같습니다. 레고로 만들었던 것 중 가장 기억에 남는 건 성벽과 같은 파트를 활용해 만든 배틀크루저(게임 스타크래프트에 나오는 공중 유닛)입니다.',
-      '그런 재미를 가지고 고등학교 때는 시를 썼습니다. 단어와 문장을 가지고 이리 조합하고 저리 조합하며 적절한 표현을 만드는 데 재미를 느꼈고, 나름 좋은 성과도 냈습니다. 그 이후 성인이 되고는 이렇다고 할만한 장난감을 찾지 못했습니다. 그런데 지난 시간을 돌이켜보니 초등학교 6학년 때부터 인생 내내 \'야매\'로 웹사이트를 만들어왔더라고요. 잘 알지도 못하는 웹 세상의 언어가 제 일생의 장난감이었던 것입니다. 비록 전문적 지식은 없지만 대 AI 시대, 다양한 도구를 활용해 다양한 재밌는 것들을 만들고 선보이려 합니다.',
+      "그런 재미를 가지고 고등학교 때는 시를 썼습니다. 단어와 문장을 가지고 이리 조합하고 저리 조합하며 적절한 표현을 만드는 데 재미를 느꼈고, 나름 좋은 성과도 냈습니다. 그 이후 성인이 되고는 이렇다고 할만한 장난감을 찾지 못했습니다. 그런데 지난 시간을 돌이켜보니 초등학교 6학년 때부터 인생 내내 '야매'로 웹사이트를 만들어왔더라고요. 잘 알지도 못하는 웹 세상의 언어가 제 일생의 장난감이었던 것입니다. 비록 전문적 지식은 없지만 대 AI 시대, 다양한 도구를 활용해 다양한 재밌는 것들을 만들고 선보이려 합니다.",
     ],
     categories: {
       live: '🔴 라이브 서비스',
@@ -254,14 +254,14 @@ const thingsContent: Record<
     ],
     emptyMessage: {
       noSelection:
-        '🕵️‍♂️ 어라? 프로젝트들이 보이지 않네요. 카테고리를 클릭해서 프로젝트를 찾아보세요!',
+        '🕵️‍♂️ 어라? 프로젝트들이 보이지 않네요. 카테고리를 선택해서 프로젝트를 찾아보세요!',
       noProjects:
         '👨‍🌾 아직 이 카테고리에는 진행한 프로젝트가 없어요. 커피 한 잔하고 다시 열심히 잔디 심으러 갈게요!',
     },
     drawerLabels: {
       close: '닫기',
       viewProject: '프로젝트 보기',
-    }
+    },
   },
 }
 
@@ -314,105 +314,10 @@ export default function Things() {
   )
 
   const ProjectCard = ({ project }: { project: ProjectItem }) => (
-    <Drawer.Root>
-      <Drawer.Trigger className="border border-[#e1e4e8] rounded-md p-2 bg-white hover:bg-[#f6f8fa] transition-colors duration-200 relative cursor-pointer w-full text-left">
-        <div className="flex absolute top-0 left-0 right-0 h-0.5">
-          {project.categories.map((cat) => (
-            <div
-              key={cat}
-              className="flex-grow"
-              style={{
-                backgroundColor:
-                  cat === 'live'
-                    ? '#ff0000'
-                    : cat === 'experiments'
-                    ? '#90EE90'
-                    : cat === 'toy'
-                    ? '#008000'
-                    : cat === 'learning'
-                    ? '#FFFF00'
-                    : cat === 'old'
-                    ? '#696969'
-                    : 'transparent',
-              }}
-            />
-          ))}
-        </div>
-        <div
-          className={`text-sm transition-colors duration-300 focus-visible:outline-none ${
-            project.categories.includes('old')
-              ? 'text-gray-500 hover:text-gray-700'
-              : 'hover:text-[#050005]'
-          }`}
-        >
-          <h3 className="text-sm font-medium mb-1">{project.title}</h3>
-          <p className="text-xs line-clamp-2">{project.shortDescription}</p>
-        </div>
-      </Drawer.Trigger>
-      <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content className="bg-white flex flex-col rounded-t-[10px] h-[40vh] mt-[60vh] fixed bottom-0 left-0 right-0 overflow-hidden">
-          <div className="p-4 bg-white rounded-t-[10px] flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-            <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8" />
-            <div className="max-w-md mx-auto pb-6">
-              <div className="flex justify-between items-start mb-2">
-                <Drawer.Title className="font-medium text-[15px] flex items-center">
-                <strong>{project.title}</strong>
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary/80 ml-2"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  )}
-                </Drawer.Title>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.categories.map((category) => (
-                  <span
-                    key={category}
-                    className="text-xs bg-gray-100 text-gray-800 rounded-md px-2 py-1"
-                  >
-                    {content.categories[category]}
-                  </span>
-                ))}
-              </div>
-              <p className="text-gray-600 mb-4 text-sm">
-                {project.longDescription}
-              </p>
-              <div className="mt-4 text-sm">
-                <h4 className="font-medium mb-2">
-                  Voyage Log
-                </h4>
-                <div className="bg-gray-100 p-3 rounded-md max-h-48 overflow-y-auto mb-6">
-                  <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
-                    {project.updateNotes.map((note, index) => (
-                      <li key={index} className="flex flex-col pt-2 first:pt-0">
-                        <div className="flex justify-between">
-                          <span>{note.text}</span>
-                          <span className="text-gray-400">{note.date}</span>
-                        </div>
-                        {note.log && (
-                          <span className="text-xs text-gray-500 mt-1">
-                            {note.log}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Drawer.Content>
-      </Drawer.Portal>
-    </Drawer.Root>
+    <Drawer project={project} categories={content.categories} />
   )
 
-    return (
+  return (
     <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
         <Link href={`/`} passHref>
@@ -423,27 +328,27 @@ export default function Things() {
         <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
-     <div 
-  className="flex items-center justify-between mb-2 cursor-pointer group"
-  onClick={() => setShowFullDescription(!showFullDescription)}
->
-  <div className="flex items-center">
-    <div className="relative w-4 h-4 mr-1">
-      {showFullDescription ? (
-        <>
-          <Eye className="w-4 h-4 group-hover:hidden" />
-          <EyeOff className="w-4 h-4 hidden group-hover:block absolute inset-0" />
-        </>
-      ) : (
-        <>
-          <EyeOff className="w-4 h-4 group-hover:hidden" />
-          <Eye className="w-4 h-4 hidden group-hover:block absolute inset-0" />
-        </>
-      )}
-    </div>
-    <p className="text-sm">{content.subtitle}</p>
-  </div>
-</div>
+          <div
+            className="flex items-center justify-between mb-2 cursor-pointer group"
+            onClick={() => setShowFullDescription(!showFullDescription)}
+          >
+            <div className="flex items-center">
+              <div className="relative w-4 h-4 mr-1">
+                {showFullDescription ? (
+                  <>
+                    <Eye className="w-4 h-4 group-hover:hidden" />
+                    <EyeOff className="w-4 h-4 hidden group-hover:block absolute inset-0" />
+                  </>
+                ) : (
+                  <>
+                    <EyeOff className="w-4 h-4 group-hover:hidden" />
+                    <Eye className="w-4 h-4 hidden group-hover:block absolute inset-0" />
+                  </>
+                )}
+              </div>
+              <p className="text-sm">{content.subtitle}</p>
+            </div>
+          </div>
           {showFullDescription && (
             <div className="mt-2 text-sm text-gray-600">
               {content.subtitleDescription.map((paragraph, index) => (
@@ -478,7 +383,7 @@ export default function Things() {
             )
           )}
         </div>
-
+        
         <div className="space-y-6">
           {activeFilters.length > 0 ? (
             sortedProjects.length > 0 ? (
