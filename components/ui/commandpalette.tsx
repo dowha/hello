@@ -7,7 +7,7 @@ type CommandPaletteProps = {
   language?: Language
 }
 
-export default function Component({ language = 'en' }: CommandPaletteProps) {
+const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [platform, setPlatform] = useState('')
@@ -16,7 +16,7 @@ export default function Component({ language = 'en' }: CommandPaletteProps) {
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
       setPlatform(navigator.platform.includes('Mac') ? '⌘' : 'Ctrl')
-      setIsMobile(/Mobi|Android/i.test(navigator.userAgent))
+      setIsMobile(/Mobi|Android/i.test(navigator.userAgent)) // Check if the device is mobile
     }
   }, [])
 
@@ -28,7 +28,7 @@ export default function Component({ language = 'en' }: CommandPaletteProps) {
       noResults: 'No results found.',
       navItems: [
         { title: 'CV/Resume', href: '/' },
-        { title: 'Bag', href: '/' },
+        { title: 'What\'s in my (hypothetical) Bag?', href: '/' },
         { title: 'STACKed', href: '/' },
         { title: 'Repertoire', href: '/' },
         { title: 'Attribution', href: '/' },
@@ -37,11 +37,11 @@ export default function Component({ language = 'en' }: CommandPaletteProps) {
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
       searchPlaceholder: '검색...',
-      navigation: 'Navigation',
+      navigation: '추가 페이지 목록',
       noResults: '검색 결과가 없습니다.',
       navItems: [
         { title: 'CV/Resume', href: '/' },
-        { title: "What's in my (hypothetical) Bag?", href: '/' },
+        { title: "What\'s in my (hypothetical) Bag?", href: '/' },
         { title: 'STACKed', href: '/' },
         { title: 'Repertoire', href: '/' },
         { title: 'Attribution', href: '/' },
@@ -74,7 +74,7 @@ export default function Component({ language = 'en' }: CommandPaletteProps) {
   const escLabel = isMobile
     ? language === 'en'
       ? 'Close'
-      : '닫기'
+      : 'X'
     : 'ESC'
 
   const shortcutLabel = isMobile
@@ -103,13 +103,13 @@ export default function Component({ language = 'en' }: CommandPaletteProps) {
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
                 <input
-                  className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-gray-500 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-md bg-transparent py-3 text-xs outline-none placeholder:text-gray-500 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder={currentContent.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
                 <kbd
-                  className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-xs font-mono text-gray-500 cursor-pointer"
+                  className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500 cursor-pointer"
                   onClick={() => setOpen(false)}
                 >
                   {escLabel}
@@ -148,3 +148,5 @@ export default function Component({ language = 'en' }: CommandPaletteProps) {
     </div>
   )
 }
+
+export default CommandPalette
