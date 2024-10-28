@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import Drawer from '@/components/ui/drawer'
+import Back from '@/components/ui/back'
 
 type ProjectItem = {
   uid: string
@@ -320,11 +319,7 @@ export default function Things() {
   return (
     <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
-        <Link href={`/`} passHref>
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back
-          </Button>
-        </Link>
+      <Back />
         <h1 className="text-lg font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
