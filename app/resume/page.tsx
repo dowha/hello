@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Resume from '@/components/resume'
 import GNB from '@/components/ui/gnb'
@@ -20,7 +19,7 @@ export default function Page() {
       const newUrl = window.location.pathname
       router.replace(newUrl)
     }
-  }, [])
+  }, [searchParams, router]) // Added dependencies
 
   const handleLanguageChange = (newLang: 'en' | 'ko') => {
     setLanguage(newLang)
@@ -45,7 +44,9 @@ export default function Page() {
         currentLanguage={language}
         onLanguageChange={handleLanguageChange}
       />
-      <Resume lang={language} />
+      <Suspense fallback={<div>Loading Resume...</div>}>
+        <Resume lang={language} />
+      </Suspense>
     </Suspense>
   )
 }
