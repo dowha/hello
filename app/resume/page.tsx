@@ -19,7 +19,7 @@ export default function Page() {
       const newUrl = window.location.pathname
       router.replace(newUrl)
     }
-  }, [searchParams, router]) // Ensure dependencies are set
+  }, [searchParams, router]) // Add dependencies for proper execution
 
   const handleLanguageChange = (newLang: 'en' | 'ko') => {
     setLanguage(newLang)
