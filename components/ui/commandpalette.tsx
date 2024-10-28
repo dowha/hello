@@ -91,7 +91,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       >
         <Search className="w-3 h-3" />
         <span>{currentContent.buttonText}</span>
-        <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500">
+        <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500">
           {shortcutLabel}
         </kbd>
       </button>
@@ -109,7 +109,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
                 <kbd
-                  className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] font-mono text-gray-500 cursor-pointer"
+                  className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
                   onClick={() => setOpen(false)}
                 >
                   {escLabel}
