@@ -265,26 +265,30 @@ const thingsContent: Record<
 }
 
 export default function Things() {
-  const searchParams = useSearchParams()
-  const [language, setLanguage] = useState<Language>('ko')
-  const [activeFilters, setActiveFilters] = useState<string[]>([])
-  const [showFullDescription, setShowFullDescription] = useState(false)
+  const searchParams = useSearchParams(); // 쿼리 파라미터 가져오기
+  const [language, setLanguage] = useState<Language>('ko'); // 초기 언어 설정
+  const [activeFilters, setActiveFilters] = useState<string[]>([]); // 활성 필터 상태
+  const [showFullDescription, setShowFullDescription] = useState(false); // 전체 설명 표시 여부
 
   useEffect(() => {
-    const lang = searchParams?.get('lang')
-    if (lang === 'ko' || lang === 'en') {
-      setLanguage(lang)
-    } else {
-      const browserLang = navigator.language.startsWith('ko') ? 'ko' : 'en'
-      setLanguage(browserLang)
+    if (searchParams) {
+      const lang = searchParams.get('lang'); // 쿼리 파라미터에서 lang 가져오기
+      if (lang === 'ko' || lang === 'en') {
+        setLanguage(lang); // 유효한 언어일 경우 상태 설정
+      }
+      // URL에서 lang 파라미터 제거
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete('lang'); // lang 파라미터 삭제
+      // URL 업데이트 (페이지 새로고침 없이)
+      window.history.replaceState({}, '', `${window.location.pathname}?${newParams}`);
     }
-  }, [searchParams])
+  }, [searchParams]);
 
   useEffect(() => {
-    setActiveFilters(Object.keys(thingsContent[language].categories))
-  }, [language])
+    setActiveFilters(Object.keys(thingsContent[language].categories)); // 활성 필터 설정
+  }, [language]);
 
-  const content = thingsContent[language]
+  const content = thingsContent[language]; // 언어에 따른 콘텐츠 가져오기
 
   const toggleFilter = (category: string) => {
     setActiveFilters((prev) =>

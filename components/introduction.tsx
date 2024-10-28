@@ -127,7 +127,7 @@ return (
             <Button
               variant="outline"
               className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-[#f0f0f0] transition-colors duration-300 bg-white hover-external-link"
-              onClick={() => window.open('https://blog.dowha.kim', '_blank')}
+              onClick={() => window.open('https://blog.dowha.kim')}
             >
               <span>{content[language].button[1]}</span>
               <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
