@@ -19,7 +19,7 @@ export default function Page() {
       const newUrl = window.location.pathname
       router.replace(newUrl)
     }
-  }, [searchParams, router]) // Added dependencies
+  }, [searchParams, router]) // Ensure dependencies are set
 
   const handleLanguageChange = (newLang: 'en' | 'ko') => {
     setLanguage(newLang)
@@ -38,12 +38,14 @@ export default function Page() {
         </div>
       }
     >
-      <GNB
-        showLanguage={true}
-        showTheme={false}
-        currentLanguage={language}
-        onLanguageChange={handleLanguageChange}
-      />
+      <Suspense fallback={<div>Loading GNB...</div>}>
+        <GNB
+          showLanguage={true}
+          showTheme={false}
+          currentLanguage={language}
+          onLanguageChange={handleLanguageChange}
+        />
+      </Suspense>
       <Suspense fallback={<div>Loading Resume...</div>}>
         <Resume lang={language} />
       </Suspense>
