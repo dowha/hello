@@ -325,7 +325,7 @@ export default function Things() {
             <ArrowLeft className="mr-2 h-4 w-4" /> Back
           </Button>
         </Link>
-        <h1 className="text-2xl font-semibold mb-4">{content.title}</h1>
+        <h1 className="text-lg font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
           <div
