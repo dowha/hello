@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Resume from '@/components/resume'
 import GNB from '@/components/ui/gnb'
+import { useSearchParams } from 'next/navigation'
 
 export default function Page() {
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams() // Keep this outside of Suspense
   const [language, setLanguage] = useState<'en' | 'ko'>('ko')
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function Page() {
         </div>
       }
     >
-      <Suspense fallback={<div>Loading GNB...</div>}>
+      <Suspense fallback={<div>Loading</div>}>
         <GNB
           showLanguage={true}
           showTheme={false}
