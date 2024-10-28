@@ -216,13 +216,15 @@ function CVLink({
     >
       {getText(content, lang)}
       {isExternal && (
-        <ExternalLink className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <span className="w-0 group-hover:w-4 overflow-hidden">
+          <ExternalLink className="w-3 h-3 ml-1" />
+        </span>
       )}
     </a>
   )
 }
 
-export default function Resume({ lang = 'en' }: { lang?: Language }) {
+export default function Resume({ lang }: { lang: Language }) {
   const cvRef = useRef<HTMLDivElement>(null)
 
   const handleDownloadPDF = () => {
@@ -235,7 +237,7 @@ export default function Resume({ lang = 'en' }: { lang?: Language }) {
     <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
         <div className="flex justify-between items-center mb-4">
-        <Back />
+          <Back />
           <Button onClick={handleDownloadPDF} variant="outline">
             <Download className="mr-2 h-4 w-4" />{' '}
             {getText(texts.downloadPDF, lang)}
@@ -246,7 +248,7 @@ export default function Resume({ lang = 'en' }: { lang?: Language }) {
           <div className="mx-auto max-w-screen-sm space-y-4">
             {/* Header */}
             <header className="text-center mb-4">
-              <h2 className="text-sm font-bold">{getText(texts.name, lang)}</h2>
+              <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
               <p className="text-sm">{getText(texts.title, lang)}</p>
             </header>
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Popover,
   PopoverContent,
@@ -30,6 +30,15 @@ export default function GNB({
 
   const language = externalLanguage ?? internalLanguage
 
+  // 컴포넌트가 마운트될 때 브라우저 언어 설정을 확인
+  useEffect(() => {
+    const browserLanguage = navigator.language // 브라우저 언어
+    const defaultLanguage: Language = browserLanguage.startsWith('ko')
+      ? 'ko'
+      : 'en' // 기본 언어 설정
+    setInternalLanguage(defaultLanguage)
+  }, [])
+
   const handleLanguageChange = (newLanguage: Language) => {
     if (onLanguageChange) {
       onLanguageChange(newLanguage)
@@ -46,7 +55,7 @@ export default function GNB({
 
   const languageOptions: Record<Language, string> = {
     ko: '한국어',
-    en: 'English'
+    en: 'English',
   }
 
   const themeOptions = {

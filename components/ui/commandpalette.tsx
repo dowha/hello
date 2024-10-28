@@ -16,7 +16,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
       setPlatform(navigator.platform.includes('Mac') ? '⌘' : 'Ctrl')
-      setIsMobile(/Mobi|Android/i.test(navigator.userAgent)) // Check if the device is mobile
+      setIsMobile(/Mobi|Android/i.test(navigator.userAgent))
     }
   }, [])
 
@@ -26,14 +26,14 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       searchPlaceholder: 'Search...',
       navigation: 'Navigation',
       noResults: 'No results found.',
-      navItems: [{ title: 'Resume', href: '/resume?lang=${language}' }],
+      navItems: [{ title: 'Resume', href: `/resume?lang=${language}` }],
     },
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
       searchPlaceholder: '검색...',
       navigation: '추가 페이지 목록',
       noResults: '검색 결과가 없습니다.',
-      navItems: [{ title: '이력서', href: '/resume?lang=${language}' }],
+      navItems: [{ title: '이력서', href: `/resume?lang=${language}` }],
     },
   }
 
@@ -116,7 +116,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                       key={item.href}
                       onClick={() => {
                         setOpen(false)
-                        window.open(item.href, '_self') // 현재 탭에서 링크 열기
+                        window.open(item.href, '_self')
                       }}
                       className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
                     >
