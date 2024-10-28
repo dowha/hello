@@ -74,7 +74,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const escLabel = isMobile
     ? language === 'en'
       ? 'Close'
-      : 'X'
+      : '닫기'
     : 'ESC'
 
   const shortcutLabel = isMobile
