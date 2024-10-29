@@ -2,6 +2,8 @@
 
 import { Drawer } from 'vaul'
 import { ExternalLink } from 'lucide-react'
+import { useState } from 'react'
+import { clsx } from 'clsx'
 
 type ProjectItem = {
   uid: string
@@ -19,12 +21,20 @@ type DrawerProps = {
   categories: Record<string, string>
 }
 
+const snapPoints = ['148px', '355px', 1]
+
 export default function ProjectDrawer({
   project,
   categories,
 }: DrawerProps) {
+  const [snap, setSnap] = useState<number | string | null>(snapPoints[0])
+
   return (
-    <Drawer.Root>
+    <Drawer.Root 
+      snapPoints={snapPoints}
+      activeSnapPoint={snap}
+      setActiveSnapPoint={setSnap}
+    >
       <Drawer.Trigger className="border border-[#e1e4e8] rounded-md p-2 bg-white hover:bg-[#f6f8fa] transition-colors duration-200 relative cursor-pointer w-full text-left">
         <div className="flex absolute top-0 left-0 right-0 h-0.5">
           {project.categories.map((cat) => (
@@ -61,10 +71,20 @@ export default function ProjectDrawer({
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content className="bg-white flex flex-col rounded-t-[10px] h-[40vh] mt-[60vh] fixed bottom-0 left-0 right-0 overflow-hidden">
-          <div className="p-4 bg-white rounded-t-[10px] flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <Drawer.Content 
+          className={clsx(
+            "fixed flex flex-col bg-white border border-gray-200 border-b-none rounded-t-[10px] bottom-0 left-0 right-0 h-full max-h-[97%] mx-[-1px]",
+          )}
+        >
+          <div className={clsx(
+            'flex flex-col max-w-md mx-auto w-full p-4 pt-5',
+            {
+              'overflow-y-auto': snap === 1,
+              'overflow-hidden': snap !== 1,
+            }
+          )}>
             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8" />
-            <div className="max-w-md mx-auto pb-6">
+            <div className="pb-6">
               <div className="flex justify-between items-start mb-2">
                 <Drawer.Title className="font-medium text-[15px] flex items-center">
                   <strong>{project.title}</strong>
