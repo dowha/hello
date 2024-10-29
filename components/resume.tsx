@@ -239,7 +239,7 @@ export default function Resume({ lang }: { lang: Language }) {
         <div className="flex justify-between items-center mb-4">
           <Back />
           <Button onClick={handleDownloadPDF} variant="outline">
-            <Download className="mr-2 h-4 w-4" />{' '}
+            <Download className="mr-2 h-4 w-4 mb-4" />{' '}
             {getText(texts.downloadPDF, lang)}
           </Button>
         </div>
