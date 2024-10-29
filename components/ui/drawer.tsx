@@ -21,13 +21,19 @@ type DrawerProps = {
   categories: Record<string, string>
 }
 
-const snapPoints = ['148px', '355px', 1]
+// 3단계 스냅포인트 설정
+const snapPoints = ['250px', '400px', '97%']
 
 export default function ProjectDrawer({
   project,
   categories,
 }: DrawerProps) {
   const [snap, setSnap] = useState<number | string | null>(snapPoints[0])
+
+  // 현재 스냅포인트에 따라 컨텐츠 표시 여부 결정
+  const showLongDescription = snap === snapPoints[0] || snap === snapPoints[1] || snap === snapPoints[2]
+  const showUpdateNotes = snap === snapPoints[1] || snap === snapPoints[2]
+  const showFullContent = snap === snapPoints[2]
 
   return (
     <Drawer.Root 
@@ -73,18 +79,26 @@ export default function ProjectDrawer({
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
         <Drawer.Content 
           className={clsx(
-            "fixed flex flex-col bg-white border border-gray-200 border-b-none rounded-t-[10px] bottom-0 left-0 right-0 h-full max-h-[97%] mx-[-1px]",
+            "fixed flex flex-col bg-white border border-gray-200 border-b-none rounded-t-[10px] bottom-0 left-0 right-0",
+            {
+              'h-[250px]': snap === snapPoints[0],
+              'h-[400px]': snap === snapPoints[1],
+              'h-[97%]': snap === snapPoints[2],
+            }
           )}
         >
           <div className={clsx(
             'flex flex-col max-w-md mx-auto w-full p-4 pt-5',
             {
-              'overflow-y-auto': snap === 1,
-              'overflow-hidden': snap !== 1,
+              'overflow-y-auto': showFullContent,
+              'overflow-hidden': !showFullContent,
             }
           )}>
             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8" />
-            <div className="pb-6">
+            <div className={clsx("pb-6", {
+              'overflow-y-auto': !showFullContent,
+              'overflow-visible': showFullContent,
+            })}>
               <div className="flex justify-between items-start mb-2">
                 <Drawer.Title className="font-medium text-[15px] flex items-center">
                   <strong>{project.title}</strong>
@@ -110,29 +124,33 @@ export default function ProjectDrawer({
                   </span>
                 ))}
               </div>
-              <p className="text-gray-600 mb-4 text-sm">
-                {project.longDescription}
-              </p>
-              <div className="mt-4 text-sm">
-                <h4 className="font-medium mb-2">Voyage Log</h4>
-                <div className="bg-gray-100 p-3 rounded-md max-h-48 overflow-y-auto mb-6">
-                  <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
-                    {project.updateNotes.map((note, index) => (
-                      <li key={index} className="flex flex-col pt-2 first:pt-0">
-                        <div className="flex justify-between">
-                          <span>{note.text}</span>
-                          <span className="text-gray-400">{note.date}</span>
-                        </div>
-                        {note.log && (
-                          <span className="text-xs text-gray-500 mt-1">
-                            {note.log}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+              {showLongDescription && (
+                <p className="text-gray-600 mb-4 text-sm">
+                  {project.longDescription}
+                </p>
+              )}
+              {showUpdateNotes && (
+                <div className="mt-4 text-sm">
+                  <h4 className="font-medium mb-2">Voyage Log</h4>
+                  <div className="bg-gray-100 p-3 rounded-md max-h-48 overflow-y-auto mb-6">
+                    <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
+                      {project.updateNotes.map((note, index) => (
+                        <li key={index} className="flex flex-col pt-2 first:pt-0">
+                          <div className="flex justify-between">
+                            <span>{note.text}</span>
+                            <span className="text-gray-400">{note.date}</span>
+                          </div>
+                          {note.log && (
+                            <span className="text-xs text-gray-500 mt-1">
+                              {note.log}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </Drawer.Content>
