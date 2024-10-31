@@ -160,6 +160,10 @@ const texts = {
         },
         period: { en: 'Mar 2008 - Feb 2015', ko: '2008.03 - 2015.02' },
         location: { en: 'South Korea', ko: '대한민국' },
+        additional: {
+          en: '91.9/100 percentage score (GPA 3.59/4.30)',
+          ko: '91.9/100 백분율 점수 (평점 3.59/4.30)',
+        },
       },
       {
         degree: {
