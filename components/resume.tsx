@@ -235,6 +235,7 @@ export default function Resume({ lang }: ResumeProps) {
 
   return (
     <>
+          <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
       {/* Print control area */}
       <div className="print-hide w-full max-w-[640px] mx-auto">
         <div className="header-controls flex justify-between items-center mb-4">
@@ -249,7 +250,7 @@ export default function Resume({ lang }: ResumeProps) {
       {/* Printable area */}
       <div 
         ref={cvRef} 
-        className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800 p-4 pb-12"
+        className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800"
       >
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
@@ -323,6 +324,7 @@ export default function Resume({ lang }: ResumeProps) {
           </Section>
         </div>
       </div>
+            </div>
     </>
   )
 }
