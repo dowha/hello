@@ -105,17 +105,32 @@ body {
 }
 
 @media print {
+  /* 프린트 시 숨길 요소들 */
   .print-hide {
     display: none !important;
   }
   
+  /* 페이지 설정 */
   @page {
     margin: 0.5cm;
     size: A4;
   }
 
+  /* 배경색 출력 설정 */
   body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+  }
+
+  /* 페이지 나눔 방지 */
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+}
+
+/* 프린트 프리뷰에서도 스타일 적용 */
+@media screen {
+  .page-break-inside-avoid {
+    break-inside: avoid;
   }
 }
