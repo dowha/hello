@@ -65,7 +65,7 @@ export default function GNB({
   }
 
   return (
-    <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-end px-4 z-50">
+    <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-end px-4 z-50 print-hide">
       <div className="flex items-center space-x-2">
         {showLanguage && (
           <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
