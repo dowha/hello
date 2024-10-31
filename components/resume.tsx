@@ -202,10 +202,10 @@ function CVLink({
   href,
   isExternal = false,
 }: {
-  content: TextContent
-  lang: Language
-  href: string
-  isExternal?: boolean
+  content: TextContent;
+  lang: Language;
+  href: string;
+  isExternal?: boolean;
 }) {
   return (
     <a
@@ -221,38 +221,39 @@ function CVLink({
         </span>
       )}
     </a>
-  )
+  );
 }
 
 export default function Resume({ lang }: { lang: Language }) {
-  const cvRef = useRef<HTMLDivElement>(null)
+  const cvRef = useRef<HTMLDivElement>(null);
 
-  const handleDownloadPDF = () => {
+  const handlePrint = () => {
     if (cvRef.current) {
-      window.print()
+      window.print();
     }
-  }
+  };
 
   return (
     <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
-      <div className="w-full max-w-[640px] mx-auto space-y-4">
-        {/* 프린트시 숨겨질 컨트롤 영역 */}
+      {/* GNB, Navigation 등 프린트 시 숨길 요소들 */}
+      <div className="w-full max-w-[640px] mx-auto space-y-4 print-hide">
         <div className="header-controls flex justify-between items-center mb-4">
           <Back />
-          <Button onClick={handleDownloadPDF} variant="outline" className="mb-4">
-            <Download className="mr-2 h-4 w-4 print-hide" />
+          <Button onClick={handlePrint} variant="outline" className="mb-4">
+            <Download className="mr-2 h-4 w-4" />
             {getText(texts.downloadPDF, lang)}
           </Button>
         </div>
+      </div>
 
-        {/* 프린트될 영역 */}
-        <div ref={cvRef} className="print-area bg-white font-sans text-gray-800">
-          <div className="mx-auto max-w-screen-sm space-y-4">
-            {/* Header */}
-            <header className="text-center mb-4">
-              <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
-              <p className="text-sm">{getText(texts.title, lang)}</p>
-            </header>
+      {/* 프린트될 영역 */}
+      <div ref={cvRef} className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800">
+        <div className="mx-auto max-w-screen-sm space-y-4">
+          {/* Header */}
+          <header className="text-center mb-4">
+            <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
+            <p className="text-sm">{getText(texts.title, lang)}</p>
+          </header>
             
             {/* Contact Information */}
             <section className="text-sm mb-4 text-center">
