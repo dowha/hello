@@ -191,7 +191,6 @@ const texts = {
     },
   },
 }
-
 function getText(content: TextContent, lang: Language): string {
   return content[lang]
 }
@@ -236,7 +235,7 @@ export default function Resume({ lang }: ResumeProps) {
 
   return (
     <>
-      {/* 프린트 시 숨길 컨트롤 영역 */}
+      {/* Print control area */}
       <div className="print-hide w-full max-w-[640px] mx-auto">
         <div className="header-controls flex justify-between items-center mb-4">
           <Back />
@@ -247,7 +246,7 @@ export default function Resume({ lang }: ResumeProps) {
         </div>
       </div>
 
-      {/* 프린트될 영역 */}
+      {/* Printable area */}
       <div 
         ref={cvRef} 
         className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800"
@@ -258,74 +257,73 @@ export default function Resume({ lang }: ResumeProps) {
             <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
             <p className="text-sm">{getText(texts.title, lang)}</p>
           </header>
-            
-            {/* Contact Information */}
-            <section className="text-sm mb-4 text-center">
-              <p>
-                <CVLink
-                  content={texts.contact.email.text}
-                  lang={lang}
-                  href={texts.contact.email.href}
-                />{' '}
-                | {getText(texts.contact.location, lang)}
-              </p>
-            </section>
+          
+          {/* Contact Information */}
+          <section className="text-sm mb-4 text-center">
+            <p>
+              <CVLink
+                content={texts.contact.email.text}
+                lang={lang}
+                href={texts.contact.email.href}
+              />{' '}
+              | {getText(texts.contact.location, lang)}
+            </p>
+          </section>
 
-            {/* Sections */}
-            <Section title={getText({ en: 'Summary', ko: '요약' }, lang)}>
-              <p className="text-sm">{getText(texts.summary, lang)}</p>
-            </Section>
+          {/* Sections */}
+          <Section title={getText({ en: 'Summary', ko: '요약' }, lang)}>
+            <p className="text-sm">{getText(texts.summary, lang)}</p>
+          </Section>
 
-            <Section title={getText(texts.experience.title, lang)}>
-              {texts.experience.jobs.map((job, index) => (
-                <Job
-                  key={index}
-                  title={getText(job.title, lang)}
-                  company={job.company}
-                  lang={lang}
-                  period={getText(job.period, lang)}
-                  responsibilities={job.responsibilities.map((r) =>
-                    getText(r, lang)
-                  )}
-                />
-              ))}
-            </Section>
+          <Section title={getText(texts.experience.title, lang)}>
+            {texts.experience.jobs.map((job, index) => (
+              <Job
+                key={index}
+                title={getText(job.title, lang)}
+                company={job.company}
+                lang={lang}
+                period={getText(job.period, lang)}
+                responsibilities={job.responsibilities.map((r) =>
+                  getText(r, lang)
+                )}
+              />
+            ))}
+          </Section>
 
-            <Section title={getText(texts.education.title, lang)}>
-              {texts.education.degrees.map((edu, index) => (
-                <div key={index} className="mb-3">
-                  <p className="text-sm">
-                    <strong>{getText(edu.degree, lang)}</strong>
-                  </p>
-                  <p className="text-sm">
-                    <CVLink
-                      content={edu.university.text}
-                      lang={lang}
-                      href={edu.university.href}
-                      isExternal={edu.university.isExternal}
-                    />
-                    , {getText(edu.location, lang)}
-                  </p>
-                  <p className="text-sm">{getText(edu.period, lang)}</p>
-                  {edu.additional && (
-                    <p className="text-sm">{getText(edu.additional, lang)}</p>
-                  )}
-                </div>
-              ))}
-            </Section>
+          <Section title={getText(texts.education.title, lang)}>
+            {texts.education.degrees.map((edu, index) => (
+              <div key={index} className="mb-3">
+                <p className="text-sm">
+                  <strong>{getText(edu.degree, lang)}</strong>
+                </p>
+                <p className="text-sm">
+                  <CVLink
+                    content={edu.university.text}
+                    lang={lang}
+                    href={edu.university.href}
+                    isExternal={edu.university.isExternal}
+                  />
+                  , {getText(edu.location, lang)}
+                </p>
+                <p className="text-sm">{getText(edu.period, lang)}</p>
+                {edu.additional && (
+                  <p className="text-sm">{getText(edu.additional, lang)}</p>
+                )}
+              </div>
+            ))}
+          </Section>
 
-            <Section title={getText(texts.skills.title, lang)}>
-              <h3 className="text-sm font-semibold">
-                {getText(texts.skills.languageSkills.title, lang)}
-              </h3>
-              <p className="text-sm">
-                {getText(texts.skills.languageSkills.list, lang)}
-              </p>
-            </Section>
-          </div>
+          <Section title={getText(texts.skills.title, lang)}>
+            <h3 className="text-sm font-semibold">
+              {getText(texts.skills.languageSkills.title, lang)}
+            </h3>
+            <p className="text-sm">
+              {getText(texts.skills.languageSkills.list, lang)}
+            </p>
+          </Section>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
