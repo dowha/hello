@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Search } from 'lucide-react'
 import { Dialog, DialogContent } from './dialog'
 
@@ -12,7 +12,6 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [search, setSearch] = useState('')
   const [platform, setPlatform] = useState('')
   const [isMobile, setIsMobile] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
@@ -21,20 +20,27 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     }
   }, [])
 
-  // Dialog가 열릴 때 input 상태 관리
-  useEffect(() => {
-    if (open && inputRef.current && isMobile) {
-      // 모바일에서만 readonly 속성 추가
-      inputRef.current.setAttribute('readonly', 'readonly')
+  // 모바일에서 키보드 자동 팝업 방지를 위한 핸들러
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    const target = e.target as HTMLElement
+    if (target.tagName === 'INPUT' && isMobile) {
+      e.preventDefault()
+      // 약간의 지연 후에 포커스 적용 (키보드 팝업 방지 효과)
+      setTimeout(() => {
+        ;(target as HTMLInputElement).focus()
+      }, 100)
     }
-  }, [open, isMobile])
+  }, [isMobile])
 
-  // 모바일에서 input 클릭 시 readonly 제거
-  const handleInputClick = () => {
-    if (isMobile && inputRef.current) {
-      inputRef.current.removeAttribute('readonly')
+  // Dialog가 열릴 때 이벤트 리스너 추가
+  useEffect(() => {
+    if (open && isMobile) {
+      document.addEventListener('touchstart', handleTouchStart, { passive: false })
     }
-  }
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart)
+    }
+  }, [open, isMobile, handleTouchStart])
 
   const content = {
     en: {
@@ -96,19 +102,26 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
         </kbd>
       </button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog 
+        open={open} 
+        onOpenChange={setOpen}
+        // Modal이 열릴 때 input이 자동으로 포커스되는 것을 방지
+        modal={true}
+      >
         <DialogContent className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden">
           <div className="w-full bg-white">
             <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
                 <input
-                  ref={inputRef}
                   className="flex h-10 w-full rounded-md bg-transparent py-3 text-xs outline-none placeholder:text-gray-500 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder={currentContent.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  onClick={handleInputClick}
+                  // autofocus 제거
+                  autoFocus={false}
+                  // 모바일에서 터치 이벤트 처리를 위한 속성 추가
+                  onTouchStart={(e) => isMobile && e.currentTarget.blur()}
                 />
                 <kbd
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
