@@ -249,7 +249,7 @@ export default function Resume({ lang }: ResumeProps) {
       {/* Printable area */}
       <div 
         ref={cvRef} 
-        className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800 mb-3"
+        className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800"
       >
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
