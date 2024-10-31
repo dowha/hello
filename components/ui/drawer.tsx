@@ -21,18 +21,18 @@ type DrawerProps = {
   categories: Record<string, string>
 }
 
-// Define snap points as percentages and specific heights
-const snapPoints = [0.25, 0.5, 0.9]
+// 3단계 스냅포인트 설정
+const snapPoints = ['250px', '400px', '97%']
 
 export default function ProjectDrawer({
   project,
   categories,
 }: DrawerProps) {
-  const [snap, setSnap] = useState<number>(snapPoints[0])
+  const [snap, setSnap] = useState<number | string | null>(snapPoints[0])
 
-  // Determine content visibility based on current snap point
-  const showLongDescription = snap >= snapPoints[0]
-  const showUpdateNotes = snap >= snapPoints[1]
+  // 현재 스냅포인트에 따라 컨텐츠 표시 여부 결정
+  const showLongDescription = snap === snapPoints[0] || snap === snapPoints[1] || snap === snapPoints[2]
+  const showUpdateNotes = snap === snapPoints[1] || snap === snapPoints[2]
   const showFullContent = snap === snapPoints[2]
 
   return (
@@ -77,7 +77,16 @@ export default function ProjectDrawer({
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content className="fixed flex flex-col bg-white border border-gray-200 border-b-none rounded-t-[10px] bottom-0 left-0 right-0 h-full max-h-[97%]">
+        <Drawer.Content 
+          className={clsx(
+            "fixed flex flex-col bg-white border border-gray-200 border-b-none rounded-t-[10px] bottom-0 left-0 right-0",
+            {
+              'h-[250px]': snap === snapPoints[0],
+              'h-[400px]': snap === snapPoints[1],
+              'h-[97%]': snap === snapPoints[2],
+            }
+          )}
+        >
           <div className={clsx(
             'flex flex-col max-w-md mx-auto w-full p-4 pt-5',
             {
@@ -123,10 +132,7 @@ export default function ProjectDrawer({
               {showUpdateNotes && (
                 <div className="mt-4 text-sm">
                   <h4 className="font-medium mb-2">Voyage Log</h4>
-                  <div className={clsx("bg-gray-100 p-3 rounded-md mb-6", {
-                    "max-h-48 overflow-y-auto": !showFullContent,
-                    "max-h-full": showFullContent
-                  })}>
+                  <div className="bg-gray-100 p-3 rounded-md max-h-48 overflow-y-auto mb-6">
                     <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
                       {project.updateNotes.map((note, index) => (
                         <li key={index} className="flex flex-col pt-2 first:pt-0">
