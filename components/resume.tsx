@@ -216,7 +216,7 @@ function CVLink({
     >
       {getText(content, lang)}
       {isExternal && (
-        <span className="w-0 group-hover:w-4 overflow-hidden">
+        <span className="w-0 group-hover:w-4 overflow-hidden print-hide">
           <ExternalLink className="w-3 h-3 ml-1" />
         </span>
       )}
@@ -236,24 +236,24 @@ export default function Resume({ lang }: { lang: Language }) {
   return (
     <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
-        <div className="flex justify-between items-center mb-4">
+        {/* 프린트시 숨겨질 컨트롤 영역 */}
+        <div className="header-controls flex justify-between items-center mb-4">
           <Back />
-
           <Button onClick={handleDownloadPDF} variant="outline" className="mb-4">
-            <Download className="mr-2 h-4 w-4" />{' '}
-
+            <Download className="mr-2 h-4 w-4 print-hide" />
             {getText(texts.downloadPDF, lang)}
           </Button>
         </div>
 
-        <div ref={cvRef} className="bg-white font-sans text-gray-800">
+        {/* 프린트될 영역 */}
+        <div ref={cvRef} className="print-area bg-white font-sans text-gray-800">
           <div className="mx-auto max-w-screen-sm space-y-4">
             {/* Header */}
             <header className="text-center mb-4">
               <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
               <p className="text-sm">{getText(texts.title, lang)}</p>
             </header>
-
+            
             {/* Contact Information */}
             <section className="text-sm mb-4 text-center">
               <p>
