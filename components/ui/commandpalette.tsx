@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Search } from 'lucide-react'
 import { Dialog, DialogContent } from './dialog'
 
@@ -12,6 +12,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [search, setSearch] = useState('')
   const [platform, setPlatform] = useState('')
   const [isMobile, setIsMobile] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
@@ -19,6 +20,21 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       setIsMobile(/Mobi|Android/i.test(navigator.userAgent))
     }
   }, [])
+
+  // Dialog가 열릴 때 input 상태 관리
+  useEffect(() => {
+    if (open && inputRef.current && isMobile) {
+      // 모바일에서만 readonly 속성 추가
+      inputRef.current.setAttribute('readonly', 'readonly')
+    }
+  }, [open, isMobile])
+
+  // 모바일에서 input 클릭 시 readonly 제거
+  const handleInputClick = () => {
+    if (isMobile && inputRef.current) {
+      inputRef.current.removeAttribute('readonly')
+    }
+  }
 
   const content = {
     en: {
@@ -87,10 +103,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
                 <input
+                  ref={inputRef}
                   className="flex h-10 w-full rounded-md bg-transparent py-3 text-xs outline-none placeholder:text-gray-500 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder={currentContent.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
+                  onClick={handleInputClick}
                 />
                 <kbd
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
