@@ -196,17 +196,14 @@ function getText(content: TextContent, lang: Language): string {
   return content[lang]
 }
 
-export function CVLink({
-  content,
-  lang,
-  href,
-  isExternal = false,
-}: {
+interface CVLinkProps {
   content: TextContent
   lang: Language
   href: string
   isExternal?: boolean
-}) {
+}
+
+function CVLink({ content, lang, href, isExternal = false }: CVLinkProps) {
   return (
     <a
       href={href}
@@ -223,7 +220,12 @@ export function CVLink({
     </a>
   )
 }
-export default function Resume({ lang }: { lang: Language }) {
+
+interface ResumeProps {
+  lang: Language
+}
+
+export default function Resume({ lang }: ResumeProps) {
   const cvRef = useRef<HTMLDivElement>(null)
 
   const handlePrint = () => {
@@ -377,3 +379,5 @@ function Job({
     </div>
   )
 }
+
+export { CVLink }
