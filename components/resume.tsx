@@ -313,7 +313,7 @@ export default function Resume({ lang }: ResumeProps) {
             ))}
           </Section>
 
-          <Section title={getText(texts.skills.title, lang)}>
+          <Section title={getText(texts.skills.title, lang)} className="mb-3">
             <h3 className="text-sm font-semibold">
               {getText(texts.skills.languageSkills.title, lang)}
             </h3>
