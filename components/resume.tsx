@@ -251,7 +251,7 @@ export default function Resume({ lang }: ResumeProps) {
         ref={cvRef} 
         className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800"
       >
-        <div className="mx-auto max-w-screen-sm space-y-4">
+        <div className="mx-auto max-w-screen-sm space-y-4 mb-3">
           {/* Header */}
           <header className="text-center mb-4">
             <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
@@ -313,7 +313,7 @@ export default function Resume({ lang }: ResumeProps) {
             ))}
           </Section>
 
-          <Section title={getText(texts.skills.title, lang)} className="mb-3">
+          <Section title={getText(texts.skills.title, lang)}>
             <h3 className="text-sm font-semibold">
               {getText(texts.skills.languageSkills.title, lang)}
             </h3>
