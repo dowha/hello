@@ -54,12 +54,14 @@ export default function Page() {
       </Suspense>
 
       <Suspense fallback={<div>Loading...</div>}>
+              <div className="print-hide">
         <GNB
           showLanguage={true}
           showTheme={false}
           currentLanguage={language}
           onLanguageChange={handleLanguageChange}
         />
+                </div>
       </Suspense>
 
       <Suspense fallback={<div>Loading</div>}>
