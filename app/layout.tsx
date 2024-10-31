@@ -26,7 +26,9 @@ export default function RootLayout({
     <html lang="ko">
       <body className="antialiased min-h-screen">
         {children}
+	            <div className="print-hide">
         <Footer />
+			    </div>
       </body>
     </html>
   )
