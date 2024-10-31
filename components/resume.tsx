@@ -196,16 +196,16 @@ function getText(content: TextContent, lang: Language): string {
   return content[lang]
 }
 
-function CVLink({
+export function CVLink({
   content,
   lang,
   href,
   isExternal = false,
 }: {
-  content: TextContent;
-  lang: Language;
-  href: string;
-  isExternal?: boolean;
+  content: TextContent
+  lang: Language
+  href: string
+  isExternal?: boolean
 }) {
   return (
     <a
@@ -221,22 +221,21 @@ function CVLink({
         </span>
       )}
     </a>
-  );
+  )
 }
-
 export default function Resume({ lang }: { lang: Language }) {
-  const cvRef = useRef<HTMLDivElement>(null);
+  const cvRef = useRef<HTMLDivElement>(null)
 
   const handlePrint = () => {
     if (cvRef.current) {
-      window.print();
+      window.print()
     }
-  };
+  }
 
   return (
-    <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
-      {/* GNB, Navigation 등 프린트 시 숨길 요소들 */}
-      <div className="w-full max-w-[640px] mx-auto space-y-4 print-hide">
+    <>
+      {/* 프린트 시 숨길 컨트롤 영역 */}
+      <div className="print-hide w-full max-w-[640px] mx-auto">
         <div className="header-controls flex justify-between items-center mb-4">
           <Back />
           <Button onClick={handlePrint} variant="outline" className="mb-4">
@@ -247,7 +246,10 @@ export default function Resume({ lang }: { lang: Language }) {
       </div>
 
       {/* 프린트될 영역 */}
-      <div ref={cvRef} className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800">
+      <div 
+        ref={cvRef} 
+        className="w-full max-w-[640px] mx-auto bg-white font-sans text-gray-800"
+      >
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
           <header className="text-center mb-4">
