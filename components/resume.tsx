@@ -306,7 +306,8 @@ export default function Resume({ lang }: ResumeProps) {
                 </p>
                 <p className="text-sm">{getText(edu.period, lang)}</p>
                 {edu.additional && (
-                  <p className="text-sm">{getText(edu.additional, lang)}</p>
+                           <li className="text-sm">
+{getText(edu.additional, lang)}</li>
                 )}
               </div>
             ))}
