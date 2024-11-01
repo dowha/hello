@@ -161,8 +161,8 @@ const texts = {
         period: { en: 'Mar 2008 - Feb 2015', ko: '2008.03 - 2015.02' },
         location: { en: 'South Korea', ko: '대한민국' },
         additional: {
-          en: '91.9/100 percentage score (GPA 3.59/4.30)',
-          ko: '91.9/100 백분율 점수 (평점 3.59/4.30)',
+          en: 'Yonsei Univ. Central Journal Editorial Committee member (*Yonsei*, quarterly)',
+          ko: '연세대 중앙교지 연세편집위원회(분기별『연세』 발간) 활동',
         },
       },
       {
@@ -257,10 +257,7 @@ export default function Resume({ lang }: ResumeProps) {
           <header className="text-center mb-4">
             <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
             <p className="text-sm">{getText(texts.title, lang)}</p>
-          </header>
-          
-          {/* Contact Information */}
-          <section className="text-sm mb-4 text-center">
+                      <section className="text-sm mb-4 text-center">
             <p>
               <CVLink
                 content={texts.contact.email.text}
@@ -270,7 +267,8 @@ export default function Resume({ lang }: ResumeProps) {
               | {getText(texts.contact.location, lang)}
             </p>
           </section>
-
+          </header>
+          
           {/* Sections */}
           <Section title={getText({ en: 'Summary', ko: '요약' }, lang)}>
             <p className="text-sm">{getText(texts.summary, lang)}</p>
