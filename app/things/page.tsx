@@ -25,7 +25,7 @@ export default function ThingsPage() {
     </div>
     }
   >
-      <GNB showLanguage={false} showTheme={true} /> 
+      <GNB showLanguage={false} showTheme={false} /> 
       <Things />
     </Suspense>
   )
