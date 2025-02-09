@@ -48,14 +48,14 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       searchPlaceholder: 'Search...',
       navigation: 'Navigation',
       noResults: 'No results found.',
-      navItems: [{ title: 'Resume', href: `/resume?lang=${language}` }, { title: 'Thigns I have made', href: '/things?lang=${language}' }],
+      navItems: [{ title: 'Resume', href: `/resume?lang=${language}` }, { title: 'Thigns I have made(Work in Progress)', href: '/things?lang=${language}' }],
     },
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
       searchPlaceholder: '검색...',
       navigation: '추가 페이지 목록',
       noResults: '검색 결과가 없습니다.',
-      navItems: [{ title: '이력서', href: `/resume?lang=${language}` }, { title: '내가 만든 것들', href: '/things?lang=${language}' }],
+      navItems: [{ title: '이력서', href: `/resume?lang=${language}` }, { title: '내가 만든 것들(준비중)', href: '/things?lang=${language}' }],
     },
   }
 
