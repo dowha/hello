@@ -31,8 +31,8 @@ export function About({ language }: AboutProps) {
           text: 'A SaaS startup that provides JANDI, a business collaboration tool',
         },
       ],
-      things: 'Things I have made→',
-      button: ['Email', 'Blog', 'LinkedIn', 'GitHub'],
+      blog: 'Blog',
+      button: ['LinkedIn', 'GitHub'],
     },
     ko: {
       name: '김도화(a.k.a. 파도)',
@@ -53,12 +53,12 @@ export function About({ language }: AboutProps) {
           text: '업무용 협업툴 잔디(JANDI)를 서비스하는 SaaS 스타트업',
         },
       ],
-      things: '내가 만든 것들→',
-      button: ['이메일', '블로그', '링크드인', '깃헙'],
+      blog: '블로그',
+      button: ['링크드인', '깃헙'],
     },
   }
 
-return (
+  return (
     <>
       <div className="flex flex-col items-center justify-center bg-white text-[#050005] p-4 pb-12">
         <style jsx global>{`
@@ -86,10 +86,18 @@ return (
               </div>
             </div>
             <div className="flex flex-col justify-center text-center">
-              <h1 className={`text-lg font-semibold ${language === 'ko' ? 'korean-text' : ''}`}>
+              <h1
+                className={`text-lg font-semibold ${
+                  language === 'ko' ? 'korean-text' : ''
+                }`}
+              >
                 {content[language].name}
               </h1>
-              <p className={`text-sm md:text-base mt-1 ${language === 'ko' ? 'korean-text' : ''}`}>
+              <p
+                className={`text-sm md:text-base mt-1 ${
+                  language === 'ko' ? 'korean-text' : ''
+                }`}
+              >
                 {content[language].title}
               </p>
               <CommandPalette language={language} />
@@ -111,25 +119,13 @@ return (
           </div>
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f6f5f4]">
             <Button
-              className="w-full col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 bg-[#121212] text-white hover:bg-[#333333] transition-colors duration-300"
-              onClick={() => window.open(`/things?lang=${language}`, '_self')}
+              variant="outline"
+              className="w-full col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-[rgba(10,133,209,0.2)] bg-white transition-colors duration-300 hover-external-link"
+              onClick={() => window.open('https://blog.dowha.kim', '_blank')}
             >
               <span>
-                <strong>{content[language].things}</strong>
+                <strong>{content[language].blog}</strong>
               </span>
-            </Button>
-            <Button
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 bg-white text-[#050005] border border-[#e0e0e0] hover:bg-[#f0f0f0] transition-colors duration-300"
-              onClick={() => window.open('mailto:hello@dowha.kim')}
-            >
-              <span>{content[language].button[0]}</span>
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-[#f0f0f0] transition-colors duration-300 bg-white hover-external-link"
-              onClick={() => window.open('https://blog.dowha.kim')}
-            >
-              <span>{content[language].button[1]}</span>
               <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
             <Button
@@ -139,7 +135,7 @@ return (
                 window.open('https://www.linkedin.com/in/dowha', '_blank')
               }
             >
-              <span>{content[language].button[2]}</span>
+              <span>{content[language].button[0]}</span>
               <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
             <Button
@@ -147,7 +143,7 @@ return (
               className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-[#f0f0f0] transition-colors duration-300 bg-white hover-external-link"
               onClick={() => window.open('https://github.com/dowha', '_blank')}
             >
-              <span>{content[language].button[3]}</span>
+              <span>{content[language].button[1]}</span>
               <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
           </div>
