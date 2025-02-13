@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef } from 'react'
-import { ExternalLink, Download } from 'lucide-react'
+import { Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Back from '@/components/ui/back'
 
@@ -206,14 +206,12 @@ function CVLink({ content, lang, href, isExternal = false }: CVLinkProps) {
   return (
     <a
       href={href}
-      className="text-gray-800 border-b border-gray-200 hover:border-gray-400 inline-flex items-center group"
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
     >
       {getText(content, lang)}
       {isExternal && (
         <span className="w-0 group-hover:w-4 overflow-hidden print-hide">
-          <ExternalLink className="w-3 h-3 ml-1" />
         </span>
       )}
     </a>
@@ -235,7 +233,7 @@ export default function Resume({ lang }: ResumeProps) {
 
   return (
     <>
-          <div className="flex flex-col items-start justify-start bg-white text-[#050005] p-4 pb-12">
+          <div className="flex flex-col items-start justify-start bg-white p-4 pb-12">
       {/* Print control area */}
       <div className="print-hide w-full max-w-[640px] mx-auto">
         <div className="header-controls flex justify-between items-center mb-4">
@@ -250,13 +248,13 @@ export default function Resume({ lang }: ResumeProps) {
       {/* Printable area */}
       <div 
         ref={cvRef} 
-        className="w-full max-w-[640px] mx-auto bg-white text-gray-800"
+        className="w-full max-w-[640px] mx-auto bg-white"
       >
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
           <header className="text-center mb-4">
             <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
-            <p className="text-sm">{getText(texts.title, lang)}</p>
+            <h3 className="text-sm">{getText(texts.title, lang)}</h3>
                       <section className="text-sm mb-4 text-center">
             <p>
               <CVLink
@@ -314,7 +312,7 @@ export default function Resume({ lang }: ResumeProps) {
           </Section>
 
           <Section title={getText(texts.skills.title, lang)}>
-            <h3 className="text-sm font-semibold">
+            <h3 className="text-sm">
               {getText(texts.skills.languageSkills.title, lang)}
             </h3>
             <p className="text-sm">
@@ -337,7 +335,7 @@ function Section({
 }) {
   return (
     <section className="border-t border-gray-200 pt-3">
-      <h2 className="text-sm font-semibold mb-2">{title}</h2>
+      <h2 className="text-sm mb-2">{title}</h2>
       {children}
     </section>
   )
@@ -358,7 +356,7 @@ function Job({
 }) {
   return (
     <div className="mb-3">
-      <h3 className="text-sm font-semibold">{title}</h3>
+      <h3 className="text-sm">{title}</h3>
       <p className="text-sm">
         <CVLink
           content={company.text}
@@ -368,7 +366,7 @@ function Job({
         />{' '}
         | {period}
       </p>
-      <ul className="list-disc list-inside mt-1">
+      <ul className="list-inside mt-1">
         {responsibilities.map((responsibility, index) => (
           <li key={index} className="text-sm">
             {responsibility}
