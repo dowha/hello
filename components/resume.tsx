@@ -24,10 +24,6 @@ const texts = {
   name: { en: 'Dowha Kim', ko: '김도화' },
   title: { en: 'Content Marketing Specialist', ko: '콘텐츠 마케팅 전문가' },
   contact: {
-    email: {
-      text: { en: 'mail@dowha.kim', ko: 'mail@dowha.kim' },
-      href: 'mailto:mail@dowha.kim',
-    },
     location: { en: 'South Korea', ko: '대한민국' },
   },
   summary: {
@@ -257,11 +253,8 @@ export default function Resume({ lang }: ResumeProps) {
             <h3 className="text-sm">{getText(texts.title, lang)}</h3>
                       <section className="text-sm mb-4 text-center">
             <p>
-              <CVLink
-                content={texts.contact.email.text}
-                lang={lang}
-                href={texts.contact.email.href}
-              />{' '}
+              <a href="https://letterbird.co/hello-7bc2f9f1" target="_blank"><span>&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#119;&#104;&#97;&#46;&#107;&#105;&#109;</span></a>
+                {' '}
               | {getText(texts.contact.location, lang)}
             </p>
           </section>
