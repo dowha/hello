@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { ExternalLink } from 'lucide-react'
 import CommandPalette from '@/components/ui/commandpalette' // Adjust the import path as necessary
 
 type AboutProps = {
@@ -60,17 +59,7 @@ export function About({ language }: AboutProps) {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center bg-white text-[#050005] p-4 pb-12">
-        <style jsx global>{`
-          .external-link-icon {
-            display: none;
-            margin-left: 4px;
-          }
-          .hover-external-link:hover .external-link-icon {
-            display: inline;
-          }
-        `}</style>
-
+      <div className="flex flex-col items-center justify-center bg-white p-4 pb-12">
         <div className="max-w-md w-full space-y-4">
           <div className="flex flex-col items-center space-y-2 pb-3">
             <div className="relative w-14 h-14">
@@ -86,20 +75,12 @@ export function About({ language }: AboutProps) {
               </div>
             </div>
             <div className="flex flex-col justify-center text-center">
-              <h1
-                className={`text-lg font-semibold ${
-                  language === 'ko' ? 'korean-text' : ''
-                }`}
-              >
+              <h1 className={`${language === 'ko' ? 'korean-text' : ''}`}>
                 {content[language].name}
               </h1>
-              <p
-                className={`text-sm md:text-base mt-1 ${
-                  language === 'ko' ? 'korean-text' : ''
-                }`}
-              >
+              <h2 className={`mt-1 ${language === 'ko' ? 'korean-text' : ''}`}>
                 {content[language].title}
-              </p>
+              </h2>
               <CommandPalette language={language} />
             </div>
           </div>
@@ -120,31 +101,28 @@ export function About({ language }: AboutProps) {
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f6f5f4]">
             <Button
               variant="outline"
-              className="w-full col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-[rgba(10,133,209,0.2)] bg-white transition-colors duration-300 hover-external-link"
+              className="w-full col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold bg-white transition-colors duration-300"
               onClick={() => window.open('https://blog.dowha.kim', '_blank')}
             >
               <span>
                 <strong>{content[language].blog}</strong>
               </span>
-              <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
             <Button
               variant="outline"
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-[#f0f0f0] transition-colors duration-300 bg-white hover-external-link"
+              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
               onClick={() =>
                 window.open('https://www.linkedin.com/in/dowha', '_blank')
               }
             >
               <span>{content[language].button[0]}</span>
-              <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
             <Button
               variant="outline"
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-[#f0f0f0] transition-colors duration-300 bg-white hover-external-link"
+              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
               onClick={() => window.open('https://github.com/dowha', '_blank')}
             >
               <span>{content[language].button[1]}</span>
-              <ExternalLink className="w-2 h-2 md:w-3 md:h-3 external-link-icon" />
             </Button>
           </div>
           <div className="text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20 mb-2">
@@ -155,10 +133,8 @@ export function About({ language }: AboutProps) {
                   href={footnote.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#0a85d1] transition-colors duration-300 hover-external-link"
                 >
                   {footnote.text}
-                  <ExternalLink className="w-3 h-3 inline-block ml-1 external-link-icon" />
                 </a>
               </p>
             ))}
