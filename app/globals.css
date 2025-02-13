@@ -131,6 +131,7 @@
   }
 
   /* target="_blank" 링크에 아이콘 표시 */
+ .external:after,
   a[target='_blank']:after {
     @apply text-gray-300 hover:text-[#0a85d1];
 
@@ -146,10 +147,6 @@
   .bg-black\/80 {
     background-color: rgb(0 0 0 / 0.2) !important;
   }
-}
-
-.default-button {
-  @apply flex items-center gap-1 mt-6 text-xs px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-md;
 }
 
 /* 프린트 스타일 */
@@ -185,7 +182,7 @@
   /* target="_blank" 링크에 아이콘 표시 */
   a[target='_blank']:after {
     display: none;
-}
+  }
 }
 
 /* 프린트 프리뷰 스타일 */
