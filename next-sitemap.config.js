@@ -46,5 +46,9 @@ module.exports = {
         allow: '/',
       },
     ],
+     additionalSitemaps: [
+      'https://dowha.kim/sitemap_index.xml', // ✅ 사이트맵 인덱스 추가
+      'https://blog.dowha.kim/sitemap.xml',  // ✅ 서브도메인 사이트맵 추가
+    ],
   },
 };
