@@ -4,6 +4,7 @@ module.exports = {
   generateRobotsTxt: true, // robots.txt 자동 생성
   changefreq: 'daily', // 페이지 주소 변경 빈도
   sitemapSize: 50000, // 사이트맵 파일 1개로 생성
+  generateIndexSitemap: false, // 인덱스 파일 비활성화 → sitemap-0.xml 방지
   transform: async (config, path) => {
     return {
       loc: path,
