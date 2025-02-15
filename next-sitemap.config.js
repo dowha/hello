@@ -10,7 +10,7 @@ module.exports = {
       loc: path,
       changefreq: 'daily',
       priority: path === '/' ? 1.0 : 0.7, // ✅ 홈페이지(`/`)는 1.0, 나머지는 0.7
-    };
+    }
   },
   robotsTxtOptions: {
     policies: [
@@ -48,8 +48,8 @@ module.exports = {
         allow: '/',
       },
     ],
-     additionalSitemaps: [
-      'https://blog.dowha.kim/sitemap.xml',  // ✅ 서브도메인 사이트맵 추가
+    additionalSitemaps: [
+      'https://blog.dowha.kim/sitemap.xml', // ✅ 서브도메인 사이트맵 추가
     ],
   },
-};
+}
