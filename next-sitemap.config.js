@@ -3,6 +3,7 @@ module.exports = {
   siteUrl: 'https://dowha.kim', // 여기에 실제 도메인을 입력하세요
   generateRobotsTxt: true, // robots.txt 자동 생성
   changefreq: 'daily', // 페이지 주소 변경 빈도
+  sitemapSize: 1, // 사이트맵 파일 1개로 생성
   transform: async (config, path) => {
     return {
       loc: path,
