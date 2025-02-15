@@ -101,42 +101,42 @@ export function About({ language }: AboutProps) {
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f6f5f4]">
             <Button
               variant="outline"
-              className="w-full col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold bg-white transition-colors duration-300"
+              className="w-full group col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold bg-white transition-colors duration-300"
               onClick={() => window.open('https://blog.dowha.kim', '_blank')}
             >
-              <span className="external">{content[language].blog}</span>
+              <span className="external relative">{content[language].blog}</span>
             </Button>
             <Button
               variant="outline"
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
+              className="w-full group text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
               onClick={() =>
                 window.open('https://letterbird.co/hello-7bc2f9f1', '_blank')
               }
             >
-              <span className="external">{content[language].button[0]}</span>
+              <span className="external relative">{content[language].button[0]}</span>
             </Button>
             <Button
               variant="outline"
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
+              className="w-full group text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
               onClick={() =>
                 window.open('https://www.linkedin.com/in/dowha', '_blank')
               }
             >
-              <span className="external">{content[language].button[1]}</span>
+              <span className="external relative">{content[language].button[1]}</span>
             </Button>
             <Button
               variant="outline"
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
+              className="w-full group text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
               onClick={() => window.open('https://github.com/dowha', '_blank')}
             >
-              <span className="external">{content[language].button[2]}</span>
+              <span className="external relative">{content[language].button[2]}</span>
             </Button>
             <Button
               variant="outline"
-              className="w-full text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
+              className="w-full group text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
               onClick={() => window.open('https://x.com/dowha_kim', '_blank')}
             >
-              <span className="external">{content[language].button[3]}</span>
+              <span className="external relative">{content[language].button[3]}</span>
             </Button>
           </div>
           <div className="text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20 mb-2">

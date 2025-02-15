@@ -131,9 +131,9 @@
   }
 
   /* target="_blank" 링크에 아이콘 표시 */
- .external:after,
+  .external:after,
   a[target='_blank']:after {
-    @apply text-gray-300 hover:text-[#0a85d1];
+    @apply text-gray-300 group-hover:text-[#0a85d1] hover:text-[#0a85d1];
 
     content: '↗';
     display: inline-block;
