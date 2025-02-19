@@ -1,7 +1,6 @@
 'use client'
 
 import { Drawer } from 'vaul'
-import { ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 import { clsx } from 'clsx'
 
@@ -95,7 +94,6 @@ export default function ProjectDrawer({
                       rel="noopener noreferrer"
                       className="text-primary hover:text-primary/80 ml-2"
                     >
-                      <ExternalLink className="h-4 w-4" />
                     </a>
                   )}
                 </Drawer.Title>
