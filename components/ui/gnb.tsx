@@ -9,6 +9,7 @@ import {
 import { Check } from 'lucide-react'
 
 type Language = 'en' | 'ko'
+type Theme = 'light' | 'dark' | 'system'
 
 interface GNBProps {
   showLanguage?: boolean
@@ -24,33 +25,47 @@ export default function GNB({
   onLanguageChange,
 }: GNBProps) {
   const [internalLanguage, setInternalLanguage] = useState<Language>('ko')
-  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light')
+  const [theme, setTheme] = useState<Theme>('light')
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
 
   const language = externalLanguage ?? internalLanguage
 
-  // 컴포넌트가 마운트될 때 브라우저 언어 설정을 확인
+  // 🔹 브라우저의 기본 언어 및 테마 감지
   useEffect(() => {
-    const browserLanguage = navigator.language // 브라우저 언어
-    const defaultLanguage: Language = browserLanguage.startsWith('ko')
-      ? 'ko'
-      : 'en' // 기본 언어 설정
-    setInternalLanguage(defaultLanguage)
+    const browserLanguage = navigator.language.startsWith('ko') ? 'ko' : 'en'
+    setInternalLanguage(browserLanguage)
+    if (onLanguageChange) {
+      onLanguageChange(browserLanguage)
+    }
+
+    // 시스템 테마 감지 (dark/light)
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+      .matches
+      ? 'dark'
+      : 'light'
+    setTheme(systemTheme)
   }, [])
 
+  // 🔹 언어 변경 핸들러
   const handleLanguageChange = (newLanguage: Language) => {
+    setInternalLanguage(newLanguage)
     if (onLanguageChange) {
       onLanguageChange(newLanguage)
-    } else {
-      setInternalLanguage(newLanguage)
     }
-    setLanguageOpen(false) // 언어 선택 후 Popover 닫기
+    setLanguageOpen(false) // 팝업 닫기
   }
 
-  const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
+  // 🔹 테마 변경 핸들러
+  const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme)
-    setThemeOpen(false) // 테마 선택 후 Popover 닫기
+    setThemeOpen(false) // 팝업 닫기
+
+    // HTML 태그에 테마 적용
+    document.documentElement.classList.remove('light', 'dark')
+    if (newTheme !== 'system') {
+      document.documentElement.classList.add(newTheme)
+    }
   }
 
   const languageOptions: Record<Language, string> = {
@@ -58,7 +73,7 @@ export default function GNB({
     en: 'English',
   }
 
-  const themeOptions = {
+  const themeOptions: Record<Theme, string> = {
     light: 'Light',
     dark: 'Dark',
     system: 'System',
@@ -67,6 +82,7 @@ export default function GNB({
   return (
     <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-end px-4 z-50 print-hide">
       <div className="flex items-center space-x-2">
+        {/* 🌐 언어 변경 버튼 */}
         {showLanguage && (
           <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
             <PopoverTrigger asChild>
@@ -106,6 +122,8 @@ export default function GNB({
             </PopoverContent>
           </Popover>
         )}
+
+        {/* 🎨 테마 변경 버튼 */}
         {showTheme && (
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
@@ -143,9 +161,7 @@ export default function GNB({
                 {Object.entries(themeOptions).map(([key, value]) => (
                   <button
                     key={key}
-                    onClick={() =>
-                      handleThemeChange(key as 'light' | 'dark' | 'system')
-                    }
+                    onClick={() => handleThemeChange(key as Theme)}
                     className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center justify-between ${
                       theme === key ? 'bg-gray-100' : ''
                     }`}

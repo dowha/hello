@@ -13,9 +13,9 @@ export default function Page() {
         showLanguage={true}
         showTheme={false}
         currentLanguage={language}
-        onLanguageChange={setLanguage}
+        onLanguageChange={setLanguage} // GNB에서 언어 변경 시 setLanguage 호출
       />
-      <About language={language} onLanguageChange={setLanguage} />
+      <About language={language} /> {/* onLanguageChange 제거 */}
     </>
   )
 }
