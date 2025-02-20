@@ -12,15 +12,24 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+// 데이터 타입 정의
+type AboutContent = {
+  name: string
+  title: string
+  intro: string
+  journey: string
+  footnotes: { id: number; url: string; text: string }[]
+  buttons: { label: string; url: string }[]
+  main_button: string
+}
+
 type AboutProps = {
   language: 'en' | 'ko'
-  onLanguageChange: (language: 'en' | 'ko') => void
 }
 
 export function About({ language }: AboutProps) {
-  const [content, setContent] = useState<any>(null)
+  const [content, setContent] = useState<AboutContent | null>(null)
 
-  // Supabase에서 데이터 가져오는 함수
   async function fetchAboutContent(lang: 'en' | 'ko') {
     const { data, error } = await supabase
       .from('about')
