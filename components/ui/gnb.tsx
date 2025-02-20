@@ -45,7 +45,7 @@ export default function GNB({
       ? 'dark'
       : 'light'
     setTheme(systemTheme)
-  }, [])
+  }, [onLanguageChange])
 
   // 🔹 언어 변경 핸들러
   const handleLanguageChange = (newLanguage: Language) => {

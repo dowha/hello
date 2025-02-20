@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import CommandPalette from '@/components/ui/commandpalette'
@@ -27,13 +27,21 @@ type AboutProps = {
   language: 'en' | 'ko'
 }
 
+// 캐싱을 위한 Map 객체 생성
+const cache = new Map<string, AboutContent>()
+
 export function About({ language }: AboutProps) {
   const [content, setContent] = useState<AboutContent | null>(null)
 
   async function fetchAboutContent(lang: 'en' | 'ko') {
+    if (cache.has(lang)) {
+      setContent(cache.get(lang)!)
+      return
+    }
+
     const { data, error } = await supabase
       .from('about')
-      .select('*')
+      .select('name, title, intro, journey, footnotes, buttons, main_button')
       .eq('language', lang)
       .single()
 
@@ -42,6 +50,7 @@ export function About({ language }: AboutProps) {
       return
     }
 
+    cache.set(lang, data)
     setContent(data)
   }
 
@@ -49,7 +58,31 @@ export function About({ language }: AboutProps) {
     fetchAboutContent(language)
   }, [language])
 
-  if (!content) return <p className="text-center">Loading...</p>
+  // 불필요한 렌더링 방지
+  const memoizedContent = useMemo(() => content, [content])
+
+  if (!memoizedContent) {
+    return (
+      <div className="flex flex-col items-center justify-center bg-white p-4 pb-12">
+        <div className="max-w-md w-full space-y-4 animate-pulse">
+          <div className="flex flex-col items-center space-y-2 pb-3">
+            <div className="relative w-14 h-14 bg-gray-200 rounded-full"></div>
+            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          </div>
+          <div className="space-y-4 h-64 text-left">
+            <div className="h-4 bg-gray-200 rounded w-full"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f6f5f4]">
+            <div className="h-10 bg-gray-200 rounded col-span-2"></div>
+            <div className="h-10 bg-gray-200 rounded"></div>
+            <div className="h-10 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col items-center justify-center bg-white p-4 pb-12">
@@ -58,29 +91,30 @@ export function About({ language }: AboutProps) {
           <div className="relative w-14 h-14">
             <Image
               src="/dowha.png"
-              alt={content.name}
+              alt={memoizedContent.name}
               layout="fill"
               objectFit="cover"
               className="rounded-full"
+              priority // 이미지 로딩 최적화
             />
             <div className="absolute -bottom-1 -right-1 bg-white rounded-full w-6 h-6 flex items-center justify-center text-lg">
               🌊
             </div>
           </div>
           <div className="flex flex-col justify-center text-center">
-            <h1>{content.name}</h1>
-            <h2 className="mt-1">{content.title}</h2>
+            <h1>{memoizedContent.name}</h1>
+            <h2 className="mt-1">{memoizedContent.title}</h2>
             <CommandPalette language={language} />
           </div>
         </div>
         <div className="space-y-4 h-64 text-left">
           <p
             className="text-sm md:text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: content.intro }}
+            dangerouslySetInnerHTML={{ __html: memoizedContent.intro }}
           />
           <p
             className="text-sm md:text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: content.journey }}
+            dangerouslySetInnerHTML={{ __html: memoizedContent.journey }}
           />
         </div>
         <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#f6f5f4]">
@@ -89,9 +123,9 @@ export function About({ language }: AboutProps) {
             className="w-full group col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold bg-white transition-colors duration-300"
             onClick={() => window.open('https://blog.dowha.kim', '_blank')}
           >
-            <span className="external relative">{content.main_button}</span>
+            <span className="external relative">{memoizedContent.main_button}</span>
           </Button>
-          {content.buttons.map(
+          {memoizedContent.buttons.map(
             (btn: { label: string; url: string }, index: number) => (
               <Button
                 key={index}
@@ -106,7 +140,7 @@ export function About({ language }: AboutProps) {
         </div>
 
         <div className="text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20 mb-2">
-          {content.footnotes.map(
+          {memoizedContent.footnotes.map(
             ({ id, url, text }: { id: number; url: string; text: string }) => (
               <p key={id} className="flex items-center">
                 <sup className="text-xss font-normal mr-1">{id}</sup>
