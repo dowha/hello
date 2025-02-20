@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
 import Drawer from '@/components/ui/drawer'
 import Back from '@/components/ui/back'
 
@@ -18,6 +17,10 @@ type ProjectItem = {
 }
 
 type Language = 'en' | 'ko'
+
+interface ThingsProps {
+  language: Language // ✅ props로 언어 전달받음
+}
 
 const thingsContent: Record<
   Language,
@@ -263,32 +266,15 @@ const thingsContent: Record<
     },
   },
 }
+export default function Things({ language }: ThingsProps) {
+  const [activeFilters, setActiveFilters] = useState<string[]>([])
+  const [showFullDescription, setShowFullDescription] = useState(false)
 
-export default function Things() {
-  const searchParams = useSearchParams(); // 쿼리 파라미터 가져오기
-  const [language, setLanguage] = useState<Language>('ko'); // 초기 언어 설정
-  const [activeFilters, setActiveFilters] = useState<string[]>([]); // 활성 필터 상태
-  const [showFullDescription, setShowFullDescription] = useState(false); // 전체 설명 표시 여부
+  useState(() => {
+    setActiveFilters(Object.keys(thingsContent[language].categories))
+  })
 
-  useEffect(() => {
-    if (searchParams) {
-      const lang = searchParams.get('lang'); // 쿼리 파라미터에서 lang 가져오기
-      if (lang === 'ko' || lang === 'en') {
-        setLanguage(lang); // 유효한 언어일 경우 상태 설정
-      }
-      // URL에서 lang 파라미터 제거
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.delete('lang'); // lang 파라미터 삭제
-      // URL 업데이트 (페이지 새로고침 없이)
-      window.history.replaceState({}, '', `${window.location.pathname}?${newParams}`);
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    setActiveFilters(Object.keys(thingsContent[language].categories)); // 활성 필터 설정
-  }, [language]);
-
-  const content = thingsContent[language]; // 언어에 따른 콘텐츠 가져오기
+  const content = thingsContent[language]
 
   const toggleFilter = (category: string) => {
     setActiveFilters((prev) =>
@@ -312,9 +298,6 @@ export default function Things() {
   const currentProjects = sortedProjects.filter(
     (project) => !project.categories.includes('old')
   )
-  const oldProjects = sortedProjects.filter((project) =>
-    project.categories.includes('old')
-  )
 
   const ProjectCard = ({ project }: { project: ProjectItem }) => (
     <Drawer project={project} categories={content.categories} />
@@ -323,7 +306,7 @@ export default function Things() {
   return (
     <div className="flex flex-col items-start justify-start bg-white p-4 pb-12">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
-      <Back />
+        <Back />
         <h1 className="text-lg font-semibold mb-4">{content.title}</h1>
 
         <div className="mb-4">
@@ -362,48 +345,29 @@ export default function Things() {
         <hr className="border-t border-gray-200 my-4" />
 
         <div className="flex flex-wrap gap-2 mb-4">
-          {Object.entries(content.categories).map(
-            ([key, value], index, array) => (
-              <div key={key} className="flex items-center">
-                <button
-                  onClick={() => toggleFilter(key)}
-                  className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
-                    activeFilters.includes(key)
-                      ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
-                      : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
-                  }`}
-                >
-                  {value}
-                </button>
-                {key === 'learning' && index !== array.length - 1 && (
-                  <span className="text-gray-300 mx-1">|</span>
-                )}
-              </div>
-            )
-          )}
+          {Object.entries(content.categories).map(([key, value]) => (
+            <button
+              key={key}
+              onClick={() => toggleFilter(key)}
+              className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
+                activeFilters.includes(key)
+                  ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
+                  : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
+              }`}
+            >
+              {value}
+            </button>
+          ))}
         </div>
-        
+
         <div className="space-y-6">
           {activeFilters.length > 0 ? (
             sortedProjects.length > 0 ? (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {currentProjects.map((project) => (
-                    <ProjectCard key={project.uid} project={project} />
-                  ))}
-                </div>
-
-                {oldProjects.length > 0 && (
-                  <>
-                    <hr className="border-t border-gray-200" />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {oldProjects.map((project) => (
-                        <ProjectCard key={project.uid} project={project} />
-                      ))}
-                    </div>
-                  </>
-                )}
-              </>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {currentProjects.map((project) => (
+                  <ProjectCard key={project.uid} project={project} />
+                ))}
+              </div>
             ) : (
               <div className="text-left py-8 text-gray-500 text-sm">
                 {content.emptyMessage.noProjects}

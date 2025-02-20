@@ -29,23 +29,36 @@ export default function GNB({
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
 
-  // 🔹 외부에서 언어가 변경될 때 내부 상태 업데이트
+  // ✅ 페이지 로드 시 `localStorage`에서 언어 값 가져오기 (페이지 이동 후 유지)
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem('preferredLanguage') as Language | null
+    if (storedLanguage) {
+      setInternalLanguage(storedLanguage)
+      if (onLanguageChange) {
+        onLanguageChange(storedLanguage)
+      }
+    }
+  }, [onLanguageChange])
+
+  // ✅ 외부에서 언어 변경될 때 `localStorage` 업데이트
   useEffect(() => {
     if (externalLanguage) {
       setInternalLanguage(externalLanguage)
+      localStorage.setItem('preferredLanguage', externalLanguage) // ✅ 변경된 언어 저장
     }
   }, [externalLanguage])
 
-  // 🔹 언어 변경 핸들러 (✅ URL 관련 코드 제거, 상태만 변경)
+  // 🔹 언어 변경 핸들러
   const handleLanguageChange = (newLanguage: Language) => {
     setInternalLanguage(newLanguage)
     if (onLanguageChange) {
       onLanguageChange(newLanguage)
     }
+    localStorage.setItem('preferredLanguage', newLanguage) // ✅ 변경된 언어 저장
     setLanguageOpen(false) // 팝업 닫기
   }
 
-  // 🔹 테마 변경 핸들러 (✅ 기존 코드 유지)
+  // 🔹 테마 변경 핸들러 (✅ 기존 테마 변경 코드 유지)
   const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme)
     setThemeOpen(false) // 팝업 닫기
@@ -76,7 +89,7 @@ export default function GNB({
           <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
             <PopoverTrigger asChild>
               <button className="p-2 hover:bg-gray-100 rounded-full">
-                <svg
+              <svg
                   data-testid="geist-icon"
                   height="16"
                   strokeLinejoin="round"
@@ -112,12 +125,12 @@ export default function GNB({
           </Popover>
         )}
 
-        {/* 🎨 테마 변경 버튼 (✅ showTheme이 true일 때만 표시) */}
+        {/* 🎨 테마 변경 버튼 (✅ 기존 코드 유지) */}
         {showTheme && (
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
               <button className="p-2 hover:bg-gray-100 rounded-full">
-                <svg
+              <svg
                   data-testid="geist-icon"
                   height="16"
                   strokeLinejoin="round"
