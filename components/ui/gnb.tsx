@@ -9,34 +9,63 @@ import {
 import { Check } from 'lucide-react'
 
 type Language = 'en' | 'ko'
+type Theme = 'light' | 'dark' | 'system'
 
 interface GNBProps {
   showLanguage?: boolean
   showTheme?: boolean
-  currentLanguage: Language
-  onLanguageChange: (language: Language) => void
+  currentLanguage?: Language
+  onLanguageChange?: (language: Language) => void
 }
 
 export default function GNB({
   showLanguage = true,
   showTheme = true,
-  currentLanguage,
+  currentLanguage: externalLanguage,
   onLanguageChange,
 }: GNBProps) {
-  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light')
+  const [internalLanguage, setInternalLanguage] = useState<Language>('ko')
+  const [theme, setTheme] = useState<Theme>('light')
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
 
-  // 언어 변경 핸들러 (언어 선택 시 실행)
+  const language = externalLanguage ?? internalLanguage
+
+  // 🔹 브라우저의 기본 언어 및 테마 감지
+  useEffect(() => {
+    const browserLanguage = navigator.language.startsWith('ko') ? 'ko' : 'en'
+    setInternalLanguage(browserLanguage)
+    if (onLanguageChange) {
+      onLanguageChange(browserLanguage)
+    }
+
+    // 시스템 테마 감지 (dark/light)
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+      .matches
+      ? 'dark'
+      : 'light'
+    setTheme(systemTheme)
+  }, [])
+
+  // 🔹 언어 변경 핸들러
   const handleLanguageChange = (newLanguage: Language) => {
-    onLanguageChange(newLanguage)
+    setInternalLanguage(newLanguage)
+    if (onLanguageChange) {
+      onLanguageChange(newLanguage)
+    }
     setLanguageOpen(false) // 팝업 닫기
   }
 
-  // 테마 변경 핸들러
-  const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
+  // 🔹 테마 변경 핸들러
+  const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme)
     setThemeOpen(false) // 팝업 닫기
+
+    // HTML 태그에 테마 적용
+    document.documentElement.classList.remove('light', 'dark')
+    if (newTheme !== 'system') {
+      document.documentElement.classList.add(newTheme)
+    }
   }
 
   const languageOptions: Record<Language, string> = {
@@ -44,7 +73,7 @@ export default function GNB({
     en: 'English',
   }
 
-  const themeOptions = {
+  const themeOptions: Record<Theme, string> = {
     light: 'Light',
     dark: 'Dark',
     system: 'System',
@@ -82,11 +111,11 @@ export default function GNB({
                     key={key}
                     onClick={() => handleLanguageChange(key as Language)}
                     className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center justify-between ${
-                      currentLanguage === key ? 'bg-gray-100' : ''
+                      language === key ? 'bg-gray-100' : ''
                     }`}
                   >
                     {value}
-                    {currentLanguage === key && <Check size={14} />}
+                    {language === key && <Check size={14} />}
                   </button>
                 ))}
               </div>
@@ -98,16 +127,41 @@ export default function GNB({
         {showTheme && (
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
-              <button className="p-2 hover:bg-gray-100 rounded-full">🎨</button>
+              <button className="p-2 hover:bg-gray-100 rounded-full">
+                <svg
+                  data-testid="geist-icon"
+                  height="16"
+                  strokeLinejoin="round"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  style={{ color: 'currentcolor' }}
+                >
+                  <g clipPath="url(#clip0_174_19347)">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M13.8095 13.5C14.2386 13.0469 14.6152 12.5437 14.9297 12H1.07026C1.38476 12.5437 1.76141 13.0469 2.1905 13.5H13.8095ZM15.9381 9C15.851 9.69864 15.6738 10.3693 15.4185 11H0.581517C0.326218 10.3693 0.149013 9.69864 0.0618937 9H15.9381ZM15.9997 8.06438C15.9999 8.04294 16 8.02148 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8H15.9997V8.06438ZM3.33528 14.5C4.64841 15.444 6.25928 16 8 16C9.74072 16 11.3516 15.444 12.6647 14.5H3.33528Z"
+                      fill="currentColor"
+                    ></path>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_174_19347">
+                      <rect
+                        width="16"
+                        height="16"
+                        fill="var(--ds-background-100)"
+                      ></rect>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
             </PopoverTrigger>
             <PopoverContent className="w-32 p-1 mx-2">
               <div className="flex flex-col text-sm">
                 {Object.entries(themeOptions).map(([key, value]) => (
                   <button
                     key={key}
-                    onClick={() =>
-                      handleThemeChange(key as 'light' | 'dark' | 'system')
-                    }
+                    onClick={() => handleThemeChange(key as Theme)}
                     className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center justify-between ${
                       theme === key ? 'bg-gray-100' : ''
                     }`}
