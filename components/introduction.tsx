@@ -25,10 +25,9 @@ type AboutContent = {
 
 type AboutProps = {
   language: 'en' | 'ko'
-  onLanguageChange: (language: 'en' | 'ko') => void
 }
 
-export function About({ language, onLanguageChange }: AboutProps) {
+export function About({ language }: AboutProps) {
   const [content, setContent] = useState<AboutContent | null>(null)
 
   async function fetchAboutContent(lang: 'en' | 'ko') {
