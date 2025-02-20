@@ -1,31 +1,10 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
-import { useRouter } from 'next/navigation'
 import Resume from '@/components/resume'
 import GNB from '@/components/ui/gnb'
-import { useSearchParams } from 'next/navigation'
 
-// Separate component to handle URL params and language state
-function LanguageHandler({ onLanguageChange }: { onLanguageChange: (lang: 'en' | 'ko') => void }) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    const langParam = searchParams?.get('lang') as 'en' | 'ko'
-    if (langParam && (langParam === 'en' || langParam === 'ko')) {
-      onLanguageChange(langParam)
-
-      // Remove the 'lang' parameter from the URL
-      const newUrl = window.location.pathname
-      router.replace(newUrl)
-    }
-  }, [searchParams, router, onLanguageChange])
-
-  return null
-}
-
-// Loading component for better reusability
+// Loading component
 function LoadingSpinner() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-white/30 backdrop-blur-sm">
@@ -40,28 +19,23 @@ function LoadingSpinner() {
 }
 
 export default function Page() {
-  const [language, setLanguage] = useState<'en' | 'ko'>('ko')
+  const [language, setLanguage] = useState<'en' | 'ko'>('en') // 서버에서는 'en'으로 고정
 
-  const handleLanguageChange = (newLang: 'en' | 'ko') => {
-    setLanguage(newLang)
-  }
+  // ✅ 클라이언트에서만 언어 설정 변경 (hydration error 방지)
+  useEffect(() => {
+    const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en'
+    setLanguage(userLang)
+  }, [])
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      {/* Wrap the component using useSearchParams in its own Suspense boundary */}
-      <Suspense>
-        <LanguageHandler onLanguageChange={handleLanguageChange} />
-      </Suspense>
-
       <Suspense fallback={<div>Loading...</div>}>
-
         <GNB
           showLanguage={true}
           showTheme={false}
           currentLanguage={language}
-          onLanguageChange={handleLanguageChange}
+          onLanguageChange={setLanguage} // ✅ 언어 변경 핸들러
         />
-
       </Suspense>
 
       <Suspense fallback={<div>Loading</div>}>

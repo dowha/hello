@@ -29,25 +29,14 @@ export default function GNB({
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
 
-  const language = externalLanguage ?? internalLanguage
-
-  // 🔹 브라우저의 기본 언어 및 테마 감지
+  // 🔹 외부에서 언어가 변경될 때 내부 상태 업데이트
   useEffect(() => {
-    const browserLanguage = navigator.language.startsWith('ko') ? 'ko' : 'en'
-    setInternalLanguage(browserLanguage)
-    if (onLanguageChange) {
-      onLanguageChange(browserLanguage)
+    if (externalLanguage) {
+      setInternalLanguage(externalLanguage)
     }
+  }, [externalLanguage])
 
-    // 시스템 테마 감지 (dark/light)
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-      .matches
-      ? 'dark'
-      : 'light'
-    setTheme(systemTheme)
-  }, [onLanguageChange])
-
-  // 🔹 언어 변경 핸들러
+  // 🔹 언어 변경 핸들러 (✅ URL 관련 코드 제거, 상태만 변경)
   const handleLanguageChange = (newLanguage: Language) => {
     setInternalLanguage(newLanguage)
     if (onLanguageChange) {
@@ -56,7 +45,7 @@ export default function GNB({
     setLanguageOpen(false) // 팝업 닫기
   }
 
-  // 🔹 테마 변경 핸들러
+  // 🔹 테마 변경 핸들러 (✅ 기존 코드 유지)
   const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme)
     setThemeOpen(false) // 팝업 닫기
@@ -111,11 +100,11 @@ export default function GNB({
                     key={key}
                     onClick={() => handleLanguageChange(key as Language)}
                     className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center justify-between ${
-                      language === key ? 'bg-gray-100' : ''
+                      internalLanguage === key ? 'bg-gray-100' : ''
                     }`}
                   >
                     {value}
-                    {language === key && <Check size={14} />}
+                    {internalLanguage === key && <Check size={14} />}
                   </button>
                 ))}
               </div>
@@ -123,7 +112,7 @@ export default function GNB({
           </Popover>
         )}
 
-        {/* 🎨 테마 변경 버튼 */}
+        {/* 🎨 테마 변경 버튼 (✅ showTheme이 true일 때만 표시) */}
         {showTheme && (
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
