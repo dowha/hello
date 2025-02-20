@@ -4,7 +4,6 @@ import { useState, useEffect, Suspense } from 'react'
 import Resume from '@/components/resume'
 import GNB from '@/components/ui/gnb'
 
-// Loading component
 function LoadingSpinner() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-white/30 backdrop-blur-sm">
@@ -19,13 +18,22 @@ function LoadingSpinner() {
 }
 
 export default function Page() {
-  const [language, setLanguage] = useState<'en' | 'ko'>('en') // 서버에서는 'en'으로 고정
+  const [language, setLanguage] = useState<'en' | 'ko' | null>(null) // ✅ 초기값을 null로 설정
 
-  // ✅ 클라이언트에서만 언어 설정 변경 (hydration error 방지)
   useEffect(() => {
-    const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en'
-    setLanguage(userLang)
+    const storedLanguage = localStorage.getItem('preferredLanguage') as 'en' | 'ko' | null
+    if (storedLanguage) {
+      setLanguage(storedLanguage)
+    } else {
+      const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en'
+      setLanguage(userLang)
+    }
   }, [])
+
+  // ✅ 언어가 `null`이면 로딩 화면을 먼저 보여줌 (Hydration Error 방지)
+  if (language === null) {
+    return <LoadingSpinner />
+  }
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
@@ -34,7 +42,7 @@ export default function Page() {
           showLanguage={true}
           showTheme={false}
           currentLanguage={language}
-          onLanguageChange={setLanguage} // ✅ 언어 변경 핸들러
+          onLanguageChange={setLanguage}
         />
       </Suspense>
 
