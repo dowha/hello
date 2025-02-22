@@ -12,6 +12,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [search, setSearch] = useState('')
   const [platform, setPlatform] = useState('')
   const [isMobile, setIsMobile] = useState(false)
+  const [inputTouched, setInputTouched] = useState(false) // ✅ input이 한 번이라도 클릭되었는지 상태 저장
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
@@ -22,38 +23,42 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
 
   // ✅ 팝업이 열릴 때 자동으로 input 포커스가 가지 않도록 처리 (TypeScript 오류 해결)
   useEffect(() => {
-    if (open) {
+    if (open && !inputTouched) { // ✅ 사용자가 input을 직접 클릭하기 전까지만 blur 적용
       setTimeout(() => {
-        const activeElement = document.activeElement
-        if (activeElement instanceof HTMLElement) {
-          activeElement.blur() // ✅ 현재 활성화된 요소의 포커스 해제
+        const activeElement = document.activeElement;
+        if (activeElement instanceof HTMLInputElement) {
+          activeElement.blur();
         }
-      }, 50) // Safari에서 자연스럽게 적용되도록 약간의 지연 추가
+      }, 300); // ✅ 실행 지연을 조정하여 클릭 가능하도록 함
     }
-  }, [open])
+  }, [open, inputTouched]);
 
   // ✅ 모바일에서 키보드 자동 팝업 방지를 위한 핸들러 (기존 코드 유지)
   useEffect(() => {
     if (open && isMobile) {
       const handleTouchStart = (e: TouchEvent) => {
-        const target = e.target as HTMLElement
-        if (target.tagName === 'INPUT') {
-          e.preventDefault()
-          setTimeout(() => {
-            ;(target as HTMLInputElement).blur() // ✅ 강제로 포커스 해제
-          }, 50)
+        const target = e.target as HTMLElement;
+        if (target.tagName !== 'INPUT') {
+          e.preventDefault(); // ✅ input을 제외한 다른 요소 터치 시 preventDefault 실행
         }
-      }
+      };
 
-      document.addEventListener('touchstart', handleTouchStart, {
-        passive: false,
-      })
+      document.addEventListener('touchstart', handleTouchStart, { passive: false });
 
       return () => {
-        document.removeEventListener('touchstart', handleTouchStart)
-      }
+        document.removeEventListener('touchstart', handleTouchStart);
+      };
     }
-  }, [open, isMobile])
+  }, [open, isMobile]);
+
+  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setInputTouched(true); // ✅ 사용자가 한 번 클릭했음을 저장
+    if (isMobile) {
+      setTimeout(() => {
+        e.target.setSelectionRange(e.target.value.length, e.target.value.length); // ✅ iOS에서 포커스를 강제로 유지
+      }, 10);
+    }
+  };
 
   // ✅ 언어별 UI 컨텐츠 JSON (기존 코드 유지)
   const content = {
@@ -133,6 +138,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   placeholder={currentContent.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
+                  onFocus={handleInputFocus} // ✅ 사용자가 탭하면 포커스를 강제 유지
                   autoFocus={false} // ✅ 자동 포커스 방지
                 />
                 <kbd
