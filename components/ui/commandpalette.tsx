@@ -12,7 +12,6 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [search, setSearch] = useState('')
   const [platform, setPlatform] = useState('')
   const [isMobile, setIsMobile] = useState(false)
-  const [inputTouched, setInputTouched] = useState(false) // ✅ input이 한 번이라도 클릭되었는지 상태 저장
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
@@ -21,55 +20,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     }
   }, [])
 
-  // ✅ 팝업이 열릴 때 자동으로 input 포커스가 가지 않도록 처리 (TypeScript 오류 해결)
-  useEffect(() => {
-    if (open && !inputTouched) {
-      // ✅ 사용자가 input을 직접 클릭하기 전까지만 blur 적용
-      setTimeout(() => {
-        const activeElement = document.activeElement
-        if (activeElement instanceof HTMLInputElement) {
-          activeElement.blur()
-        }
-      }, 300) // ✅ 실행 지연을 조정하여 클릭 가능하도록 함
-    }
-  }, [open, inputTouched])
-
-  // ✅ 모바일에서 키보드 자동 팝업 방지를 위한 핸들러 (기존 코드 유지)
-  useEffect(() => {
-    if (open && isMobile) {
-      const handleTouchStart = (e: TouchEvent) => {
-        const target = e.target as HTMLElement
-        if (target.tagName !== 'INPUT') {
-          e.preventDefault() // ✅ input을 제외한 다른 요소 터치 시 preventDefault 실행
-        }
-      }
-
-      document.addEventListener('touchstart', handleTouchStart, {
-        passive: false,
-      })
-
-      return () => {
-        document.removeEventListener('touchstart', handleTouchStart)
-      }
-    }
-  }, [open, isMobile])
-
-  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    setInputTouched(true) // ✅ 사용자가 한 번 클릭했음을 저장
-    if (isMobile) {
-      setTimeout(() => {
-        e.target.setSelectionRange(e.target.value.length, e.target.value.length) // ✅ iOS에서 포커스를 강제로 유지
-      }, 10)
-    }
-  }
-
-  const handleClose = (e: React.MouseEvent) => {
+  const handleClose = (e: React.PointerEvent) => {
     if (e.target === e.currentTarget) {
       setOpen(false)
     }
   }
 
-  // ✅ 언어별 UI 컨텐츠 JSON (기존 코드 유지)
   const content = {
     en: {
       buttonText: 'Get to know me more...',
@@ -99,30 +55,6 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     item.title.toLowerCase().includes(search.toLowerCase())
   )
 
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
-      }
-
-      if (e.key === 'Escape') {
-        setOpen(false)
-      }
-    }
-
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, [])
-
-  const escLabel = isMobile ? (language === 'en' ? 'Close' : '닫기') : 'ESC'
-
-  const shortcutLabel = isMobile
-    ? language === 'en'
-      ? 'Tap!'
-      : '탭!'
-    : `${platform} K`
-
   return (
     <div className="flex justify-center items-center">
       <button
@@ -132,16 +64,17 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
         <Search className="w-3 h-3" />
         <span>{currentContent.buttonText}</span>
         <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500">
-          {shortcutLabel}
+          {isMobile ? 'Tap!' : `${platform} K`}
         </kbd>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent
-          className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden"
-          onClickCapture={handleClose} // ✅ 이벤트 캡처링으로 바깥 클릭 감지
-        >
-          <div className="w-full bg-white">
+        <div className="fixed inset-0 bg-black/30 z-50" onPointerDown={handleClose}>
+          {/* ✅ 팝업 바깥을 터치하면 닫히도록 설정 */}
+          <DialogContent
+            className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden bg-white"
+            onPointerDown={(e) => e.stopPropagation()} // ✅ 내부 클릭 시 닫히지 않도록 설정
+          >
             <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
@@ -150,14 +83,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   placeholder={currentContent.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  onFocus={handleInputFocus}
-                  autoFocus={false}
                 />
                 <button
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
                   onClick={() => setOpen(false)} // ✅ 닫기 버튼 정상 작동
                 >
-                  {escLabel}
+                  {isMobile ? '닫기' : 'ESC'}
                 </button>
               </div>
             </div>
@@ -175,11 +106,11 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                     <button
                       key={item.href}
                       onClick={(e) => {
-                        e.stopPropagation() // ✅ 버튼 클릭 시 다른 이벤트 방해 안 함
-                        requestAnimationFrame(() => {
+                        e.stopPropagation() // ✅ 버튼 클릭 시 다른 이벤트 방해 방지
+                        setTimeout(() => {
                           setOpen(false)
-                          window.location.href = item.href // ✅ 안전한 페이지 이동 방식
-                        })
+                          window.location.href = item.href
+                        }, 100) // ✅ 페이지 이동 후 닫히도록 설정
                       }}
                       className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
                     >
@@ -189,8 +120,8 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                 </div>
               )}
             </div>
-          </div>
-        </DialogContent>
+          </DialogContent>
+        </div>
       </Dialog>
     </div>
   )
