@@ -60,6 +60,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     }
   };
 
+  const handleClose = (e: React.PointerEvent) => {
+    if (e.target === e.currentTarget) {
+      setOpen(false);
+    }
+  };
+
   // ✅ 언어별 UI 컨텐츠 JSON (기존 코드 유지)
   const content = {
     en: {
@@ -128,6 +134,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen} modal={true}>
+      <div onPointerDown={handleClose} className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
         <DialogContent className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden">
           <div className="w-full bg-white">
             <div className="border-b px-3 py-2">
@@ -140,6 +147,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   onChange={(e) => setSearch(e.target.value)}
                   onFocus={handleInputFocus} // ✅ 사용자가 탭하면 포커스를 강제 유지
                   autoFocus={false} // ✅ 자동 포커스 방지
+                  style={{ fontSize: '16px' }} // 🔴 화면 확대 방지
                 />
                 <kbd
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
@@ -177,6 +185,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
             </div>
           </div>
         </DialogContent>
+        </div>
       </Dialog>
     </div>
   )

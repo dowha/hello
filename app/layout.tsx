@@ -38,6 +38,7 @@ export default function RootLayout({
             `}
           </Script>
         )}
+        
       </head>
       <body className="antialiased min-h-screen">
         {GTM_ID && (
