@@ -20,7 +20,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     }
   }, [])
 
-  const handleClose = (e: React.PointerEvent) => {
+  const handleClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setOpen(false)
     }
@@ -69,12 +69,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <div className="fixed inset-0 bg-black/30 z-50" onPointerDown={handleClose}>
-          {/* ✅ 팝업 바깥을 터치하면 닫히도록 설정 */}
-          <DialogContent
-            className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden bg-white"
-            onPointerDown={(e) => e.stopPropagation()} // ✅ 내부 클릭 시 닫히지 않도록 설정
-          >
+        <DialogContent
+          className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden bg-white"
+          onClick={handleClose} // ✅ 바깥 클릭 감지 (이제 모바일에서 정상 작동)
+        >
+          <div className="w-full bg-white" onClick={(e) => e.stopPropagation()}>
+            {/* ✅ 내부 요소 클릭은 닫히지 않도록 이벤트 버블링 차단 */}
             <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
@@ -106,11 +106,11 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                     <button
                       key={item.href}
                       onClick={(e) => {
-                        e.stopPropagation() // ✅ 버튼 클릭 시 다른 이벤트 방해 방지
+                        e.stopPropagation() // ✅ 버튼 클릭 시 팝업이 닫히지 않도록 설정
                         setTimeout(() => {
                           setOpen(false)
                           window.location.href = item.href
-                        }, 100) // ✅ 페이지 이동 후 닫히도록 설정
+                        }, 100) // ✅ 클릭 후 닫히도록 설정
                       }}
                       className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
                     >
@@ -120,8 +120,8 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                 </div>
               )}
             </div>
-          </DialogContent>
-        </div>
+          </div>
+        </DialogContent>
       </Dialog>
     </div>
   )
