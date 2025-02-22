@@ -21,7 +21,10 @@ export default function Page() {
   const [language, setLanguage] = useState<'en' | 'ko' | null>(null) // ✅ 초기값을 null로 설정
 
   useEffect(() => {
-    const storedLanguage = localStorage.getItem('preferredLanguage') as 'en' | 'ko' | null
+    const storedLanguage = localStorage.getItem('preferredLanguage') as
+      | 'en'
+      | 'ko'
+      | null
     if (storedLanguage) {
       setLanguage(storedLanguage)
     } else {
@@ -37,18 +40,13 @@ export default function Page() {
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <GNB
-          showLanguage={true}
-          showTheme={false}
-          currentLanguage={language}
-          onLanguageChange={setLanguage}
-        />
-      </Suspense>
-
-      <Suspense fallback={<div>Loading</div>}>
-        <Resume lang={language} />
-      </Suspense>
+      <GNB
+        showLanguage={true}
+        showTheme={false}
+        currentLanguage={language}
+        onLanguageChange={setLanguage}
+      />
+      <Resume lang={language} />
     </Suspense>
   )
 }

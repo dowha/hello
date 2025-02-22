@@ -31,12 +31,9 @@ export default function GNB({
 
   // ✅ 페이지 로드 시 `localStorage`에서 언어 값 가져오기 (페이지 이동 후 유지)
   useEffect(() => {
-    const storedLanguage = localStorage.getItem('preferredLanguage') as Language | null
-    if (storedLanguage) {
-      setInternalLanguage(storedLanguage)
-      if (onLanguageChange) {
-        onLanguageChange(storedLanguage)
-      }
+    const storedLanguage = localStorage.getItem('preferredLanguage')
+    if (storedLanguage && onLanguageChange) {
+      onLanguageChange(storedLanguage as Language)
     }
   }, [onLanguageChange])
 
@@ -50,12 +47,12 @@ export default function GNB({
 
   // 🔹 언어 변경 핸들러
   const handleLanguageChange = (newLanguage: Language) => {
-    setInternalLanguage(newLanguage)
-    if (onLanguageChange) {
-      onLanguageChange(newLanguage)
+    if (internalLanguage !== newLanguage) {
+      setInternalLanguage(newLanguage)
+      onLanguageChange?.(newLanguage)
+      localStorage.setItem('preferredLanguage', newLanguage)
     }
-    localStorage.setItem('preferredLanguage', newLanguage) // ✅ 변경된 언어 저장
-    setLanguageOpen(false) // 팝업 닫기
+    setLanguageOpen(false)
   }
 
   // 🔹 테마 변경 핸들러 (✅ 기존 테마 변경 코드 유지)
@@ -89,7 +86,7 @@ export default function GNB({
           <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
             <PopoverTrigger asChild>
               <button className="p-2 hover:bg-gray-100 rounded-full">
-              <svg
+                <svg
                   data-testid="geist-icon"
                   height="16"
                   strokeLinejoin="round"
@@ -130,7 +127,7 @@ export default function GNB({
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
               <button className="p-2 hover:bg-gray-100 rounded-full">
-              <svg
+                <svg
                   data-testid="geist-icon"
                   height="16"
                   strokeLinejoin="round"

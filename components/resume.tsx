@@ -207,8 +207,7 @@ function CVLink({ content, lang, href, isExternal = false }: CVLinkProps) {
     >
       {getText(content, lang)}
       {isExternal && (
-        <span className="w-0 group-hover:w-4 overflow-hidden print-hide">
-        </span>
+        <span className="w-0 group-hover:w-4 overflow-hidden print-hide"></span>
       )}
     </a>
   )
@@ -222,99 +221,99 @@ export default function Resume({ lang }: ResumeProps) {
   const cvRef = useRef<HTMLDivElement>(null)
 
   const handlePrint = () => {
-    if (cvRef.current) {
-      window.print()
-    }
+    window.print()
   }
 
   return (
     <>
-          <div className="flex flex-col items-start justify-start bg-white p-4 pb-12">
-      {/* Print control area */}
-      <div className="print-hide w-full max-w-[640px] mx-auto">
-        <div className="header-controls flex justify-between items-center mb-4">
-          <Back />
-          <Button onClick={handlePrint} variant="outline" className="mb-4">
-            <Download className="mr-2 h-4 w-4" />
-            {getText(texts.downloadPDF, lang)}
-          </Button>
+      <div className="flex flex-col items-start justify-start bg-white p-4 pb-12">
+        {/* Print control area */}
+        <div className="print-hide w-full max-w-[640px] mx-auto">
+          <div className="header-controls flex justify-between items-center mb-4">
+            <Back />
+            <Button onClick={handlePrint} variant="outline" className="mb-4">
+              <Download className="mr-2 h-4 w-4" />
+              {getText(texts.downloadPDF, lang)}
+            </Button>
+          </div>
+        </div>
+
+        {/* Printable area */}
+        <div ref={cvRef} className="w-full max-w-[640px] mx-auto bg-white">
+          <div className="mx-auto max-w-screen-sm space-y-4">
+            {/* Header */}
+            <header className="text-center mb-4">
+              <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
+              <h3 className="text-sm">{getText(texts.title, lang)}</h3>
+              <section className="text-sm mb-4 text-center">
+                <p>
+                  <a
+                    href="https://letterbird.co/hello-7bc2f9f1"
+                    target="_blank"
+                  >
+                    <span>
+                      &#109;&#97;&#105;&#108;&#64;&#100;&#111;&#119;&#104;&#97;&#46;&#107;&#105;&#109;
+                    </span>
+                  </a>{' '}
+                  | {getText(texts.contact.location, lang)}
+                </p>
+              </section>
+            </header>
+
+            {/* Sections */}
+            <Section title={getText({ en: 'Summary', ko: '요약' }, lang)}>
+              <p className="text-sm">{getText(texts.summary, lang)}</p>
+            </Section>
+
+            <Section title={getText(texts.experience.title, lang)}>
+              {texts.experience.jobs.map((job, index) => (
+                <Job
+                  key={index}
+                  title={getText(job.title, lang)}
+                  company={job.company}
+                  lang={lang}
+                  period={getText(job.period, lang)}
+                  responsibilities={job.responsibilities.map((r) =>
+                    getText(r, lang)
+                  )}
+                />
+              ))}
+            </Section>
+
+            <Section title={getText(texts.education.title, lang)}>
+              {texts.education.degrees.map((edu, index) => (
+                <div key={index} className="mb-3">
+                  <p className="text-sm">
+                    <strong>{getText(edu.degree, lang)}</strong>
+                  </p>
+                  <p className="text-sm">
+                    <CVLink
+                      content={edu.university.text}
+                      lang={lang}
+                      href={edu.university.href}
+                      isExternal={edu.university.isExternal}
+                    />
+                    , {getText(edu.location, lang)}
+                  </p>
+                  <p className="text-sm">{getText(edu.period, lang)}</p>
+                  {edu.additional && (
+                    <li className="text-sm">{getText(edu.additional, lang)}</li>
+                  )}
+                </div>
+              ))}
+            </Section>
+
+            <Section title={getText(texts.skills.title, lang)}>
+              <h3 className="text-sm">
+                {getText(texts.skills.languageSkills.title, lang)}
+              </h3>
+              <p className="text-sm">
+                {getText(texts.skills.languageSkills.list, lang)}
+              </p>
+            </Section>
+          </div>
         </div>
       </div>
-
-      {/* Printable area */}
-      <div 
-        ref={cvRef} 
-        className="w-full max-w-[640px] mx-auto bg-white"
-      >
-        <div className="mx-auto max-w-screen-sm space-y-4">
-          {/* Header */}
-          <header className="text-center mb-4">
-            <h2 className="text-lg font-bold">{getText(texts.name, lang)}</h2>
-            <h3 className="text-sm">{getText(texts.title, lang)}</h3>
-                      <section className="text-sm mb-4 text-center">
-            <p>
-              <a href="https://letterbird.co/hello-7bc2f9f1" target="_blank"><span>&#109;&#97;&#105;&#108;&#64;&#100;&#111;&#119;&#104;&#97;&#46;&#107;&#105;&#109;</span></a>
-                {' '}
-              | {getText(texts.contact.location, lang)}
-            </p>
-          </section>
-          </header>
-          
-          {/* Sections */}
-          <Section title={getText({ en: 'Summary', ko: '요약' }, lang)}>
-            <p className="text-sm">{getText(texts.summary, lang)}</p>
-          </Section>
-
-          <Section title={getText(texts.experience.title, lang)}>
-            {texts.experience.jobs.map((job, index) => (
-              <Job
-                key={index}
-                title={getText(job.title, lang)}
-                company={job.company}
-                lang={lang}
-                period={getText(job.period, lang)}
-                responsibilities={job.responsibilities.map((r) =>
-                  getText(r, lang)
-                )}
-              />
-            ))}
-          </Section>
-
-          <Section title={getText(texts.education.title, lang)}>
-            {texts.education.degrees.map((edu, index) => (
-              <div key={index} className="mb-3">
-                <p className="text-sm">
-                  <strong>{getText(edu.degree, lang)}</strong>
-                </p>
-                <p className="text-sm">
-                  <CVLink
-                    content={edu.university.text}
-                    lang={lang}
-                    href={edu.university.href}
-                    isExternal={edu.university.isExternal}
-                  />
-                  , {getText(edu.location, lang)}
-                </p>
-                <p className="text-sm">{getText(edu.period, lang)}</p>
-                {edu.additional && (
-                           <li className="text-sm">
-{getText(edu.additional, lang)}</li>
-                )}
-              </div>
-            ))}
-          </Section>
-
-          <Section title={getText(texts.skills.title, lang)}>
-            <h3 className="text-sm">
-              {getText(texts.skills.languageSkills.title, lang)}
-            </h3>
-            <p className="text-sm">
-              {getText(texts.skills.languageSkills.list, lang)}
-            </p>
-          </Section>
-        </div>
-      </div>
-            </div>
     </>
   )
 }
