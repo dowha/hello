@@ -40,18 +40,14 @@ export default function ThingsPage() {
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <Suspense fallback={<div>Loading...</div>}>
-        {/* ✅ GNB에서 변경한 언어를 `Things` 컴포넌트에 전달 */}
-        <GNB
-          showLanguage={true}
-          showTheme={false}
-          currentLanguage={language}
-          onLanguageChange={setLanguage}
-        />
-      </Suspense>
-      <Suspense fallback={<div>Loading</div>}>
-        <Things language={language} />
-      </Suspense>
+      {/* ✅ GNB에서 변경한 언어를 `Things` 컴포넌트에 전달 */}
+      <GNB
+        showLanguage={true}
+        showTheme={false}
+        currentLanguage={language}
+        onLanguageChange={setLanguage}
+      />
+      <Things language={language} />
     </Suspense>
   )
 }
