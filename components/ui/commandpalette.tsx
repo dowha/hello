@@ -23,48 +23,51 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
 
   // ✅ 팝업이 열릴 때 자동으로 input 포커스가 가지 않도록 처리 (TypeScript 오류 해결)
   useEffect(() => {
-    if (open && !inputTouched) { // ✅ 사용자가 input을 직접 클릭하기 전까지만 blur 적용
+    if (open && !inputTouched) {
+      // ✅ 사용자가 input을 직접 클릭하기 전까지만 blur 적용
       setTimeout(() => {
-        const activeElement = document.activeElement;
+        const activeElement = document.activeElement
         if (activeElement instanceof HTMLInputElement) {
-          activeElement.blur();
+          activeElement.blur()
         }
-      }, 300); // ✅ 실행 지연을 조정하여 클릭 가능하도록 함
+      }, 300) // ✅ 실행 지연을 조정하여 클릭 가능하도록 함
     }
-  }, [open, inputTouched]);
+  }, [open, inputTouched])
 
   // ✅ 모바일에서 키보드 자동 팝업 방지를 위한 핸들러 (기존 코드 유지)
   useEffect(() => {
     if (open && isMobile) {
       const handleTouchStart = (e: TouchEvent) => {
-        const target = e.target as HTMLElement;
+        const target = e.target as HTMLElement
         if (target.tagName !== 'INPUT') {
-          e.preventDefault(); // ✅ input을 제외한 다른 요소 터치 시 preventDefault 실행
+          e.preventDefault() // ✅ input을 제외한 다른 요소 터치 시 preventDefault 실행
         }
-      };
+      }
 
-      document.addEventListener('touchstart', handleTouchStart, { passive: false });
+      document.addEventListener('touchstart', handleTouchStart, {
+        passive: false,
+      })
 
       return () => {
-        document.removeEventListener('touchstart', handleTouchStart);
-      };
+        document.removeEventListener('touchstart', handleTouchStart)
+      }
     }
-  }, [open, isMobile]);
+  }, [open, isMobile])
 
   const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    setInputTouched(true); // ✅ 사용자가 한 번 클릭했음을 저장
+    setInputTouched(true) // ✅ 사용자가 한 번 클릭했음을 저장
     if (isMobile) {
       setTimeout(() => {
-        e.target.setSelectionRange(e.target.value.length, e.target.value.length); // ✅ iOS에서 포커스를 강제로 유지
-      }, 10);
+        e.target.setSelectionRange(e.target.value.length, e.target.value.length) // ✅ iOS에서 포커스를 강제로 유지
+      }, 10)
     }
-  };
+  }
 
-  const handleClose = (e: React.PointerEvent) => {
+  const handleClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      setOpen(false);
+      setOpen(false)
     }
-  };
+  }
 
   // ✅ 언어별 UI 컨텐츠 JSON (기존 코드 유지)
   const content = {
@@ -134,7 +137,10 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen} modal={true}>
-        <DialogContent className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden" onPointerDown={handleClose}>
+        <DialogContent
+          className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden"
+          onClick={handleClose}
+        >
           <div className="w-full bg-white">
             <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
@@ -146,14 +152,13 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   onChange={(e) => setSearch(e.target.value)}
                   onFocus={handleInputFocus} // ✅ 사용자가 탭하면 포커스를 강제 유지
                   autoFocus={false} // ✅ 자동 포커스 방지
-                  style={{ fontSize: '16px' }} // 🔴 화면 확대 방지
                 />
-                <kbd
+                <button
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
                   onClick={() => setOpen(false)}
                 >
                   {escLabel}
-                </kbd>
+                </button>
               </div>
             </div>
 
