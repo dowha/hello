@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import { Dialog, DialogContent } from './dialog'
 
@@ -20,42 +20,62 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     }
   }, [])
 
-  // 모바일에서 키보드 자동 팝업 방지를 위한 핸들러
-  const handleTouchStart = useCallback((e: TouchEvent) => {
-    const target = e.target as HTMLElement
-    if (target.tagName === 'INPUT' && isMobile) {
-      e.preventDefault()
-      // 약간의 지연 후에 포커스 적용 (키보드 팝업 방지 효과)
+  // ✅ 팝업이 열릴 때 자동으로 input 포커스가 가지 않도록 처리 (TypeScript 오류 해결)
+  useEffect(() => {
+    if (open) {
       setTimeout(() => {
-        ;(target as HTMLInputElement).focus()
-      }, 100)
+        const activeElement = document.activeElement
+        if (activeElement instanceof HTMLElement) {
+          activeElement.blur() // ✅ 현재 활성화된 요소의 포커스 해제
+        }
+      }, 50) // Safari에서 자연스럽게 적용되도록 약간의 지연 추가
     }
-  }, [isMobile])
+  }, [open])
 
-  // Dialog가 열릴 때 이벤트 리스너 추가
+  // ✅ 모바일에서 키보드 자동 팝업 방지를 위한 핸들러 (기존 코드 유지)
   useEffect(() => {
     if (open && isMobile) {
-      document.addEventListener('touchstart', handleTouchStart, { passive: false })
-    }
-    return () => {
-      document.removeEventListener('touchstart', handleTouchStart)
-    }
-  }, [open, isMobile, handleTouchStart])
+      const handleTouchStart = (e: TouchEvent) => {
+        const target = e.target as HTMLElement
+        if (target.tagName === 'INPUT') {
+          e.preventDefault()
+          setTimeout(() => {
+            ;(target as HTMLInputElement).blur() // ✅ 강제로 포커스 해제
+          }, 50)
+        }
+      }
 
+      document.addEventListener('touchstart', handleTouchStart, {
+        passive: false,
+      })
+
+      return () => {
+        document.removeEventListener('touchstart', handleTouchStart)
+      }
+    }
+  }, [open, isMobile])
+
+  // ✅ 언어별 UI 컨텐츠 JSON (기존 코드 유지)
   const content = {
     en: {
       buttonText: 'Get to know me more...',
       searchPlaceholder: 'Search...',
       navigation: 'Navigation',
       noResults: 'No results found.',
-      navItems: [{ title: 'Resume', href: `/resume` }, { title: 'Thigns I have made(Work in Progress)', href: '/things' }],
+      navItems: [
+        { title: 'Resume', href: `/resume` },
+        { title: 'Things I have made (Work in Progress)', href: '/things' },
+      ],
     },
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
       searchPlaceholder: '검색...',
       navigation: '추가 페이지 목록',
       noResults: '검색 결과가 없습니다.',
-      navItems: [{ title: '이력서', href: `/resume` }, { title: '내가 만든 것들(준비중)', href: '/things' }],
+      navItems: [
+        { title: '이력서', href: `/resume` },
+        { title: '내가 만든 것들 (준비중)', href: '/things' },
+      ],
     },
   }
 
@@ -102,12 +122,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
         </kbd>
       </button>
 
-      <Dialog 
-        open={open} 
-        onOpenChange={setOpen}
-        // Modal이 열릴 때 input이 자동으로 포커스되는 것을 방지
-        modal={true}
-      >
+      <Dialog open={open} onOpenChange={setOpen} modal={true}>
         <DialogContent className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden">
           <div className="w-full bg-white">
             <div className="border-b px-3 py-2">
@@ -118,11 +133,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   placeholder={currentContent.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  // autofocus 제거
-                  autoFocus={false}
-                  // 모바일에서 터치 이벤트 처리를 위한 속성 추가
-                  onTouchStart={(e) => isMobile && e.currentTarget.blur()}
-                  tabIndex={-1}
+                  autoFocus={false} // ✅ 자동 포커스 방지
                 />
                 <kbd
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
