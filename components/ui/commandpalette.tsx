@@ -63,7 +63,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     }
   }
 
-  const handleClose = (e: React.PointerEvent) => {
+  const handleClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setOpen(false)
     }
@@ -139,12 +139,10 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden"
-          onPointerDown={handleClose} // ✅ 클릭 문제 해결
+          onClick={handleClose} // ✅ 바깥 클릭 감지 (모바일 대응)
         >
-          <div
-            className="w-full bg-white"
-            onPointerDown={(e) => e.stopPropagation()}
-          >
+          <div className="w-full bg-white" onClick={(e) => e.stopPropagation()}>
+            {/* ✅ 내부 클릭 시 닫히지 않도록 stopPropagation 적용 */}
             <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
@@ -178,8 +176,8 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                     <button
                       key={item.href}
                       onClick={() => {
-                        setTimeout(() => setOpen(false), 100) // ✅ 팝업이 사라지는 문제 해결
                         window.open(item.href, '_self')
+                        setTimeout(() => setOpen(false), 300) // ✅ 페이지 이동 후 닫히도록 수정
                       }}
                       className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
                     >
