@@ -85,7 +85,7 @@ export default function GNB({
         {showLanguage && (
           <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
             <PopoverTrigger asChild>
-              <button className="p-2 hover:bg-gray-100 rounded-full">
+              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight">
                 <svg
                   data-testid="geist-icon"
                   height="16"
@@ -109,7 +109,7 @@ export default function GNB({
                   <button
                     key={key}
                     onClick={() => handleLanguageChange(key as Language)}
-                    className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center justify-between ${
+                    className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center no-highlight justify-between ${
                       internalLanguage === key ? 'bg-gray-100' : ''
                     }`}
                   >
@@ -126,7 +126,7 @@ export default function GNB({
         {showTheme && (
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
-              <button className="p-2 hover:bg-gray-100 rounded-full">
+              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight">
                 <svg
                   data-testid="geist-icon"
                   height="16"
@@ -161,7 +161,7 @@ export default function GNB({
                   <button
                     key={key}
                     onClick={() => handleThemeChange(key as Theme)}
-                    className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center justify-between ${
+                    className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center no-highlight justify-between ${
                       theme === key ? 'bg-gray-100' : ''
                     }`}
                   >
