@@ -130,6 +130,15 @@
     padding-right: 2px;
   }
 
+  .no-highlight {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  .no-highlight:focus {
+    outline: none;
+  }
+
   /* target="_blank" 링크에 아이콘 표시 */
   .external:after,
   a[target='_blank']:after {

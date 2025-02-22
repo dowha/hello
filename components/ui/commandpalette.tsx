@@ -122,6 +122,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   autoFocus={false}
                   // 모바일에서 터치 이벤트 처리를 위한 속성 추가
                   onTouchStart={(e) => isMobile && e.currentTarget.blur()}
+                  tabIndex={-1}
                 />
                 <kbd
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
