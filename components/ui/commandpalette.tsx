@@ -134,8 +134,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen} modal={true}>
-      <div onPointerDown={handleClose} className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-        <DialogContent className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden">
+        <DialogContent className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden" onPointerDown={handleClose}>
           <div className="w-full bg-white">
             <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
@@ -185,7 +184,6 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
             </div>
           </div>
         </DialogContent>
-        </div>
       </Dialog>
     </div>
   )
