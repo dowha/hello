@@ -139,10 +139,9 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden"
-          onClick={handleClose} // ✅ 바깥 클릭 감지 (모바일 대응)
+          onClickCapture={handleClose} // ✅ 이벤트 캡처링으로 바깥 클릭 감지
         >
-          <div className="w-full bg-white" onClick={(e) => e.stopPropagation()}>
-            {/* ✅ 내부 클릭 시 닫히지 않도록 stopPropagation 적용 */}
+          <div className="w-full bg-white">
             <div className="border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <Search className="w-3 h-3 text-gray-400" />
@@ -156,7 +155,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                 />
                 <button
                   className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
-                  onClick={() => setOpen(false)} // ✅ 닫기 버튼 정상 동작
+                  onClick={() => setOpen(false)} // ✅ 닫기 버튼 정상 작동
                 >
                   {escLabel}
                 </button>
@@ -175,9 +174,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   {filteredItems.map((item) => (
                     <button
                       key={item.href}
-                      onClick={() => {
-                        window.open(item.href, '_self')
-                        setTimeout(() => setOpen(false), 300) // ✅ 페이지 이동 후 닫히도록 수정
+                      onClick={(e) => {
+                        e.stopPropagation() // ✅ 버튼 클릭 시 다른 이벤트 방해 안 함
+                        requestAnimationFrame(() => {
+                          setOpen(false)
+                          window.location.href = item.href // ✅ 안전한 페이지 이동 방식
+                        })
                       }}
                       className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
                     >
