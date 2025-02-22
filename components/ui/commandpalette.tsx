@@ -9,7 +9,6 @@ type CommandPaletteProps = {
 
 const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [open, setOpen] = useState(false)
-  const [search, setSearch] = useState('')
   const [platform, setPlatform] = useState('')
   const [isMobile, setIsMobile] = useState(false)
 
@@ -29,9 +28,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const content = {
     en: {
       buttonText: 'Get to know me more...',
-      searchPlaceholder: 'Search...',
       navigation: 'Navigation',
-      noResults: 'No results found.',
       navItems: [
         { title: 'Resume', href: `/resume` },
         { title: 'Things I have made (Work in Progress)', href: '/things' },
@@ -39,9 +36,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     },
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
-      searchPlaceholder: '검색...',
       navigation: '추가 페이지 목록',
-      noResults: '검색 결과가 없습니다.',
       navItems: [
         { title: '이력서', href: `/resume` },
         { title: '내가 만든 것들 (준비중)', href: '/things' },
@@ -51,9 +46,11 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
 
   const currentContent = content[language]
 
-  const filteredItems = currentContent.navItems.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  )
+  const shortcutLabel = isMobile
+    ? language === 'en'
+      ? 'Tap!'
+      : '탭!'
+    : `${platform} K`
 
   return (
     <div className="flex justify-center items-center">
@@ -64,61 +61,45 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
         <Search className="w-3 h-3" />
         <span>{currentContent.buttonText}</span>
         <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500">
-          {isMobile ? 'Tap!' : `${platform} K`}
+          {shortcutLabel}
         </kbd>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden bg-white"
-          onClick={handleClose} // ✅ 바깥 클릭 감지 (이제 모바일에서 정상 작동)
+          onClick={handleClose} // ✅ 바깥 클릭 감지
         >
           <div className="w-full bg-white" onClick={(e) => e.stopPropagation()}>
             {/* ✅ 내부 요소 클릭은 닫히지 않도록 이벤트 버블링 차단 */}
-            <div className="border-b px-3 py-2">
-              <div className="flex items-center gap-2">
-                <Search className="w-3 h-3 text-gray-400" />
-                <input
-                  className="flex h-10 w-full rounded-md bg-transparent py-3 text-xs outline-none placeholder:text-gray-500 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder={currentContent.searchPlaceholder}
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <button
-                  className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer whitespace-nowrap"
-                  onClick={() => setOpen(false)} // ✅ 닫기 버튼 정상 작동
-                >
-                  {isMobile ? '닫기' : 'ESC'}
-                </button>
-              </div>
+            <div className="border-b px-3 py-2 flex justify-between items-center">
+              <span className="text-sm font-semibold">{currentContent.navigation}</span>
+              <button
+                className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer"
+                onClick={() => setOpen(false)} // ✅ 닫기 버튼 정상 작동
+              >
+                {isMobile ? '닫기' : 'ESC'}
+              </button>
             </div>
+
             <div className="max-h-[300px] overflow-y-auto">
-              {filteredItems.length === 0 ? (
-                <div className="py-6 text-center text-xs text-gray-500">
-                  {currentContent.noResults}
-                </div>
-              ) : (
-                <div className="py-2">
-                  <div className="px-3 py-2 text-[10px] font-semibold text-gray-500">
-                    {currentContent.navigation}
-                  </div>
-                  {filteredItems.map((item) => (
-                    <button
-                      key={item.href}
-                      onClick={(e) => {
-                        e.stopPropagation() // ✅ 버튼 클릭 시 팝업이 닫히지 않도록 설정
-                        setTimeout(() => {
-                          setOpen(false)
-                          window.location.href = item.href
-                        }, 100) // ✅ 클릭 후 닫히도록 설정
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
-                    >
-                      {item.title}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <div className="py-2">
+                {currentContent.navItems.map((item) => (
+                  <button
+                    key={item.href}
+                    onClick={(e) => {
+                      e.stopPropagation() // ✅ 버튼 클릭 시 팝업이 닫히지 않도록 설정
+                      setTimeout(() => {
+                        setOpen(false)
+                        window.location.href = item.href
+                      }, 100) // ✅ 클릭 후 닫히도록 설정
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    {item.title}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </DialogContent>
