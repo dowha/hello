@@ -25,10 +25,10 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     if (open) {
       setTimeout(() => {
         const activeElement = document.activeElement
-        if (activeElement instanceof HTMLElement) {
-          activeElement.blur() // ✅ 현재 활성화된 요소의 포커스 해제
+        if (activeElement instanceof HTMLInputElement) {
+          activeElement.blur()
         }
-      }, 50) // Safari에서 자연스럽게 적용되도록 약간의 지연 추가
+      }, 500) // ✅ 실행 지연을 길게 설정
     }
   }, [open])
 
@@ -37,11 +37,9 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     if (open && isMobile) {
       const handleTouchStart = (e: TouchEvent) => {
         const target = e.target as HTMLElement
-        if (target.tagName === 'INPUT') {
+        if (target.tagName !== 'INPUT') {
+          // ✅ input을 클릭할 때는 preventDefault() 실행 안 함
           e.preventDefault()
-          setTimeout(() => {
-            ;(target as HTMLInputElement).blur() // ✅ 강제로 포커스 해제
-          }, 50)
         }
       }
 
