@@ -4,13 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import CommandPalette from '@/components/ui/commandpalette'
-import { createClient } from '@supabase/supabase-js'
-
-// Supabase 클라이언트 설정
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { supabase } from '@/supabase' // supabase.ts에서 클라이언트 가져오기
 
 // 데이터 타입 정의
 type AboutContent = {
@@ -58,10 +52,12 @@ export function About({ language }: AboutProps) {
     fetchAboutContent(language)
   }, [language])
 
-  // ✅ 데이터가 로드되지 않은 경우 `null`을 반환하여 page.tsx에서 스켈레톤을 렌더링하도록 함
+  // 데이터가 로드되지 않은 경우 null을 반환
   if (!content) {
     return null
-  }return (
+  }
+
+  return (
     <div className="flex flex-col items-center justify-center bg-white p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
@@ -72,7 +68,7 @@ export function About({ language }: AboutProps) {
               layout="fill"
               objectFit="cover"
               className="rounded-full"
-              priority // 이미지 로딩 최적화
+              priority
             />
             <div className="absolute -bottom-1 -right-1 bg-white rounded-full w-6 h-6 flex items-center justify-center text-lg">
               🌊
@@ -115,7 +111,6 @@ export function About({ language }: AboutProps) {
             )
           )}
         </div>
-
         <div className="text-xs text-left space-y-1 pt-3 border-t border-[#f6f5f4] h-20 mb-2">
           {content.footnotes.map(
             ({ id, url, text }: { id: number; url: string; text: string }) => (
