@@ -1,5 +1,5 @@
 'use client'
-
+import Head from 'next/head'
 import { useState, useEffect, Suspense } from 'react'
 import Resume from '@/components/resume'
 import GNB from '@/components/ui/gnb'
@@ -40,6 +40,9 @@ export default function Page() {
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
+      <Head>
+        <link rel="canonical" href={'https://dowha.kim/resume'} />
+      </Head>
       <GNB
         showLanguage={true}
         showTheme={false}

@@ -1,5 +1,5 @@
 'use client'
-
+import Head from 'next/head'
 import { useState, useEffect, Suspense } from 'react'
 import Things from '@/components/projects'
 import GNB from '@/components/ui/gnb'
@@ -40,7 +40,9 @@ export default function ThingsPage() {
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      {/* ✅ GNB에서 변경한 언어를 `Things` 컴포넌트에 전달 */}
+      <Head>
+        <link rel="canonical" href={'https://dowha.kim/things'} />
+      </Head>
       <GNB
         showLanguage={true}
         showTheme={false}
