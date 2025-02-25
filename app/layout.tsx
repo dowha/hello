@@ -1,25 +1,28 @@
-import "./globals.css";
-import Footer from "@/components/ui/footer";
-import Script from "next/script";
-import GTMTracker from "@/components/GTMTracker"; // 👈 GTM 트래킹 컴포넌트 추가
+import './globals.css'
+import Footer from '@/components/ui/footer'
+import Script from 'next/script'
+import GTMTracker from '@/components/GTMTracker' // 👈 GTM 트래킹 컴포넌트 추가
 
 export const metadata = {
   title: {
-    template: "%s | Dowha Kim",
-    default: "Dowha Kim",
+    template: '%s | Dowha Kim',
+    default: 'Dowha Kim',
   },
-  description: "a Digital Maker and B2B SaaS Specialist.",
+  description: 'a Digital Maker and B2B SaaS Specialist.',
   openGraph: {
-    type: "website",
-    locale: "ko_KR",
-    url: "https://dowha.kim",
+    type: 'website',
+    locale: 'ko_KR',
+    url: 'https://dowha.kim',
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: '/favicon.ico',
   },
-};
+  alternates: {
+    canonical: 'https://dowha.kim',
+  },
+}
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 
 export default function RootLayout({
   children,
@@ -38,7 +41,6 @@ export default function RootLayout({
             `}
           </Script>
         )}
-        
       </head>
       <body className="antialiased min-h-screen">
         {GTM_ID && (
@@ -47,17 +49,14 @@ export default function RootLayout({
               src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
               height="0"
               width="0"
-              style={{ display: "none", visibility: "hidden" }}
+              style={{ display: 'none', visibility: 'hidden' }}
             ></iframe>
           </noscript>
         )}
-
         <GTMTracker /> {/* 👈 GTM 트래킹 컴포넌트 삽입 */}
-
         {children}
-
         <Footer />
       </body>
     </html>
-  );
+  )
 }
