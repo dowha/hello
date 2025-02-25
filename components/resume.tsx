@@ -84,8 +84,8 @@ export default function Resume({ lang }: ResumeProps) {
               {groupedData['info'] && groupedData['info'][0]?.title
                 ? groupedData['info'][0].title
                 : lang === 'en'
-                ? 'Content Marketing Specialist'
-                : '콘텐츠 마케팅 전문가'}
+                ? 'B2B SaaS Specialist'
+                : 'B2B SaaS 전문가'}
             </h3>
             <section className="text-sm mb-4 text-center">
               <p>
