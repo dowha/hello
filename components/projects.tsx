@@ -307,77 +307,79 @@ export default function Things({ language }: ThingsProps) {
     <div className="flex flex-col items-start justify-start bg-white p-4 pb-12">
       <div className="w-full max-w-[640px] mx-auto space-y-4">
         <Back />
-        <h1 className="text-lg font-semibold mb-4">{content.title}</h1>
+        <div className="main w-full max-w-[640px] mx-auto bg-white">
+          <h1 className="text-lg font-semibold mb-4">{content.title}</h1>
 
-        <div className="mb-4">
-          <div
-            className="flex items-center justify-between mb-2 cursor-pointer group"
-            onClick={() => setShowFullDescription(!showFullDescription)}
-          >
-            <div className="flex items-center">
-              <div className="relative w-4 h-4 mr-1">
-                {showFullDescription ? (
-                  <>
-                    <Eye className="w-4 h-4 group-hover:hidden" />
-                    <EyeOff className="w-4 h-4 hidden group-hover:block absolute inset-0" />
-                  </>
-                ) : (
-                  <>
-                    <EyeOff className="w-4 h-4 group-hover:hidden" />
-                    <Eye className="w-4 h-4 hidden group-hover:block absolute inset-0" />
-                  </>
-                )}
-              </div>
-              <p className="text-sm">{content.subtitle}</p>
-            </div>
-          </div>
-          {showFullDescription && (
-            <div className="mt-2 text-sm text-gray-600">
-              {content.subtitleDescription.map((paragraph, index) => (
-                <p key={index} className="mb-2">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <hr className="border-t border-gray-200 my-4" />
-
-        <div className="flex flex-wrap gap-2 mb-4">
-          {Object.entries(content.categories).map(([key, value]) => (
-            <button
-              key={key}
-              onClick={() => toggleFilter(key)}
-              className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
-                activeFilters.includes(key)
-                  ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
-                  : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
-              }`}
+          <div className="mb-4">
+            <div
+              className="flex items-center justify-between mb-2 cursor-pointer group"
+              onClick={() => setShowFullDescription(!showFullDescription)}
             >
-              {value}
-            </button>
-          ))}
-        </div>
-
-        <div className="space-y-6">
-          {activeFilters.length > 0 ? (
-            sortedProjects.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {currentProjects.map((project) => (
-                  <ProjectCard key={project.uid} project={project} />
+              <div className="flex items-center">
+                <div className="relative w-4 h-4 mr-1">
+                  {showFullDescription ? (
+                    <>
+                      <Eye className="w-4 h-4 group-hover:hidden" />
+                      <EyeOff className="w-4 h-4 hidden group-hover:block absolute inset-0" />
+                    </>
+                  ) : (
+                    <>
+                      <EyeOff className="w-4 h-4 group-hover:hidden" />
+                      <Eye className="w-4 h-4 hidden group-hover:block absolute inset-0" />
+                    </>
+                  )}
+                </div>
+                <p className="text-sm">{content.subtitle}</p>
+              </div>
+            </div>
+            {showFullDescription && (
+              <div className="mt-2 text-sm text-gray-600">
+                {content.subtitleDescription.map((paragraph, index) => (
+                  <p key={index} className="mb-2">
+                    {paragraph}
+                  </p>
                 ))}
               </div>
+            )}
+          </div>
+
+          <hr className="border-t border-gray-200 my-4" />
+
+          <div className="flex flex-wrap gap-2 mb-4">
+            {Object.entries(content.categories).map(([key, value]) => (
+              <button
+                key={key}
+                onClick={() => toggleFilter(key)}
+                className={`flex items-center px-2 py-1 rounded-md text-xs transition-colors duration-200 ${
+                  activeFilters.includes(key)
+                    ? 'bg-[#f1f8ff] border-[#0366d6] font-semibold'
+                    : 'bg-gray-100 text-gray-600 hover:bg-blue-50'
+                }`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+
+          <div className="space-y-6">
+            {activeFilters.length > 0 ? (
+              sortedProjects.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {currentProjects.map((project) => (
+                    <ProjectCard key={project.uid} project={project} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-left py-8 text-gray-500 text-sm">
+                  {content.emptyMessage.noProjects}
+                </div>
+              )
             ) : (
               <div className="text-left py-8 text-gray-500 text-sm">
-                {content.emptyMessage.noProjects}
+                {content.emptyMessage.noSelection}
               </div>
-            )
-          ) : (
-            <div className="text-left py-8 text-gray-500 text-sm">
-              {content.emptyMessage.noSelection}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ export function About({ language }: AboutProps) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white p-4 pb-12">
+    <div className="main flex flex-col items-center justify-center bg-white p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
           <div className="relative w-14 h-14">

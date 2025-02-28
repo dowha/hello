@@ -120,7 +120,7 @@
     display: none !important;
   }
 
-  a {
+.main a {
     @apply break-words underline underline-offset-4 decoration-gray-200 hover:text-[#0a85d1];
   }
 
