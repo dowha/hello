@@ -67,13 +67,13 @@ export default function Resume({ lang }: ResumeProps) {
           <Back />
           <Button onClick={handlePrint} variant="outline" className="mb-4">
             <Download className="mr-2 h-4 w-4" />
-            {lang === 'en' ? 'Download PDF' : 'PDF 다운로드'}
+            {lang === 'en' ? 'Download as PDF' : 'PDF 다운로드'}
           </Button>
         </div>
       </div>
 
       {/* Printable area */}
-      <div ref={cvRef} className="w-full max-w-[640px] mx-auto bg-white">
+      <div ref={cvRef} className="main w-full max-w-[640px] mx-auto bg-white">
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
           <header className="text-center mb-4">
