@@ -120,7 +120,7 @@
     display: none !important;
   }
 
-.main a {
+  .main a {
     @apply break-words underline underline-offset-4 decoration-gray-200 hover:text-[#0a85d1];
   }
 
@@ -179,7 +179,9 @@
   }
 
   a {
-    @apply break-words underline underline-offset-4 decoration-gray-200;
+    @apply break-words;
+
+    text-decoration: none !important;
   }
 
   nav a[target='_blank'] {

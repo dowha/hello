@@ -4,13 +4,16 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Back from '@/components/ui/back'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import { supabase } from '@/supabase' // @/supabase.ts에서 클라이언트 가져오기
 
 // Supabase에서 가져올 resume 데이터 타입 (새 컬럼 country 추가)
 type ResumeItem = {
   id: string
   language: 'en' | 'ko'
-  section: string  // 'info', 'experience', 'education', 'skills'
+  section: string // 'info', 'experience', 'education', 'skills'
   title: string
   organization: string | null
   organization_url: string | null
@@ -44,7 +47,7 @@ export default function Resume({ lang }: ResumeProps) {
   }, [])
 
   // 선택한 언어에 맞게 필터링
-  const filteredData = resumeData.filter(item => item.language === lang)
+  const filteredData = resumeData.filter((item) => item.language === lang)
 
   // 섹션별로 그룹화 (info, experience, education, skills)
   const groupedData = filteredData.reduce((acc, item) => {
@@ -113,26 +116,27 @@ export default function Resume({ lang }: ResumeProps) {
           )}
 
           {/* Experience 섹션 */}
-          {groupedData['experience'] && groupedData['experience'].length > 0 && (
-            <Section title={lang === 'en' ? 'Experience' : '경력'}>
-              {groupedData['experience'].map(item => (
-                <Job
-                  key={item.id}
-                  title={item.title}
-                  organization={item.organization}
-                  organization_url={item.organization_url}
-                  period={item.period}
-                  responsibilities={item.details || []}
-                  lang={lang}
-                />
-              ))}
-            </Section>
-          )}
+          {groupedData['experience'] &&
+            groupedData['experience'].length > 0 && (
+              <Section title={lang === 'en' ? 'Experience' : '경력'}>
+                {groupedData['experience'].map((item) => (
+                  <Job
+                    key={item.id}
+                    title={item.title}
+                    organization={item.organization}
+                    organization_url={item.organization_url}
+                    period={item.period}
+                    responsibilities={item.details || []}
+                    lang={lang}
+                  />
+                ))}
+              </Section>
+            )}
 
           {/* Education 섹션 */}
           {groupedData['education'] && groupedData['education'].length > 0 && (
             <Section title={lang === 'en' ? 'Education' : '학력'}>
-              {groupedData['education'].map(item => (
+              {groupedData['education'].map((item) => (
                 <div key={item.id} className="mb-3">
                   <p className="text-sm">
                     <strong>{item.title}</strong>
@@ -140,7 +144,10 @@ export default function Resume({ lang }: ResumeProps) {
                   <p className="text-sm">
                     {item.organization && (
                       <CVLink
-                        content={{ en: item.organization, ko: item.organization }}
+                        content={{
+                          en: item.organization,
+                          ko: item.organization,
+                        }}
                         lang={lang}
                         href={item.organization_url || '#'}
                         isExternal={true}
@@ -169,11 +176,17 @@ export default function Resume({ lang }: ResumeProps) {
               <h3 className="text-sm">
                 {lang === 'en' ? 'Language Skills' : '언어 능력'}
               </h3>
-              <p className="text-sm">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+                components={{
+                  p: ({ ...props }) => <p {...props} className="text-sm" />,
+                }}
+              >
                 {groupedData['skills'][0].details
                   ? groupedData['skills'][0].details.join(', ')
                   : ''}
-              </p>
+              </ReactMarkdown>
             </Section>
           )}
         </div>
