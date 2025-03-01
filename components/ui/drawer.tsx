@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { clsx } from 'clsx'
 
 type ProjectItem = {
-  uid: string
+  id: string
   title: string
   shortDescription: string
   longDescription: string
@@ -20,16 +20,25 @@ type DrawerProps = {
   categories: Record<string, string>
 }
 
-const snapPoints = ['148px', '355px', 1]
+const snapPoints = [
+  window.innerWidth < 768 ? '120px' : '148px',
+  window.innerWidth < 768 ? '280px' : '355px',
+  1,
+]
 
-export default function ProjectDrawer({
-  project,
-  categories,
-}: DrawerProps) {
+const categoryColors: Record<string, string> = {
+  live: '#ff0000',
+  experiments: '#90EE90',
+  toy: '#008000',
+  learning: '#FFFF00',
+  old: '#696969',
+}
+
+export default function ProjectDrawer({ project, categories }: DrawerProps) {
   const [snap, setSnap] = useState<number | string | null>(snapPoints[0])
 
   return (
-    <Drawer.Root 
+    <Drawer.Root
       snapPoints={snapPoints}
       activeSnapPoint={snap}
       setActiveSnapPoint={setSnap}
@@ -41,18 +50,7 @@ export default function ProjectDrawer({
               key={cat}
               className="flex-grow"
               style={{
-                backgroundColor:
-                  cat === 'live'
-                    ? '#ff0000'
-                    : cat === 'experiments'
-                    ? '#90EE90'
-                    : cat === 'toy'
-                    ? '#008000'
-                    : cat === 'learning'
-                    ? '#FFFF00'
-                    : cat === 'old'
-                    ? '#696969'
-                    : 'transparent',
+                backgroundColor: categoryColors[cat] || 'transparent',
               }}
             />
           ))}
@@ -70,18 +68,17 @@ export default function ProjectDrawer({
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content 
+        <Drawer.Content
           className={clsx(
-            "fixed flex flex-col bg-white border border-gray-200 border-b-none rounded-t-[10px] bottom-0 left-0 right-0 h-full max-h-[97%] mx-[-1px]",
+            'fixed flex flex-col bg-white border border-gray-200 border-b-none rounded-t-[10px] bottom-0 left-0 right-0 h-full max-h-[97%] mx-[-1px]'
           )}
         >
-          <div className={clsx(
-            'flex flex-col max-w-md mx-auto w-full p-4 pt-5',
-            {
+          <div
+            className={clsx('flex flex-col max-w-md mx-auto w-full p-4 pt-5', {
               'overflow-y-auto': snap === 1,
               'overflow-hidden': snap !== 1,
-            }
-          )}>
+            })}
+          >
             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8" />
             <div className="pb-6">
               <div className="flex justify-between items-start mb-2">
@@ -93,8 +90,7 @@ export default function ProjectDrawer({
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary hover:text-primary/80 ml-2"
-                    >
-                    </a>
+                    ></a>
                   )}
                 </Drawer.Title>
               </div>
@@ -119,7 +115,15 @@ export default function ProjectDrawer({
                       <li key={index} className="flex flex-col pt-2 first:pt-0">
                         <div className="flex justify-between">
                           <span>{note.text}</span>
-                          <span className="text-gray-400">{note.date}</span>
+                          <span className="text-gray-400">
+                            {new Intl.DateTimeFormat('ko-KR', {
+                              year: 'numeric',
+                              month: '2-digit',
+                              day: '2-digit',
+                            })
+                              .format(new Date(note.date))
+                              .replace(/\s/g, '')}
+                          </span>
                         </div>
                         {note.log && (
                           <span className="text-xs text-gray-500 mt-1">
