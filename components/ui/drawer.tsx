@@ -20,9 +20,14 @@ type DrawerProps = {
   categories: Record<string, string>
 }
 
-const snapPoints = typeof window !== 'undefined'
-  ? [window.innerWidth < 768 ? '120px' : '148px', window.innerWidth < 768 ? '280px' : '355px', 1]
-  : ['148px', '355px', 1] // 서버에서 기본값 설정
+const snapPoints =
+  typeof window !== 'undefined'
+    ? [
+        window.innerWidth < 768 ? '120px' : '148px',
+        window.innerWidth < 768 ? '280px' : '355px',
+        1,
+      ]
+    : ['148px', '355px', 1] // 서버에서 기본값 설정
 
 const categoryColors: Record<string, string> = {
   live: '#ff0000',
@@ -107,29 +112,38 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
               </p>
               <div className="mt-4 text-sm">
                 <h4 className="font-medium mb-2">Voyage Log</h4>
-                <div className="bg-gray-100 p-3 rounded-md max-h-48 overflow-y-auto mb-6">
+                <div className="bg-gray-100 p-3 rounded-md mb-6">
                   <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
-                    {project.updateNotes.map((note, index) => (
-                      <li key={index} className="flex flex-col pt-2 first:pt-0">
-                        <div className="flex justify-between items-center">
-                          <span>{note.text}</span>
-                          <span className="text-gray-400 font-mono text-xs">
-                            {new Intl.DateTimeFormat('ko-KR', {
-                              year: 'numeric',
-                              month: '2-digit',
-                              day: '2-digit',
-                            })
-                              .format(new Date(note.date))
-                              .replace(/\s/g, '')}
-                          </span>
-                        </div>
-                        {note.log && (
-                          <span className="text-xs text-gray-500 mt-1">
-                            {note.log}
-                          </span>
-                        )}
-                      </li>
-                    ))}
+                    {[...project.updateNotes]
+                      .sort(
+                        (a, b) =>
+                          new Date(a.date).getTime() -
+                          new Date(b.date).getTime()
+                      )
+                      .map((note, index) => (
+                        <li
+                          key={index}
+                          className="flex flex-col pt-2 first:pt-0"
+                        >
+                          <div className="flex justify-between items-center">
+                            <span>{note.text}</span>
+                            <span className="text-gray-400 font-mono text-xs">
+                              {new Intl.DateTimeFormat('ko-KR', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                              })
+                                .format(new Date(note.date))
+                                .replace(/\s/g, '')}
+                            </span>
+                          </div>
+                          {note.log && (
+                            <span className="text-xs text-gray-500 mt-1">
+                              {note.log}
+                            </span>
+                          )}
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </div>
