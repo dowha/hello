@@ -113,7 +113,7 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
                       <li key={index} className="flex flex-col pt-2 first:pt-0">
                         <div className="flex justify-between">
                           <span>{note.text}</span>
-                          <span className="text-gray-400">
+                          <span className="text-gray-400 font-mono">
                             {new Intl.DateTimeFormat('ko-KR', {
                               year: 'numeric',
                               month: '2-digit',
