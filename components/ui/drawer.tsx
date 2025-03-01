@@ -20,11 +20,9 @@ type DrawerProps = {
   categories: Record<string, string>
 }
 
-const snapPoints = [
-  window.innerWidth < 768 ? '120px' : '148px',
-  window.innerWidth < 768 ? '280px' : '355px',
-  1,
-]
+const snapPoints = typeof window !== 'undefined'
+  ? [window.innerWidth < 768 ? '120px' : '148px', window.innerWidth < 768 ? '280px' : '355px', 1]
+  : ['148px', '355px', 1] // 서버에서 기본값 설정
 
 const categoryColors: Record<string, string> = {
   live: '#ff0000',
