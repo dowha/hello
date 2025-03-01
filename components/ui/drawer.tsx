@@ -87,7 +87,7 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary hover:text-primary/80 ml-2"
+                      className="text-primary hover:text-primary/80"
                     ></a>
                   )}
                 </Drawer.Title>
@@ -111,9 +111,9 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
                   <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
                     {project.updateNotes.map((note, index) => (
                       <li key={index} className="flex flex-col pt-2 first:pt-0">
-                        <div className="flex justify-between">
+                        <div className="flex justify-between items-center">
                           <span>{note.text}</span>
-                          <span className="text-gray-400 font-mono">
+                          <span className="text-gray-400 font-mono text-xs">
                             {new Intl.DateTimeFormat('ko-KR', {
                               year: 'numeric',
                               month: '2-digit',
