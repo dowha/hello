@@ -196,7 +196,6 @@
   }
 }
 
-/* 프린트 프리뷰 스타일 */
 @media screen {
   .page-break-inside-avoid {
     break-inside: avoid;

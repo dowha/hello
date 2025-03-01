@@ -31,7 +31,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       navigation: 'Navigation',
       navItems: [
         { title: 'Resume', href: `/resume` },
-        { title: 'Things I have made (Work in Progress)', href: '/things' },
+        { title: 'Things I have made', href: '/things' },
       ],
     },
     ko: {
@@ -39,7 +39,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       navigation: '추가 페이지 목록',
       navItems: [
         { title: '이력서', href: `/resume` },
-        { title: '내가 만든 것들 (준비중)', href: '/things' },
+        { title: '내가 만든 것들', href: '/things' },
       ],
     },
   }

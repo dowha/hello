@@ -1,12 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import Drawer from '@/components/ui/drawer'
 import Back from '@/components/ui/back'
+import { supabase } from '@/supabase' // @/supabase.ts에서 클라이언트 가져오기
 
+// Supabase로부터 불러올 데이터 타입 (DB 컬럼명과 매핑 후 변환)
 type ProjectItem = {
-  uid: string
+  id: string
   title: string
   shortDescription: string
   longDescription: string
@@ -19,9 +21,10 @@ type ProjectItem = {
 type Language = 'en' | 'ko'
 
 interface ThingsProps {
-  language: Language // ✅ props로 언어 전달받음
+  language: Language // props로 언어 전달받음
 }
 
+// static 텍스트 및 UI 관련 데이터 (프로젝트 목록은 Supabase에서 불러옴)
 const thingsContent: Record<
   Language,
   {
@@ -29,7 +32,6 @@ const thingsContent: Record<
     subtitle: string
     subtitleDescription: string[]
     categories: Record<string, string>
-    items: ProjectItem[]
     emptyMessage: {
       noSelection: string
       noProjects: string
@@ -54,100 +56,11 @@ const thingsContent: Record<
       learning: '🎓 Practice',
       old: '🪦 Old Projects',
     },
-    items: [
-      {
-        uid: 'service-a',
-        title: 'Service A',
-        shortDescription: 'Task management and workflow optimization solution.',
-        longDescription:
-          'Service A is a comprehensive task management and workflow optimization solution designed to streamline business processes efficiently. It offers intuitive interfaces for task assignment, progress tracking, and performance analytics, enabling teams to collaborate seamlessly and boost productivity.',
-        link: 'https://servicea.com',
-        categories: ['live', 'experiments'],
-        priority: 3,
-        updateNotes: [
-          { text: 'Initial release', date: '2024.01.23' },
-          {
-            text: 'Added task prioritization feature',
-            date: '2024.02.15',
-            log: 'Implemented a new algorithm for task prioritization',
-          },
-          {
-            text: 'Improved user interface for mobile devices',
-            date: '2024.03.10',
-          },
-        ],
-      },
-      {
-        uid: 'service-b',
-        title: 'Service B',
-        shortDescription: 'Real-time data analytics platform.',
-        longDescription:
-          'Service B is a cutting-edge real-time data analytics platform that provides actionable insights for businesses. Leveraging advanced algorithms and machine learning, it processes vast amounts of data in real-time, offering valuable insights that drive informed decision-making and strategic planning.',
-        link: 'https://serviceb.com',
-        categories: ['live'],
-        priority: 2,
-        updateNotes: [
-          { text: 'Initial release', date: '2024.01.23' },
-          {
-            text: 'Added real-time data streaming capability',
-            date: '2024.02.15',
-            log: 'Integrated Apache Kafka for real-time data processing',
-          },
-          { text: 'Enhanced data visualization tools', date: '2024.03.10' },
-        ],
-      },
-      {
-        uid: 'experiment-x',
-        title: 'Experiment X',
-        shortDescription: 'Quantum computing optimization applications.',
-        longDescription:
-          "Experiment X is a groundbreaking project exploring quantum computing optimization applications. It delves into cutting-edge algorithms for complex problem-solving, pushing the boundaries of what's possible with quantum technologies. This experiment aims to revolutionize fields such as cryptography, drug discovery, and financial modeling.",
-        categories: ['experiments'],
-        priority: 1,
-        updateNotes: [
-          { text: 'Initial release', date: '2024.01.23' },
-          { text: 'Improved algorithm performance', date: '2024.02.15' },
-          {
-            text: 'Added support for new quantum hardware',
-            date: '2024.03.10',
-            log: 'Integrated with IBM Q System One',
-          },
-        ],
-      },
-      {
-        uid: 'toy-alpha',
-        title: 'Toy Alpha',
-        shortDescription: 'Generative art algorithms and creative coding.',
-        longDescription:
-          'Toy Alpha is an exciting project that explores generative art algorithms and creative coding. It pushes the boundaries of computational creativity, generating unique and mesmerizing visual artworks. This project serves as a playground for experimenting with various algorithmic approaches to art creation.',
-        link: 'https://toyalpha.com',
-        categories: ['toy'],
-        priority: 0,
-        updateNotes: [
-          { text: 'Initial release', date: '2024.01.23' },
-          { text: 'Added new generative art styles', date: '2024.02.15' },
-          { text: 'Improved code efficiency', date: '2024.03.10' },
-        ],
-      },
-      {
-        uid: 'legacy-1',
-        title: 'Legacy 1.0',
-        shortDescription: 'Deprecated inventory management system from 2018.',
-        longDescription:
-          'Legacy 1.0 is a deprecated inventory management system that was developed in 2018. Although no longer in active use, it served as a crucial foundation for modern logistics solutions. This system pioneered several features that have since become standard in inventory management software.',
-        categories: ['old'],
-        priority: 0,
-        updateNotes: [
-          { text: 'Initial release', date: '2018.01.23' },
-          { text: 'No further updates planned', date: '2018.01.23' },
-        ],
-      },
-    ],
     emptyMessage: {
       noSelection:
         '🔍 Whoops! No projects found here. Pick a category to see if they show up!',
       noProjects:
-        '☕ No projects in this category yet. Time for a coffee break, then back to making some commits!',
+        '☕ No projects in this or any category yet. Time for a coffee break, then back to making some commits!',
     },
     drawerLabels: {
       close: 'Close',
@@ -168,92 +81,6 @@ const thingsContent: Record<
       learning: '🎓 학습과 연습',
       old: '🪦 오래된 프로젝트',
     },
-    items: [
-      {
-        uid: 'service-a',
-        title: '서비스 A',
-        shortDescription: '작업 관리 및 워크플로우 최적화 솔루션.',
-        longDescription:
-          '서비스 A는 비즈니스 프로세스를 효율적으로 간소화하도록 설계된 종합적인 작업 관리 및 워크플로우 최적화 솔루션입니다. 작업 할당, 진행 상황 추적 및 성과 분석을 위한 직관적인 인터페이스를 제공하여 팀이 원활하게 협업하고 생산성을 높일 수 있도록 합니다.',
-        link: 'https://servicea.com',
-        categories: ['live', 'experiments'],
-        priority: 3,
-        updateNotes: [
-          { text: '초기 출시', date: '2024.01.23' },
-          {
-            text: '작업 우선 순위 지정 기능 추가',
-            date: '2024.02.15',
-            log: '작업 우선순위 지정을 위한 새로운 알고리즘 구현',
-          },
-          { text: '모바일 장치 사용자 인터페이스 개선', date: '2024.03.10' },
-        ],
-      },
-      {
-        uid: 'service-b',
-        title: '서비스 B',
-        shortDescription: '실시간 데이터 분석 플랫폼.',
-        longDescription:
-          '서비스 B는 기업에 실행 가능한 인사이트를 제공하는 최첨단 실시간 데이터 분석 플랫폼입니다. 고급 알고리즘과 기계 학습을 활용하여 방대한 양의 데이터를 실시간으로 처리하여 정보에 입각한 의사 결정과 전략적 계획을 추진하는 귀중한 인사이트를 제공합니다.',
-        link: 'https://serviceb.com',
-        categories: ['live'],
-        priority: 2,
-        updateNotes: [
-          { text: '초기 출시', date: '2024.01.23' },
-          {
-            text: '실시간 데이터 스트리밍 기능 추가',
-            date: '2024.02.15',
-            log: '실시간 데이터 처리를 위한 Apache Kafka 통합',
-          },
-          { text: '데이터 시각화 도구 개선', date: '2024.03.10' },
-        ],
-      },
-      {
-        uid: 'experiment-x',
-        title: '실험 X',
-        shortDescription: '양자 컴퓨팅 최적화 애플리케이션.',
-        longDescription:
-          '실험 X는 양자 컴퓨팅 최적화 애플리케이션을 탐구하는 혁신적인 프로젝트입니다. 복잡한 문제 해결을 위한 최첨단 알고리즘을 탐구하여 양자 기술로 가능한 것의 경계를 넓힙니다. 이 실험은 암호학, 신약 발견 및 금융 모델링과 같은 분야에 혁명을 일으키는 것을 목표로 합니다.',
-        categories: ['experiments'],
-        priority: 1,
-        updateNotes: [
-          { text: '초기 출시', date: '2024.01.23' },
-          { text: '알고리즘 성능 개선', date: '2024.02.15' },
-          {
-            text: '새로운 양자 하드웨어 지원 추가',
-            date: '2024.03.10',
-            log: 'IBM Q System One과 통합',
-          },
-        ],
-      },
-      {
-        uid: 'toy-alpha',
-        title: '토이 알파',
-        shortDescription: '생성 아트 알고리즘과 창의적 코딩.',
-        longDescription:
-          '토이 알파는 생성 아트 알고리즘과 창의적 코딩을 탐구하는 흥미진진한 프로젝트입니다. 컴퓨테이셔널 창의성의 경계를 넓혀 독특하고 매혹적인 시각 예술 작품을 생성합니다. 이 프로젝트는 예술 창작을 위한 다양한 알고리즘적 접근 방식을 실험하는 놀이터 역할을 합니다.',
-        link: 'https://toyalpha.com',
-        categories: ['toy'],
-        priority: 0,
-        updateNotes: [
-          { text: '초기 출시', date: '2024.01.23' },
-          { text: '새로운 생성 아트 스타일 추가', date: '2024.02.15' },
-          { text: '코드 효율성 개선', date: '2024.03.10' },
-        ],
-      },
-      {
-        uid: 'legacy-1',
-        title: '레거시 1.0',
-        shortDescription: '2018년부터 사용되지 않는 재고 관리 시스템.',
-        longDescription:
-          '레거시 1.0은 2018년에 개발된 더 이상 사용되지 않는 재고 관리 시스템입니다. 더 이상 활발히 사용되지는 않지만 현대적인 물류 솔루션의 중요한 기초 역할을 했습니다. 이 시스템은 이후 재고 관리 소프트웨어의 표준이 된 여러 기능을 선보였습니다.',
-        categories: ['old'],
-        priority: 0,
-        updateNotes: [
-          { text: '초기 출시', date: '2018.01.23' },
-          { text: '더 이상 업데이트 계획 없음', date: '2018.01.23' },
-        ],
-      },
-    ],
     emptyMessage: {
       noSelection:
         '🕵️‍♂️ 어라? 프로젝트들이 보이지 않네요. 카테고리를 선택해서 프로젝트를 찾아보세요!',
@@ -266,13 +93,53 @@ const thingsContent: Record<
     },
   },
 }
-export default function Things({ language }: ThingsProps) {
-  const [activeFilters, setActiveFilters] = useState<string[]>([])
-  const [showFullDescription, setShowFullDescription] = useState(false)
 
-  useState(() => {
-    setActiveFilters(Object.keys(thingsContent[language].categories))
-  })
+export default function Things({ language }: ThingsProps) {
+  const [activeFilters, setActiveFilters] = useState<string[]>(
+    Object.keys(thingsContent[language].categories)
+  )
+  const [showFullDescription, setShowFullDescription] = useState(false)
+  const [projects, setProjects] = useState<ProjectItem[]>([])
+
+  // Supabase에서 프로젝트 데이터 불러오기
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select(
+          `id, title, short_description, long_description, link, categories, priority,
+           project_update_notes(note_text, note_date, note_log)`
+        )
+        .eq('language', language) // 테이블에 저장된 언어에 맞게 필터링
+
+      if (error) {
+        console.error('Error fetching projects:', error)
+        return
+      }
+
+      if (data) {
+        setProjects(
+          data.map((project) => ({
+            id: project.id,
+            title: project.title,
+            shortDescription: project.short_description,
+            longDescription: project.long_description,
+            link: project.link,
+            categories: project.categories,
+            priority: project.priority,
+            updateNotes:
+              project.project_update_notes?.map((note) => ({
+                text: note.note_text,
+                date: note.note_date,
+                log: note.note_log,
+              })) || [],
+          }))
+        )
+      }
+    }
+
+    fetchProjects()
+  }, [language])
 
   const content = thingsContent[language]
 
@@ -284,20 +151,17 @@ export default function Things({ language }: ThingsProps) {
     )
   }
 
-  const filteredProjects = content.items.filter((project) =>
+  // 필터링 및 정렬 (우선순위, 제목 순)
+  const filteredProjects = projects.filter((project) =>
     project.categories.some((cat) => activeFilters.includes(cat))
   )
 
   const sortedProjects = filteredProjects.sort((a, b) => {
     if (a.priority !== b.priority) {
-      return b.priority - a.priority
+      return a.priority - b.priority
     }
     return a.title.localeCompare(b.title, language === 'ko' ? 'ko' : 'en')
   })
-
-  const currentProjects = sortedProjects.filter(
-    (project) => !project.categories.includes('old')
-  )
 
   const ProjectCard = ({ project }: { project: ProjectItem }) => (
     <Drawer project={project} categories={content.categories} />
@@ -365,8 +229,8 @@ export default function Things({ language }: ThingsProps) {
             {activeFilters.length > 0 ? (
               sortedProjects.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {currentProjects.map((project) => (
-                    <ProjectCard key={project.uid} project={project} />
+                  {sortedProjects.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
                   ))}
                 </div>
               ) : (
