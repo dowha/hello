@@ -77,6 +77,17 @@ export default function GNB({
     system: 'System',
   }
 
+  const languagelabels: Record<Language, string> = {
+    ko: "언어 변경",
+    en: "Change language",
+  };
+
+
+  const themelabels: Record<Language, string> = {
+    ko: "테마 변경",
+    en: "Change theme",
+  };
+
   return (
     <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-end px-4 z-50 print-hide">
       <div className="flex items-center space-x-2">
@@ -84,7 +95,7 @@ export default function GNB({
         {showLanguage && (
           <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
             <PopoverTrigger asChild>
-              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight">
+              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight" aria-label={languagelabels[internalLanguage]} title={languagelabels[internalLanguage]}>
                 <svg
                   data-testid="geist-icon"
                   height="16"
@@ -125,7 +136,7 @@ export default function GNB({
         {showTheme && (
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
-              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight">
+              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight" aria-label={themelabels[internalLanguage]} title={themelabels[internalLanguage]}>
                 <svg
                   data-testid="geist-icon"
                   height="16"
