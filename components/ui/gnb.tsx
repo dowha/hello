@@ -24,18 +24,17 @@ export default function GNB({
   currentLanguage: externalLanguage,
   onLanguageChange,
 }: GNBProps) {
-  const [internalLanguage, setInternalLanguage] = useState<Language>('ko')
   const [theme, setTheme] = useState<Theme>('light')
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
 
   // ✅ 페이지 로드 시 `localStorage`에서 언어 값 가져오기 (페이지 이동 후 유지)
-  useEffect(() => {
-    const storedLanguage = localStorage.getItem('preferredLanguage')
-    if (storedLanguage && onLanguageChange) {
-      onLanguageChange(storedLanguage as Language)
+  const [internalLanguage, setInternalLanguage] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('preferredLanguage') as Language) ?? 'ko'
     }
-  }, [onLanguageChange])
+    return 'ko'
+  })
 
   // ✅ 외부에서 언어 변경될 때 `localStorage` 업데이트
   useEffect(() => {
