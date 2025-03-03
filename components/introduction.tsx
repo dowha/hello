@@ -24,8 +24,22 @@ type AboutProps = {
 // 캐싱을 위한 Map 객체 생성
 const cache = new Map<string, AboutContent>()
 
+function LoadingSpinner() {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-white/30 backdrop-blur-sm">
+      <div className="text-center">
+        <div className="inline-block">
+          <div className="w-8 h-8 rounded-full border-4 border-gray-400 border-t-transparent animate-spin" />
+        </div>
+        <p className="mt-2 text-sm text-gray-500 font-medium">Loading...</p>
+      </div>
+    </div>
+  )
+}
+
 export function About({ language }: AboutProps) {
   const [content, setContent] = useState<AboutContent | null>(null)
+  const [loading, setLoading] = useState(true) // 로딩 상태 추가
 
   async function fetchAboutContent(lang: 'en' | 'ko') {
     if (cache.has(lang)) {
@@ -38,25 +52,28 @@ export function About({ language }: AboutProps) {
       .select('name, title, intro, journey, footnotes, buttons, main_button')
       .eq('language', lang)
       .single()
-
     if (error) {
       console.error('Error fetching data:', error.message)
+      setLoading(false) // 에러 발생 시 로딩 종료
       return
     }
 
     cache.set(lang, data)
     setContent(data)
+    setLoading(false) // 데이터 로드 완료 시 로딩 종료
   }
 
   useEffect(() => {
     fetchAboutContent(language)
   }, [language])
 
-  // 데이터가 로드되지 않은 경우 null을 반환
+  if (loading) {
+    return <LoadingSpinner /> // 로딩 중일 때 스피너 표시
+  }
+
   if (!content) {
     return null
   }
-
   return (
     <div className="main flex flex-col items-center justify-center bg-white p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
