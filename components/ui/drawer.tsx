@@ -85,7 +85,7 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8" />
             <div className="pb-6">
               <div className="flex justify-between items-start mb-2">
-                <Drawer.Title className="font-medium text-[15px] flex items-center">
+                <Drawer.Title className="font-medium flex items-center">
                   <strong>{project.title}</strong>
                   {project.link && (
                     <a
@@ -110,9 +110,9 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
               <p className="text-gray-600 mb-4 text-sm">
                 {project.longDescription}
               </p>
-              <div className="mt-4 text-sm">
-                <h4 className="font-medium mb-2">Voyage Log</h4>
-                <div className="bg-gray-100 p-3 rounded-md mb-6">
+              <div className="mt-4">
+                <h4 className="font-medium text-sm mb-2">Voyage Log</h4>
+                <div className="bg-gray-100 p-3 rounded-md mb-6 text-xs">
                   <ul className="list-none text-gray-600 space-y-2 divide-y divide-gray-200 divide-opacity-50">
                     {[...project.updateNotes]
                       .sort(
