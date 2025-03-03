@@ -127,7 +127,7 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
                         >
                           <div className="flex justify-between items-center">
                             <span>{note.text}</span>
-                            <span className="text-gray-400 font-mono text-xs">
+                            <span className="text-gray-400 font-mono text-[10px]">
                               {new Intl.DateTimeFormat('ko-KR', {
                                 year: 'numeric',
                                 month: '2-digit',
@@ -138,7 +138,7 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
                             </span>
                           </div>
                           {note.log && (
-                            <span className="text-xs text-gray-500 mt-1">
+                            <span className="text-gray-500 mt-1">
                               {note.log}
                             </span>
                           )}
