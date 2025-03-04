@@ -1,9 +1,8 @@
 // app/things/ClientThings.tsx
-'use client';
-import { useState, useEffect, Suspense } from 'react';
-import Head from 'next/head';
-import Things from '@/components/projects';
-import GNB from '@/components/ui/gnb';
+'use client'
+import { useState, useEffect, Suspense } from 'react'
+import Things from '@/components/projects'
+import GNB from '@/components/ui/gnb'
 
 function LoadingSpinner() {
   return (
@@ -15,31 +14,31 @@ function LoadingSpinner() {
         <p className="mt-2 text-sm text-gray-500 font-medium">Loading...</p>
       </div>
     </div>
-  );
+  )
 }
 
 export default function ClientThings() {
-  const [language, setLanguage] = useState<'en' | 'ko' | null>(null);
+  const [language, setLanguage] = useState<'en' | 'ko' | null>(null)
 
   useEffect(() => {
-    const storedLanguage = localStorage.getItem('preferredLanguage') as 'en' | 'ko' | null;
+    const storedLanguage = localStorage.getItem('preferredLanguage') as
+      | 'en'
+      | 'ko'
+      | null
     if (storedLanguage) {
-      setLanguage(storedLanguage);
+      setLanguage(storedLanguage)
     } else {
-      const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en';
-      setLanguage(userLang);
+      const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en'
+      setLanguage(userLang)
     }
-  }, []);
+  }, [])
 
   if (language === null) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner />
   }
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <Head>
-        <link rel="canonical" href="https://dowha.kim/things" />
-      </Head>
       <GNB
         showLanguage={true}
         showTheme={false}
@@ -48,5 +47,5 @@ export default function ClientThings() {
       />
       <Things language={language} />
     </Suspense>
-  );
+  )
 }

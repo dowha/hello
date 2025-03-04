@@ -1,7 +1,6 @@
 // app/resume/ClientResume.tsx
 'use client';
 import { useState, useEffect, Suspense } from 'react';
-import Head from 'next/head';
 import Resume from '@/components/resume';
 import GNB from '@/components/ui/gnb';
 
@@ -37,9 +36,7 @@ export default function ClientResume() {
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <Head>
-        <link rel="canonical" href="https://dowha.kim/resume" />
-      </Head>
+     
       <GNB
         showLanguage={true}
         showTheme={false}

@@ -78,15 +78,14 @@ export default function GNB({
   }
 
   const languagelabels: Record<Language, string> = {
-    ko: "언어 변경",
-    en: "Change language",
-  };
-
+    ko: '언어 변경',
+    en: 'Change language',
+  }
 
   const themelabels: Record<Language, string> = {
-    ko: "테마 변경",
-    en: "Change theme",
-  };
+    ko: '테마 변경',
+    en: 'Change theme',
+  }
 
   return (
     <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-end px-4 z-50 print-hide">
@@ -95,7 +94,11 @@ export default function GNB({
         {showLanguage && (
           <Popover open={languageOpen} onOpenChange={setLanguageOpen}>
             <PopoverTrigger asChild>
-              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight" aria-label={languagelabels[internalLanguage]} title={languagelabels[internalLanguage]}>
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full no-highlight"
+                aria-label={languagelabels[internalLanguage]}
+                title={languagelabels[internalLanguage]}
+              >
                 <svg
                   data-testid="geist-icon"
                   height="16"
@@ -115,18 +118,24 @@ export default function GNB({
             </PopoverTrigger>
             <PopoverContent className="w-32 p-1 mx-2">
               <div className="flex flex-col text-sm">
-                {Object.entries(languageOptions).map(([key, value]) => (
-                  <button
-                    key={key}
-                    onClick={() => handleLanguageChange(key as Language)}
-                    className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center no-highlight justify-between ${
-                      internalLanguage === key ? 'bg-gray-100' : ''
-                    }`}
-                  >
-                    {value}
-                    {internalLanguage === key && <Check size={14} />}
-                  </button>
-                ))}
+                {Object.entries(languageOptions)
+                  .sort(([keyA], [keyB]) => {
+                    if (keyA === internalLanguage) return -1
+                    if (keyB === internalLanguage) return 1
+                    return 0
+                  })
+                  .map(([key, value]) => (
+                    <button
+                      key={key}
+                      onClick={() => handleLanguageChange(key as Language)}
+                      className={`px-2 py-1.5 text-left hover:bg-gray-100 rounded flex items-center no-highlight justify-between ${
+                        internalLanguage === key ? 'bg-gray-100' : ''
+                      }`}
+                    >
+                      {value}
+                      {internalLanguage === key && <Check size={14} />}
+                    </button>
+                  ))}
               </div>
             </PopoverContent>
           </Popover>
@@ -136,7 +145,11 @@ export default function GNB({
         {showTheme && (
           <Popover open={themeOpen} onOpenChange={setThemeOpen}>
             <PopoverTrigger asChild>
-              <button className="p-2 hover:bg-gray-100 rounded-full no-highlight" aria-label={themelabels[internalLanguage]} title={themelabels[internalLanguage]}>
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full no-highlight"
+                aria-label={themelabels[internalLanguage]}
+                title={themelabels[internalLanguage]}
+              >
                 <svg
                   data-testid="geist-icon"
                   height="16"
