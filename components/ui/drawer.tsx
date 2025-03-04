@@ -46,7 +46,7 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
       activeSnapPoint={snap}
       setActiveSnapPoint={setSnap}
     >
-      <Drawer.Trigger className="no-highlight border border-[#e1e4e8] rounded-md p-2 bg-white hover:bg-[#f6f8fa] transition-colors duration-200 relative cursor-pointer w-full text-left overflow-hidden">
+      <Drawer.Trigger className="border border-[#e1e4e8] rounded-md p-2 bg-white hover:bg-[#f6f8fa] transition-colors duration-200 relative cursor-pointer w-full text-left overflow-hidden">
         <div className="flex absolute top-0 left-0 right-0 h-0.5 rounded-t-md">
           {project.categories.map((cat) => (
             <div
@@ -59,7 +59,7 @@ export default function ProjectDrawer({ project, categories }: DrawerProps) {
           ))}
         </div>
         <div
-          className={`text-sm transition-colors duration-300 focus-visible:outline-none ${
+          className={`no-highlight text-sm transition-colors duration-300 focus-visible:outline-none ${
             project.categories.includes('old')
               ? 'text-gray-500 hover:text-gray-700'
               : 'hover:text-[#050005]'
