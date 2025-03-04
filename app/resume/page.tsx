@@ -5,7 +5,7 @@ import ClientResume from './ClientResume';
 export async function generateMetadata(): Promise<Metadata> {
   const canonicalUrl = 'https://dowha.kim/resume';
   return {
-    title: 'Resume | Dowha Kim',
+    title: 'Resume',
     description: 'Dowha Kim’s resume',
     alternates: { canonical: canonicalUrl },
     openGraph: { url: canonicalUrl },
