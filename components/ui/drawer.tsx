@@ -1,7 +1,7 @@
 'use client'
 
 import { Drawer } from 'vaul'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { clsx } from 'clsx'
 
 type ProjectItem = {
@@ -37,26 +37,16 @@ const categoryColors: Record<string, string> = {
   old: '#696969',
 }
 
-  
 export default function ProjectDrawer({ project, categories }: DrawerProps) {
   const [snap, setSnap] = useState<number | string | null>(snapPoints[0])
-  const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(() => {
-    if (!isOpen && document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-  }, [isOpen]);
-  
-  
   return (
     <Drawer.Root
       snapPoints={snapPoints}
       activeSnapPoint={snap}
       setActiveSnapPoint={setSnap}
-      open={isOpen} onOpenChange={setIsOpen}
     >
-      <Drawer.Trigger className="border border-[#e1e4e8] rounded-md p-2 bg-white hover:bg-[#f6f8fa] transition-colors duration-200 relative cursor-pointer w-full text-left overflow-hidden">
+      <Drawer.Trigger className="no-highlight border border-[#e1e4e8] rounded-md p-2 bg-white hover:bg-[#f6f8fa] transition-colors duration-200 relative cursor-pointer w-full text-left overflow-hidden">
         <div className="flex absolute top-0 left-0 right-0 h-0.5 rounded-t-md">
           {project.categories.map((cat) => (
             <div
