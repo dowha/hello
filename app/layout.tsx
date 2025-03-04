@@ -42,7 +42,7 @@ export default function RootLayout({
           </Script>
         )}
       </head>
-      <body className="antialiased min-h-screen">
+      <body className="antialiased min-h-[100dvh]">
         {GTM_ID && (
           <noscript>
             <iframe

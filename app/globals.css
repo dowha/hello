@@ -106,7 +106,6 @@
   body {
     @apply bg-background text-foreground text-gray-600 antialiased;
     font-family: 'Pretendard Variable', sans-serif;
-    overflow: hidden; 
   }
 
   ul {
