@@ -112,10 +112,10 @@ export function About({ language }: AboutProps) {
             variant="outline"
             className="w-full group col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold bg-white transition-colors duration-300"
             onMouseUp={(event) => {
-              if (event.button === 1 || event.ctrlKey) {
+              if (event.button === 1 || event.ctrlKey || event.metaKey) {
                 window.open('https://blog.dowha.kim', '_blank', 'noopener')
               } else {
-                window.location.href = 'https://blog.dowha.kim'
+                window.open('https://blog.dowha.kim', '_blank', 'noopener')
               }
             }}
           >
@@ -128,10 +128,10 @@ export function About({ language }: AboutProps) {
                 variant="outline"
                 className="w-full group text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
                 onMouseUp={(event) => {
-                  if (event.button === 1 || event.ctrlKey) {
+                  if (event.button === 1 || event.ctrlKey || event.metaKey) {
                     window.open(btn.url, '_blank', 'noopener,noreferrer')
                   } else {
-                    window.location.href = btn.url
+                    window.open(btn.url, '_blank', 'noopener,noreferrer')
                   }
                 }}
               >
