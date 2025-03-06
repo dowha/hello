@@ -129,9 +129,9 @@ export function About({ language }: AboutProps) {
                 className="w-full group text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
                 onMouseUp={(event) => {
                   if (event.button === 1 || event.ctrlKey) {
-                    window.open('https://blog.dowha.kim', '_blank', 'noopener')
+                    window.open(btn.url, '_blank', 'noopener,noreferrer')
                   } else {
-                    window.location.href = 'https://blog.dowha.kim'
+                    window.location.href = btn.url
                   }
                 }}
               >
