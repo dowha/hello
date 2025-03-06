@@ -56,7 +56,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     <div className="flex justify-center items-center">
       <button
         onClick={() => setOpen(true)}
-        className="mt-3 w-[260px] flex items-center gap-2 h-10 px-4 rounded-lg border border-gray-200 text-gray-500 text-xs hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="mt-3 w-[260px] flex items-center gap-2 h-10 px-4 rounded-lg border border-gray-200 text-gray-500 text-xs hover:border-[#0a85d1] focus:outline-none focus:ring-2 focus:ring-gray-200"
       >
         <Search className="w-3 h-3" />
         <span>{currentContent.buttonText}</span>
@@ -94,7 +94,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                         window.location.href = item.href
                       }, 100) // ✅ 클릭 후 닫히도록 설정
                     }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-50 transition-colors duration-200"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 transition-colors duration-200"
                   >
                     {item.title}
                   </button>

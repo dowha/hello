@@ -84,7 +84,7 @@ export function About({ language }: AboutProps) {
               alt={content.name}
               layout="fill"
               objectFit="cover"
-              className="rounded-full"
+              className="rounded-full border border-[#f6f5f4]"
               priority
             />
             <div className="absolute -bottom-1 -right-1 bg-white rounded-full w-6 h-6 flex items-center justify-center text-lg">
@@ -111,7 +111,13 @@ export function About({ language }: AboutProps) {
           <Button
             variant="outline"
             className="w-full group col-span-2 text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold bg-white transition-colors duration-300"
-            onClick={() => window.open('https://blog.dowha.kim', '_blank','noopener')}
+            onMouseUp={(event) => {
+              if (event.button === 1 || event.ctrlKey) {
+                window.open('https://blog.dowha.kim', '_blank', 'noopener')
+              } else {
+                window.location.href = 'https://blog.dowha.kim'
+              }
+            }}
           >
             <span className="external relative">{content.main_button}</span>
           </Button>
@@ -121,7 +127,13 @@ export function About({ language }: AboutProps) {
                 key={index}
                 variant="outline"
                 className="w-full group text-xs md:text-sm flex items-center justify-center space-x-2 hover:bg-gray-100 text-gray-800 font-semibold transition-colors duration-300 bg-white"
-                onClick={() => window.open(btn.url, '_blank','noopener,noreferrer')}
+                onMouseUp={(event) => {
+                  if (event.button === 1 || event.ctrlKey) {
+                    window.open('https://blog.dowha.kim', '_blank', 'noopener')
+                  } else {
+                    window.location.href = 'https://blog.dowha.kim'
+                  }
+                }}
               >
                 <span className="external relative">{btn.label}</span>
               </Button>
