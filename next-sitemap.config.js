@@ -50,7 +50,7 @@ module.exports = {
     ],
     additionalSitemaps: [
       'https://blog.dowha.kim/sitemap.xml', // ✅ 서브도메인 사이트맵 추가
-      'https://blog.dowha.kim/api/rss'
+      'https://blog.dowha.kim/api/rss',
     ],
   },
 }
