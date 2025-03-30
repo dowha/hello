@@ -4,4 +4,4 @@ Welcome to DOWHA.KIM. This project is a web application built using TypeScript, 
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License.
