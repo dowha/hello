@@ -29,18 +29,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     en: {
       buttonText: 'Get to know me more...',
       navigation: 'Navigation',
-      navItems: [
-        { title: 'Resume', href: `/resume` },
-        { title: 'Things I have made', href: '/things' },
-      ],
+      navItems: [{ title: 'Resume', href: `/resume` }],
     },
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
       navigation: '추가 페이지 목록',
-      navItems: [
-        { title: '이력서', href: `/resume` },
-        { title: '내가 만든 것들', href: '/things' },
-      ],
+      navItems: [{ title: '이력서', href: `/resume` }],
     },
   }
 
