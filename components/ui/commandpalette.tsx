@@ -29,12 +29,18 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     en: {
       buttonText: 'Get to know me more...',
       navigation: 'Navigation',
-      navItems: [{ title: 'Resume', href: `/resume` }],
+      navItems: [
+        { title: 'Resume', href: `/resume` },
+        { title: 'Lazydesk Studio', href: 'https://lazydesk.studio/' },
+      ],
     },
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
-      navigation: '추가 페이지 목록',
-      navItems: [{ title: '이력서', href: `/resume` }],
+      navigation: '더 알아보기',
+      navItems: [
+        { title: '이력서', href: `/resume` },
+        { title: '레이지데스크 스튜디오', href: 'https://lazydesk.studio/' },
+      ],
     },
   }
 
@@ -85,12 +91,20 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                       e.stopPropagation() // ✅ 버튼 클릭 시 팝업이 닫히지 않도록 설정
                       setTimeout(() => {
                         setOpen(false)
-                        window.location.href = item.href
+                        if (item.href.startsWith('http')) {
+                          window.open(item.href, '_blank', 'noopener,noreferrer')
+                        } else {
+                          window.location.href = item.href
+                        }
                       }, 100) // ✅ 클릭 후 닫히도록 설정
                     }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+                    className="w-full group flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 transition-colors duration-200"
                   >
-                    {item.title}
+                    {item.href.startsWith('http') ? (
+                      <span className="external relative">{item.title}</span>
+                    ) : (
+                      item.title
+                    )}
                   </button>
                 ))}
               </div>
