@@ -15,7 +15,9 @@ export const metadata = {
     url: 'https://dowha.kim',
   },
   icons: {
-    icon: '/favicon.ico',
+    // iOS 사파리가 옛 Gatsby favicon을 로컬 DB에 붙잡고 재요청을 안 함(데이터삭제·재부팅·CDN퍼지 무효).
+    // 탭 아이콘은 favicon 사용 → 새 URL(favicon-v2.ico, 동일 파란원)로 바꿔 "본 적 없는 리소스"로 강제 재fetch.
+    icon: '/favicon-v2.ico',
     apple: '/apple-icon.png',
   },
   alternates: {
