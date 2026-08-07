@@ -16,6 +16,7 @@ export const metadata = {
   },
   icons: {
     icon: '/favicon.ico',
+    apple: '/apple-icon.png',
   },
   alternates: {
     canonical: 'https://dowha.kim',
