@@ -14,6 +14,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // 자기소멸 SW는 항상 최신본을 받아야 옛 Gatsby SW를 즉시 교체함 → 캐시 금지
+        source: '/sw.js',
+        headers: [
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
     ]
   },
 }
