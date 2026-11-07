@@ -31,11 +31,11 @@ const JOURNEY_RULES: [RegExp, string][] = [
   // 이전 경력 문장 재구성 (토스랩 각주 번호가 링크로 바뀌기 전에 먼저 처리)
   [
     /(토스랩<sup>\s*2\s*<\/sup>)과 두 곳의 비영리 단체에서/g,
-    `업무용 협업툴 잔디(JANDI)를 서비스하는 $1에서 B2B 마케터로 일했고, 또 ${SC_KO}를 포함한 두 곳의 비영리 단체에서`,
+    `업무용 협업툴 잔디(JANDI)를 서비스하는 $1에서 디지털/콘텐츠 마케터로 일했고, 또 ${SC_KO}를 포함한 두 곳의 비영리 단체에서`,
   ],
   [
     /I was responsible for marketing, communications, and PR at (Toss Lab<sup>\s*2\s*<\/sup>) and two NGOs/g,
-    `I worked as a B2B marketer at $1, the company behind the work collaboration tool JANDI, and was responsible for marketing, communications, and PR at two NGOs, including ${SC_EN}`,
+    `I worked as a digital/content marketer at $1, the company behind the work collaboration tool JANDI, and was responsible for marketing, communications, and PR at two NGOs, including ${SC_EN}`,
   ],
   [/(파수|Fasoo)<sup>\s*1\s*<\/sup>/g, companyLink('https://www.fasoo.ai/', '/chips/fasoo.png', '$1')],
   [/(토스랩|Toss Lab)<sup>\s*2\s*<\/sup>/g, companyLink('https://jandi.com/', '/chips/jandi.png', '$1')],
