@@ -48,7 +48,7 @@ export function History({ language }: { language: Language }) {
   if (!entries?.length) return null
 
   return (
-    <section id="timeline" aria-labelledby="timeline-title" className="pt-6 border-t border-[#f6f5f4]">
+    <section id="timeline" aria-labelledby="timeline-title" className="pt-6">
       <h2 id="timeline-title" className="text-sm text-gray-800">
         {TITLE[language]}
       </h2>
