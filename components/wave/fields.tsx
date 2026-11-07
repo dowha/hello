@@ -24,12 +24,30 @@ export function AutoTextarea({
   placeholder?: string
 }) {
   const ref = useRef<HTMLTextAreaElement>(null)
+
+  const fit = () => {
+    const el = ref.current
+    // 숨김 탭 안에서는 scrollHeight가 0이라 높이를 건드리지 않는다
+    if (!el || el.offsetParent === null) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight + 2}px`
+  }
+
+  useEffect(fit, [value])
+
+  // 숨김 탭이 보이게 되거나 창 너비가 바뀌면(줄바꿈 변화) 다시 맞춘다
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    el.style.height = 'auto'
-    el.style.height = `${el.scrollHeight + 2}px`
-  }, [value])
+    let width = -1
+    const ro = new ResizeObserver(([entry]) => {
+      if (entry.contentRect.width === width) return
+      width = entry.contentRect.width
+      fit()
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
   return (
     <textarea
       ref={ref}
