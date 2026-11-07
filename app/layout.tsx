@@ -32,7 +32,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko">
+    // 브라우저 확장(HWP 뷰어 등)이 html 태그에 속성을 붙여 생기는 경고 방지
+    <html lang="ko" suppressHydrationWarning>
       <head>
         {GTM_ID && (
           <Script id="gtm-script" strategy="lazyOnload">
