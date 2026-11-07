@@ -5,7 +5,7 @@ import { supabase } from '@/supabase'
 import { groupByYear, type HistoryEntry, type Language } from '@/lib/history'
 
 const TITLE: Record<Language, string> = {
-  ko: '타임라인',
+  ko: '인생 타임라인',
   en: 'Timeline',
 }
 
