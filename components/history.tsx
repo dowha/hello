@@ -38,19 +38,7 @@ export function History({ language }: { language: Language }) {
                     {formatMonth(entry.date, language)}
                   </time>
                   <p className="text-gray-700" style={{ wordBreak: 'keep-all' }}>
-                    {entry.emoji && <span className="mr-1.5">{entry.emoji}</span>}
                     {entry.text[language]}
-                    {entry.url && (
-                      <a
-                        href={entry.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-1 !no-underline text-gray-400 after:!hidden"
-                        aria-label={language === 'ko' ? '관련 링크' : 'Related link'}
-                      >
-                        →
-                      </a>
-                    )}
                   </p>
                 </li>
               ))}
