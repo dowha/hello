@@ -141,7 +141,10 @@
 
   /* 자기소개(DB about.intro)의 강조 문장(<em class="wave">): 은은한 형광펜 하이라이트
      클래스 이름은 DB에 저장된 그대로 'wave'를 유지한다 */
-  .main em.wave {
+  /* 하이라이트: <em class="wave"> 또는 <mark> (blog.dowha.kim의 ==하이라이트==와 동일) */
+  .main em.wave,
+  .main mark {
+    color: inherit;
     font-style: normal;
     padding: 0 1px;
     background: linear-gradient(transparent 58%, rgb(0 134 255 / 0.12) 58%);

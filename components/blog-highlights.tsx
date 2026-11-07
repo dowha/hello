@@ -29,8 +29,9 @@ const COPY: Record<Language, { post: string; book: string; short: string; blog: 
 // shorts는 굵게·기울임만 쓰므로 react-markdown 대신 간단히 변환 (blog 홈과 동일)
 function renderEmphasis(text: string) {
   return text
-    .split(/(\*\*[^*\n]+\*\*|(?<!\w)__[^_\n]+__(?!\w)|\*[^*\n]+\*|(?<!\w)_[^_\n]+_(?!\w))/g)
+    .split(/(==(?=\S)[^=\n]*?\S==|\*\*[^*\n]+\*\*|(?<!\w)__[^_\n]+__(?!\w)|\*[^*\n]+\*|(?<!\w)_[^_\n]+_(?!\w))/g)
     .map((part, i) => {
+      if (/^==.+==$/.test(part)) return <mark key={i}>{part.slice(2, -2)}</mark>
       if (/^(\*\*|__).+\1$/.test(part)) return <strong key={i}>{part.slice(2, -2)}</strong>
       if (/^([*_]).+\1$/.test(part)) return <em key={i}>{part.slice(1, -1)}</em>
       return part

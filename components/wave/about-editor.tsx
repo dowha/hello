@@ -10,7 +10,7 @@ type Field = 'name' | 'title' | 'intro' | 'journey'
 const FIELDS: { key: Field; label: string; hint?: string; html?: boolean }[] = [
   { key: 'name', label: '이름' },
   { key: 'title', label: '타이틀' },
-  { key: 'intro', label: '소개', hint: 'HTML 가능 · 강조는 <em class="wave">', html: true },
+  { key: 'intro', label: '소개', hint: 'HTML 가능 · 하이라이트는 <mark> 또는 <em class="wave">', html: true },
   {
     key: 'journey',
     label: '본문',
