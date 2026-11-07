@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
-import { Dialog, DialogContent } from './dialog'
+import { Dialog, DialogContent, DialogTitle } from './dialog'
 
 type Language = 'en' | 'ko'
 type CommandPaletteProps = {
@@ -17,6 +17,18 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       setPlatform(navigator.platform.includes('Mac') ? '⌘' : 'Ctrl')
       setIsMobile(/Mobi|Android/i.test(navigator.userAgent))
     }
+  }, [])
+
+  // ⌘K(맥) / Ctrl+K(그 외)로 팔레트 열고 닫기
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey) && !e.isComposing) {
+        e.preventDefault()
+        setOpen((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
   const handleClose = (e: React.MouseEvent) => {
@@ -84,15 +96,17 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
+          aria-describedby={undefined}
           className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden bg-white"
           onClick={handleClose} // ✅ 바깥 클릭 감지
         >
           <div className="w-full bg-white" onClick={(e) => e.stopPropagation()}>
             {/* ✅ 내부 요소 클릭은 닫히지 않도록 이벤트 버블링 차단 */}
             <div className="border-b px-3 py-2 flex justify-between items-center">
-              <span className="text-sm font-semibold">
+              {/* 스크린리더용 다이얼로그 제목 (Radix 접근성 요구사항) */}
+              <DialogTitle className="text-sm font-semibold leading-normal tracking-normal">
                 {currentContent.navigation}
-              </span>
+              </DialogTitle>
               <button
                 className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer"
                 onClick={() => setOpen(false)} // ✅ 닫기 버튼 정상 작동
