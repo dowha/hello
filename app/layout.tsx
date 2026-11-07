@@ -55,7 +55,7 @@ export default function RootLayout({
           </Script>
         )}
       </head>
-      <body className="antialiased min-h-[100dvh] overflow-y-scroll">
+      <body className="antialiased min-h-[100dvh] overflow-y-scroll flex flex-col">
         {GTM_ID && (
           <noscript>
             <iframe

@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Logomark } from '@/components/brand'
 import {
   Popover,
   PopoverContent,
@@ -28,6 +31,16 @@ export default function GNB({
   const [theme, setTheme] = useState<Theme>('light')
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
+  // 상단 로고(워드마크)가 화면 밖으로 나가면 바에 작은 로고마크를 띄운다
+  const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 96)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   // 언어는 페이지가 정해서 내려준다 (자동 저장하지 않음 — 직접 고를 때만 저장)
   const [internalLanguage, setInternalLanguage] = useState<Language>(externalLanguage ?? 'ko')
@@ -80,7 +93,29 @@ export default function GNB({
   }
 
   return (
-    <nav className="top-0 left-0 right-0 h-14 flex items-center justify-end px-4 z-50 print-hide">
+    <>
+    {/* 고정 바가 차지하던 자리 (홈 로고 위치 72px 유지) */}
+    <div aria-hidden className="h-14 shrink-0 print-hide" />
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 transition-[height,background-color,border-color] duration-200 print-hide border-b ${
+        scrolled ? 'h-11 border-gray-200/70 bg-[#FCFCFC]/80 backdrop-blur' : 'h-14 border-transparent'
+      }`}
+    >
+      <Link
+        href="/"
+        aria-label="Home"
+        tabIndex={scrolled ? 0 : -1}
+        onClick={(e) => {
+          // 홈에서는 맨 위로 부드럽게 이동
+          if (pathname === '/') {
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }
+        }}
+        className={`transition-opacity duration-200 ${scrolled ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+      >
+        <Logomark className="h-5 w-5 text-brand" aria-hidden />
+      </Link>
       <div className="flex items-center space-x-2">
         {/* 🌐 언어 변경 버튼 */}
         {showLanguage && (
@@ -190,5 +225,6 @@ export default function GNB({
         )}
       </div>
     </nav>
+    </>
   )
 }
