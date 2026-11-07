@@ -13,7 +13,7 @@ export const metadata = {
     template: '%s | Dowha Kim',
     default: 'Dowha Kim',
   },
-  description: 'a Digital Maker and B2B SaaS Specialist.',
+  description: 'a B2B SaaS Specialist.',
   openGraph: {
     type: 'website',
     locale: 'ko_KR',

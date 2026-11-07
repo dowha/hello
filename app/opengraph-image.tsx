@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import { LOGO_PATHS, MARK_PATHS } from '@/components/brand'
 
 // 링크 공유용 대표 이미지 (빌드 때 정적 생성, 하위 페이지에도 상속)
-export const alt = 'dowha kim — Digital Maker | B2B SaaS Specialist'
+export const alt = 'dowha kim — B2B SaaS Specialist'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -31,7 +31,7 @@ export default function OpengraphImage() {
         </svg>
         <div style={{ width: 48, height: 2, background: '#e5e7eb', margin: '44px 0 36px' }} />
         <div style={{ fontSize: 34, color: '#4b5563', letterSpacing: -0.5 }}>
-          Digital Maker | B2B SaaS Specialist
+          B2B SaaS Specialist
         </div>
         <div
           style={{
