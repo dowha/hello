@@ -16,24 +16,27 @@ type AboutContent = {
   journey: string
 }
 
-// 본문(DB)의 회사명+각주 번호(예: 파수<sup>1</sup>)를 로고 칩이 붙은 회사 링크로 바꾼다
-const COMPANIES = [
-  { pattern: /(파수|Fasoo)<sup>\s*1\s*<\/sup>/g, url: 'https://fasoo.com/', chip: '/chips/fasoo.png' },
-  { pattern: /(토스랩|Toss Lab)<sup>\s*2\s*<\/sup>/g, url: 'https://jandi.com/', chip: '/chips/jandi.png' },
+// 본문(DB) 문장을 로고 칩이 붙은 회사 링크로 바꾼다
+// - 파수·토스랩: 회사명+각주 번호(예: 파수<sup>1</sup>)를 찾아 링크로 교체
+// - 세이브더칠드런: DB 문장에 없어서 '두 곳의 비영리 단체' 문구에 덧붙인다
+const companyLink = (url: string, chip: string, label: string) =>
+  `<a href="${url}" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap">` +
+  `<img src="${chip}" alt="" width="15" height="15" class="inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px]" />${label}</a>`
+
+const SC_KO = companyLink('https://www.sc.or.kr/', '/chips/savethechildren.png', '세이브더칠드런 코리아')
+const SC_EN = companyLink('https://www.sc.or.kr/', '/chips/savethechildren.png', 'Save the Children Korea')
+
+const JOURNEY_RULES: [RegExp, string][] = [
+  [/(파수|Fasoo)<sup>\s*1\s*<\/sup>/g, companyLink('https://www.fasoo.ai/', '/chips/fasoo.png', '$1')],
+  [/(토스랩|Toss Lab)<sup>\s*2\s*<\/sup>/g, companyLink('https://jandi.com/', '/chips/jandi.png', '$1')],
+  [/두 곳의 비영리 단체/g, `${SC_KO}를 포함한 두 곳의 비영리 단체`],
+  [/two NGOs/g, `two NGOs, including ${SC_EN}`],
+  // 매칭되지 않은 나머지 각주 번호는 제거
+  [/<sup>\s*\d+\s*<\/sup>/g, ''],
 ]
 
-function linkCompanies(html: string) {
-  let out = html
-  for (const { pattern, url, chip } of COMPANIES) {
-    out = out.replace(
-      pattern,
-      `<a href="${url}" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap">` +
-        `<img src="${chip}" alt="" width="15" height="15" class="inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px]" />$1</a>`
-    )
-  }
-  // 매칭되지 않은 나머지 각주 번호는 제거
-  return out.replace(/<sup>\s*\d+\s*<\/sup>/g, '')
-}
+const linkCompanies = (html: string) =>
+  JOURNEY_RULES.reduce((out, [pattern, replacement]) => out.replace(pattern, replacement), html)
 
 type AboutProps = {
   language: 'en' | 'ko'
