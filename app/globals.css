@@ -133,15 +133,15 @@
     @apply inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px];
   }
 
-  /* 자기소개(DB about.intro)의 강조 문장: 로고 색 물결 밑줄 */
+  /* 자기소개(DB about.intro)의 강조 문장: 로고 색 물결 밑줄
+     기본 wavy 밑줄은 물결 간격을 못 바꿔서 SVG 패턴(폭 16px·높이 3px·선 0.75px)으로 그린다 */
   .main em.wave {
     font-style: normal;
-    text-decoration-line: underline;
-    text-decoration-style: wavy;
-    text-decoration-color: rgb(0 134 255 / 0.6);
-    text-decoration-thickness: 1.5px;
-    text-underline-offset: 5px;
-    text-decoration-skip-ink: none;
+    padding-bottom: 1px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='3' viewBox='0 0 16 3'%3E%3Cpath d='M0 1.5 Q4 0.4 8 1.5 T16 1.5' fill='none' stroke='rgb(0,134,255)' stroke-opacity='0.6' stroke-width='0.75'/%3E%3C/svg%3E")
+      repeat-x 0 100% / 16px 3px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   nav a[target='_blank'] {
