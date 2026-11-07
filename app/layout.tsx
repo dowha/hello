@@ -15,7 +15,10 @@ export const metadata = {
     url: 'https://dowha.kim',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/logomark.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
     apple: '/apple-icon.png',
   },
   alternates: {

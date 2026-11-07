@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import CommandPalette from '@/components/ui/commandpalette'
+import { Logomark } from '@/components/brand'
 import { supabase } from '@/supabase' // supabase.ts에서 클라이언트 가져오기
 
 // 데이터 타입 정의
@@ -87,8 +88,8 @@ export function About({ language }: AboutProps) {
               className="rounded-full border border-[#f6f5f4]"
               priority
             />
-            <div className="absolute -bottom-1 -right-1 bg-white rounded-full w-6 h-6 flex items-center justify-center text-lg">
-              🌊
+            <div className="absolute -bottom-1 -right-1 bg-white rounded-full w-6 h-6 flex items-center justify-center">
+              <Logomark className="w-[18px] h-[18px] text-brand" aria-hidden />
             </div>
           </div>
           <div className="flex flex-col justify-center text-center">

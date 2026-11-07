@@ -113,7 +113,7 @@
   }
 
   ::selection {
-    background-color: rgba(10, 133, 209, 0.1);
+    background-color: rgba(0, 134, 255, 0.1);
   }
 
   .custom-dialog-content .absolute {
@@ -121,7 +121,7 @@
   }
 
   .main a {
-    @apply break-words underline underline-offset-4 decoration-gray-200 hover:text-[#0a85d1];
+    @apply break-words underline underline-offset-4 decoration-gray-200 hover:text-[#0086FF];
   }
 
   nav a[target='_blank'] {
@@ -142,7 +142,7 @@
   /* target="_blank" 링크에 아이콘 표시 */
   .external:after,
   a[target='_blank']:after {
-    @apply text-gray-300 group-hover:text-[#0a85d1] hover:text-[#0a85d1];
+    @apply text-gray-300 group-hover:text-[#0086FF] hover:text-[#0086FF];
 
     content: '↗';
     display: inline-block;
