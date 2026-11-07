@@ -1,8 +1,8 @@
 import { HISTORY, groupByYear, type Language } from '@/lib/history'
 
 const TITLE: Record<Language, string> = {
-  ko: '역사',
-  en: 'History',
+  ko: '타임라인',
+  en: 'Timeline',
 }
 
 const groups = groupByYear(HISTORY)

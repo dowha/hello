@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import CommandPalette from '@/components/ui/commandpalette'
 import { Wordmark } from '@/components/brand'
 import { History } from '@/components/history'
@@ -106,7 +107,9 @@ export function About({ language }: AboutProps) {
     <div className="main flex flex-col items-center justify-center bg-white p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
-          <Wordmark className="h-6 w-auto text-brand" />
+          <Link href="/" aria-label="Home" className="!no-underline transition-opacity hover:opacity-80">
+            <Wordmark className="h-6 w-auto text-brand" />
+          </Link>
           <span aria-hidden className="block w-8 h-px bg-gray-200 !my-5" />
           <div className="flex flex-col justify-center text-center">
             <h1 className="flex items-center justify-center gap-2">
