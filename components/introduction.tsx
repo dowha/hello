@@ -80,21 +80,19 @@ export function About({ language }: AboutProps) {
     <div className="main flex flex-col items-center justify-center bg-white p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
-          <div className="relative w-14 h-14">
-            <Image
-              src="/dowha.png"
-              alt={content.name}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-full border border-[#f6f5f4]"
-              priority
-            />
-            <div className="absolute -bottom-1 -right-1 bg-white rounded-full w-6 h-6 flex items-center justify-center">
-              <Logomark className="w-[18px] h-[18px] text-brand" aria-hidden />
-            </div>
-          </div>
+          <Logomark className="w-14 h-14 text-brand" />
           <div className="flex flex-col justify-center text-center">
-            <h1>{content.name}</h1>
+            <h1 className="flex items-center justify-center gap-2">
+              <Image
+                src="/dowha.png"
+                alt=""
+                width={24}
+                height={24}
+                className="w-6 h-6 rounded-full border border-[#f6f5f4] object-cover"
+                priority
+              />
+              {content.name}
+            </h1>
             <h2 className="mt-1">{content.title}</h2>
             <CommandPalette language={language} />
           </div>

@@ -11,6 +11,11 @@ const TITLE: Record<Language, string> = {
   en: 'What I’m thinking lately',
 }
 
+const BLOG_LINK: Record<Language, string> = {
+  ko: '블로그 바로가기',
+  en: 'Visit the blog',
+}
+
 // shorts는 굵게·기울임만 쓰므로 react-markdown 대신 간단히 변환 (blog 홈과 동일)
 function renderEmphasis(text: string) {
   return text
@@ -70,6 +75,11 @@ export function LatestShort({ language }: { language: Language }) {
         <span className="absolute -left-2 bottom-3 h-4 w-4 rounded-full bg-inherit" />
         <span className="absolute -left-4 bottom-1 h-2 w-2 rounded-full bg-inherit" />
       </a>
+      <div className="text-right text-xs pb-1">
+        <a href="https://blog.dowha.kim" target="_blank" rel="noopener noreferrer">
+          {BLOG_LINK[language]}
+        </a>
+      </div>
     </section>
   )
 }
