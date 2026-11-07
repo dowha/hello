@@ -30,6 +30,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       buttonText: 'Get to know me more...',
       navigation: 'Navigation',
       navItems: [
+        { title: 'History of Dowha', href: '/history' },
         { title: 'Resume', href: `/resume` },
         { title: 'Lazydesk Studio', href: 'https://lazydesk.studio/' },
       ],
@@ -38,6 +39,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       buttonText: '저에 대해 더 궁금하시다면...',
       navigation: '더 알아보기',
       navItems: [
+        { title: '도화의 역사', href: '/history' },
         { title: '이력서', href: `/resume` },
         { title: '레이지데스크 스튜디오', href: 'https://lazydesk.studio/' },
       ],
@@ -56,7 +58,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     <div className="flex justify-center items-center">
       <button
         onClick={() => setOpen(true)}
-        className="mt-3 w-[260px] flex items-center gap-2 h-10 px-4 rounded-lg border border-gray-200 text-gray-500 text-xs hover:border-[#0a85d1] focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="mt-3 w-[260px] flex items-center gap-2 h-10 px-4 rounded-lg border border-gray-200 text-gray-500 text-xs hover:border-brand focus:outline-none focus:ring-2 focus:ring-gray-200"
       >
         <Search className="w-3 h-3" />
         <span>{currentContent.buttonText}</span>
