@@ -4,6 +4,11 @@ import Script from 'next/script'
 import GTMTracker from '@/components/GTMTracker' // 👈 GTM 트래킹 컴포넌트 추가
 
 export const metadata = {
+  // OG 이미지 등 상대 경로 메타를 절대 URL로 만들기 위한 기준 주소
+  metadataBase: new URL('https://dowha.kim'),
+  twitter: {
+    card: 'summary_large_image',
+  },
   title: {
     template: '%s | Dowha Kim',
     default: 'Dowha Kim',
