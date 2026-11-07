@@ -124,6 +124,15 @@
     @apply break-words underline underline-offset-4 decoration-gray-200 hover:text-[#0086FF];
   }
 
+  /* 자기소개(DB about.journey) 안의 회사 링크와 로고 칩 */
+  .main a.company {
+    @apply whitespace-nowrap;
+  }
+
+  .main .company-chip {
+    @apply inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px];
+  }
+
   nav a[target='_blank'] {
     display: inline;
     position: relative;

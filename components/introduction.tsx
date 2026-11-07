@@ -17,34 +17,9 @@ type AboutContent = {
   journey: string
 }
 
-// 본문(DB) 문장을 로고 칩이 붙은 회사 링크로 바꾼다
-// - 파수·토스랩: 회사명+각주 번호(예: 파수<sup>1</sup>)를 찾아 링크로 교체
-// - 이전 경력 문장: DB 원문을 고쳐 쓰고 세이브더칠드런 링크를 덧붙인다
-const companyLink = (url: string, chip: string, label: string) =>
-  `<a href="${url}" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap">` +
-  `<img src="${chip}" alt="" width="15" height="15" class="inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px]" /><strong>${label}</strong></a>`
-
-const SC_KO = companyLink('https://www.sc.or.kr/', '/chips/savethechildren.png', '세이브더칠드런 코리아')
-const SC_EN = companyLink('https://www.sc.or.kr/', '/chips/savethechildren.png', 'Save the Children Korea')
-
-const JOURNEY_RULES: [RegExp, string][] = [
-  // 이전 경력 문장 재구성 (토스랩 각주 번호가 링크로 바뀌기 전에 먼저 처리)
-  [
-    /(토스랩<sup>\s*2\s*<\/sup>)과 두 곳의 비영리 단체에서/g,
-    `업무용 협업툴 잔디(JANDI)를 서비스하는 $1에서 디지털/콘텐츠 마케터로 일했고, 또 ${SC_KO}를 포함한 두 곳의 비영리 단체에서`,
-  ],
-  [
-    /I was responsible for marketing, communications, and PR at (Toss Lab<sup>\s*2\s*<\/sup>) and two NGOs/g,
-    `I worked as a digital/content marketer at $1, the company behind the work collaboration tool JANDI, and was responsible for marketing, communications, and PR at two NGOs, including ${SC_EN}`,
-  ],
-  [/(파수|Fasoo)<sup>\s*1\s*<\/sup>/g, companyLink('https://www.fasoo.ai/', '/chips/fasoo.png', '$1')],
-  [/(토스랩|Toss Lab)<sup>\s*2\s*<\/sup>/g, companyLink('https://jandi.com/', '/chips/jandi.png', '$1')],
-  // 매칭되지 않은 나머지 각주 번호는 제거
-  [/<sup>\s*\d+\s*<\/sup>/g, ''],
-]
-
-const linkCompanies = (html: string) =>
-  JOURNEY_RULES.reduce((out, [pattern, replacement]) => out.replace(pattern, replacement), html)
+// 본문 HTML(회사 링크·로고 칩 포함)은 DB about.journey에서 관리한다
+// 예전 원문에 남은 각주 번호(<sup>1</sup>)만 제거
+const stripFootnoteMarks = (html: string) => html.replace(/<sup>\s*\d+\s*<\/sup>/g, '')
 
 type AboutProps = {
   language: 'en' | 'ko'
@@ -134,7 +109,7 @@ export function About({ language }: AboutProps) {
           />
           <p
             className="text-sm md:text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: linkCompanies(content.journey) }}
+            dangerouslySetInnerHTML={{ __html: stripFootnoteMarks(content.journey) }}
           />
         </div>
         <BlogHighlights language={language} />
