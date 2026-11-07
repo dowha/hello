@@ -80,7 +80,8 @@ export function About({ language }: AboutProps) {
     <div className="main flex flex-col items-center justify-center bg-white p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
-          <Wordmark className="h-6 w-auto text-brand mb-2" />
+          <Wordmark className="h-6 w-auto text-brand" />
+          <span aria-hidden className="block w-8 h-px bg-gray-200 !my-5" />
           <div className="flex flex-col justify-center text-center">
             <h1 className="flex items-center justify-center gap-2">
               <Image
