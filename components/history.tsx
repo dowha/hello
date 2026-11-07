@@ -26,6 +26,7 @@ function fetchTimeline() {
       .select('id, happened_on, text_ko, text_en')
       .eq('is_published', true)
       .order('happened_on', { ascending: false })
+      .order('created_at', { ascending: false })
   ).then(({ data, error }) => {
     if (error) console.error('타임라인 fetch 오류:', error.message)
     return (data as HistoryEntry[] | null) ?? []

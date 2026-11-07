@@ -25,6 +25,7 @@ export function TimelineEditor() {
       .from('timeline')
       .select('id, happened_on, text_ko, text_en, is_published')
       .order('happened_on', { ascending: false })
+      .order('created_at', { ascending: false })
       .then(({ data, error }) => {
         if (error) return setError(error.message)
         setRows((data ?? []).map((r) => ({ ...r, key: r.id })))
