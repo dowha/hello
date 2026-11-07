@@ -81,7 +81,7 @@ export function About({ language }: AboutProps) {
     return null
   }
   return (
-    <div className="main flex flex-col items-center justify-center bg-white p-4 pb-12">
+    <div className="main flex flex-col items-center justify-center p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
           <Link href="/" aria-label="Home" className="!no-underline transition-opacity hover:opacity-80">
@@ -109,11 +109,11 @@ export function About({ language }: AboutProps) {
         </div>
         <div className="space-y-4 text-left pb-2">
           <p
-            className="text-sm md:text-base leading-relaxed"
+            className="text-sm leading-6 md:text-base md:leading-7"
             dangerouslySetInnerHTML={{ __html: content.intro }}
           />
           <p
-            className="text-sm md:text-base leading-relaxed"
+            className="text-sm leading-6 md:text-base md:leading-7"
             dangerouslySetInnerHTML={{ __html: stripFootnoteMarks(content.journey) }}
           />
         </div>

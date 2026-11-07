@@ -3,6 +3,9 @@ import Footer from '@/components/ui/footer'
 import Script from 'next/script'
 import GTMTracker from '@/components/GTMTracker' // 👈 GTM 트래킹 컴포넌트 추가
 
+// 모바일 브라우저 상단 색도 배경과 맞춤 (blog와 동일)
+export const viewport = { themeColor: '#FCFCFC' }
+
 export const metadata = {
   // OG 이미지 등 상대 경로 메타를 절대 URL로 만들기 위한 기준 주소
   metadataBase: new URL('https://dowha.kim'),

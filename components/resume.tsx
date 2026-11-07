@@ -63,7 +63,7 @@ export default function Resume({ lang }: ResumeProps) {
   }
 
   return (
-    <div className="flex flex-col items-start justify-start bg-white p-4 pb-12">
+    <div className="flex flex-col items-start justify-start p-4 pb-12">
       {/* Print control area */}
       <div className="print-hide w-full max-w-[640px] mx-auto">
         <div className="header-controls flex justify-between items-center mb-4">
@@ -76,7 +76,7 @@ export default function Resume({ lang }: ResumeProps) {
       </div>
 
       {/* Printable area */}
-      <div ref={cvRef} className="main w-full max-w-[640px] mx-auto bg-white">
+      <div ref={cvRef} className="main w-full max-w-[640px] mx-auto">
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
           <header className="text-center mb-4">

@@ -99,12 +99,18 @@
     word-break: keep-all;
   }
 
+  /* 제목은 blog.dowha.kim과 같은 굵기(700) */
+  h1 {
+    @apply font-bold;
+  }
+
   strong {
     @apply font-semibold;
   }
 
   body {
-    @apply bg-background text-foreground text-gray-600 antialiased;
+    /* blog.dowha.kim과 같은 배경 */
+    @apply bg-[#FCFCFC] text-foreground text-gray-600 antialiased;
     font-family: 'Pretendard Variable', sans-serif;
   }
 
