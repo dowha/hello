@@ -16,8 +16,24 @@ type AboutContent = {
   journey: string
 }
 
-// 각주를 없앴으므로 본문의 각주 번호(<sup>1</sup>)도 제거
-const stripFootnoteMarks = (html: string) => html.replace(/<sup>\s*\d+\s*<\/sup>/g, '')
+// 본문(DB)의 회사명+각주 번호(예: 파수<sup>1</sup>)를 로고 칩이 붙은 회사 링크로 바꾼다
+const COMPANIES = [
+  { pattern: /(파수|Fasoo)<sup>\s*1\s*<\/sup>/g, url: 'https://fasoo.com/', chip: '/chips/fasoo.png' },
+  { pattern: /(토스랩|Toss Lab)<sup>\s*2\s*<\/sup>/g, url: 'https://jandi.com/', chip: '/chips/jandi.png' },
+]
+
+function linkCompanies(html: string) {
+  let out = html
+  for (const { pattern, url, chip } of COMPANIES) {
+    out = out.replace(
+      pattern,
+      `<a href="${url}" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap">` +
+        `<img src="${chip}" alt="" width="15" height="15" class="inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px]" />$1</a>`
+    )
+  }
+  // 매칭되지 않은 나머지 각주 번호는 제거
+  return out.replace(/<sup>\s*\d+\s*<\/sup>/g, '')
+}
 
 type AboutProps = {
   language: 'en' | 'ko'
@@ -105,7 +121,7 @@ export function About({ language }: AboutProps) {
           />
           <p
             className="text-sm md:text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: stripFootnoteMarks(content.journey) }}
+            dangerouslySetInnerHTML={{ __html: linkCompanies(content.journey) }}
           />
         </div>
         <BlogHighlights language={language} />
