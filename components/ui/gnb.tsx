@@ -91,17 +91,9 @@ export default function GNB({
 
   return (
     <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-between px-4 z-50 print-hide">
-      <div className="flex items-center gap-4">
-        <Link href="/" aria-label="Home" className="text-brand hover:opacity-80 transition-opacity">
-          <Wordmark className="h-4 w-auto" />
-        </Link>
-        <Link
-          href="/history"
-          className="text-xs font-medium text-gray-500 hover:text-brand transition-colors"
-        >
-          {internalLanguage === 'ko' ? '역사' : 'History'}
-        </Link>
-      </div>
+      <Link href="/" aria-label="Home" className="text-brand hover:opacity-80 transition-opacity">
+        <Wordmark className="h-4 w-auto" />
+      </Link>
       <div className="flex items-center space-x-2">
         {/* 🌐 언어 변경 버튼 */}
         {showLanguage && (

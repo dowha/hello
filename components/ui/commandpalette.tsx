@@ -30,7 +30,10 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       buttonText: 'Get to know me more...',
       navigation: 'Navigation',
       navItems: [
-        { title: 'History of Dowha', href: '/history' },
+        { title: 'Blog', href: 'https://blog.dowha.kim' },
+        { title: 'Contact', href: 'https://letterbird.co/hello-dowha' },
+        { title: 'LinkedIn', href: 'https://www.linkedin.com/in/kimdowha/' },
+        { title: 'X(formerly Twitter)', href: 'https://x.com/dowha_kim' },
         { title: 'Resume', href: `/resume` },
         { title: 'Lazydesk Studio', href: 'https://lazydesk.studio/' },
       ],
@@ -39,7 +42,10 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       buttonText: '저에 대해 더 궁금하시다면...',
       navigation: '더 알아보기',
       navItems: [
-        { title: '도화의 역사', href: '/history' },
+        { title: '블로그', href: 'https://blog.dowha.kim' },
+        { title: '연락하기', href: 'https://letterbird.co/hello-dowha' },
+        { title: '링크드인', href: 'https://www.linkedin.com/in/kimdowha/' },
+        { title: 'X(구 트위터)', href: 'https://x.com/dowha_kim' },
         { title: '이력서', href: `/resume` },
         { title: '레이지데스크 스튜디오', href: 'https://lazydesk.studio/' },
       ],
