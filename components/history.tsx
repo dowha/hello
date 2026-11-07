@@ -6,7 +6,7 @@ import { groupByYear, type HistoryEntry, type Language } from '@/lib/history'
 
 const TITLE: Record<Language, string> = {
   ko: '인생 타임라인',
-  en: 'Timeline',
+  en: 'Life Timeline',
 }
 
 function formatMonth(date: string, lang: Language) {
