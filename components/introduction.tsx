@@ -123,7 +123,7 @@ export function About({ language }: AboutProps) {
               />
               {content.name}
             </h1>
-            <h2 className="mt-1">{content.title}</h2>
+            <h2 className="mt-1 text-sm md:text-base">{content.title}</h2>
             <CommandPalette language={language} />
           </div>
         </div>
