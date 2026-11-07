@@ -140,11 +140,17 @@ export function BlogHighlights({ language }: { language: Language }) {
             href={`${BLOG}/shorts#${short.short_id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative mt-2 mb-1 ml-4 inline-block max-w-[85%] rounded-3xl bg-white px-4 py-2 text-sm leading-relaxed text-gray-600 !no-underline whitespace-pre-wrap transition-colors hover:bg-gray-50 hover:!text-gray-600 after:!hidden"
+            className="group mt-2 mb-1 ml-4 flex items-end gap-1 !no-underline after:!hidden"
           >
-            {renderEmphasis(short.content)}
-            <span className="absolute -left-2 bottom-3 h-4 w-4 rounded-full bg-inherit" />
-            <span className="absolute -left-4 bottom-1 h-2 w-2 rounded-full bg-inherit" />
+            <span className="relative max-w-[85%] rounded-3xl bg-white px-4 py-2 text-sm leading-relaxed text-gray-600 whitespace-pre-wrap transition-colors group-hover:bg-gray-50">
+              {renderEmphasis(short.content)}
+              <span className="absolute -left-2 bottom-3 h-4 w-4 rounded-full bg-inherit" />
+              <span className="absolute -left-4 bottom-1 h-2 w-2 rounded-full bg-inherit" />
+            </span>
+            {/* 다른 외부 링크와 같은 ↗ 표시 (말풍선 오른쪽 아래) */}
+            <span aria-hidden className="pb-1 text-sm text-gray-300 transition-colors group-hover:text-brand">
+              ↗
+            </span>
           </a>
         </Card>
       )}
