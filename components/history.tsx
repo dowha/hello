@@ -58,13 +58,13 @@ export function History({ language }: { language: Language }) {
             key={year}
             className="grid grid-cols-[auto_1fr] gap-x-3 py-4 border-b border-[#f6f5f4] last:border-b-0"
           >
-            <h3 className="text-sm font-semibold text-gray-800 tabular-nums pt-px">{year}</h3>
+            <h3 className="text-sm font-normal text-gray-800 tabular-nums pt-px">{year}</h3>
             <ul className="list-none space-y-3">
               {entries.map((entry) => (
                 <li key={entry.id} className="flex gap-2 text-sm leading-relaxed">
                   <time
                     dateTime={entry.happened_on.slice(0, 7)}
-                    className="w-8 shrink-0 text-xs text-gray-400 tabular-nums pt-[3px]"
+                    className="w-8 shrink-0 text-right text-xs text-gray-400 tabular-nums pt-[3px]"
                   >
                     {formatMonth(entry.happened_on, language)}
                   </time>
