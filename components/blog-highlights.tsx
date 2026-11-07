@@ -156,12 +156,8 @@ export function BlogHighlights({ language }: { language: Language }) {
       )}
 
       <div className="py-2 text-right text-xs">
-        <a
-          href={BLOG}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="!no-underline text-gray-500 after:!hidden"
-        >
+        {/* 블로그 바로가기는 현재 탭에서 이동 */}
+        <a href={BLOG} className="!no-underline text-gray-500">
           {copy.blog} →
         </a>
       </div>
