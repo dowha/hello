@@ -22,7 +22,7 @@ type AboutContent = {
 // - 이전 경력 문장: DB 원문을 고쳐 쓰고 세이브더칠드런 링크를 덧붙인다
 const companyLink = (url: string, chip: string, label: string) =>
   `<a href="${url}" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap">` +
-  `<img src="${chip}" alt="" width="15" height="15" class="inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px]" />${label}</a>`
+  `<img src="${chip}" alt="" width="15" height="15" class="inline-block w-[15px] h-[15px] rounded-[3px] mr-1 align-[-2px]" /><strong>${label}</strong></a>`
 
 const SC_KO = companyLink('https://www.sc.or.kr/', '/chips/savethechildren.png', '세이브더칠드런 코리아')
 const SC_EN = companyLink('https://www.sc.or.kr/', '/chips/savethechildren.png', 'Save the Children Korea')
