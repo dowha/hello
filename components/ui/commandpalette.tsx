@@ -29,25 +29,34 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
     en: {
       buttonText: 'Get to know me more...',
       navigation: 'Navigation',
-      navItems: [
-        { title: 'Blog', href: 'https://blog.dowha.kim' },
-        { title: 'Contact', href: 'https://letterbird.co/hello-dowha' },
-        { title: 'LinkedIn', href: 'https://www.linkedin.com/in/kimdowha/' },
-        { title: 'X(formerly Twitter)', href: 'https://x.com/dowha_kim' },
-        { title: 'Resume', href: `/resume` },
-        { title: 'Lazydesk Studio', href: 'https://lazydesk.studio/' },
+      // 그룹 사이에 구분선이 들어간다
+      navGroups: [
+        [
+          { title: 'Resume', href: `/resume` },
+          { title: 'Contact', href: 'https://letterbird.co/hello-dowha' },
+        ],
+        [
+          { title: 'Blog', href: 'https://blog.dowha.kim' },
+          { title: 'LinkedIn', href: 'https://www.linkedin.com/in/kimdowha/' },
+          { title: 'X(formerly Twitter)', href: 'https://x.com/dowha_kim' },
+        ],
+        [{ title: 'Lazydesk Studio', href: 'https://lazydesk.studio/' }],
       ],
     },
     ko: {
       buttonText: '저에 대해 더 궁금하시다면...',
       navigation: '더 알아보기',
-      navItems: [
-        { title: '블로그', href: 'https://blog.dowha.kim' },
-        { title: '연락하기', href: 'https://letterbird.co/hello-dowha' },
-        { title: '링크드인', href: 'https://www.linkedin.com/in/kimdowha/' },
-        { title: 'X(구 트위터)', href: 'https://x.com/dowha_kim' },
-        { title: '이력서', href: `/resume` },
-        { title: '레이지데스크 스튜디오', href: 'https://lazydesk.studio/' },
+      navGroups: [
+        [
+          { title: '이력서', href: `/resume` },
+          { title: '연락하기', href: 'https://letterbird.co/hello-dowha' },
+        ],
+        [
+          { title: '블로그', href: 'https://blog.dowha.kim' },
+          { title: '링크드인', href: 'https://www.linkedin.com/in/kimdowha/' },
+          { title: 'X(구 트위터)', href: 'https://x.com/dowha_kim' },
+        ],
+        [{ title: '레이지데스크 스튜디오', href: 'https://lazydesk.studio/' }],
       ],
     },
   }
@@ -81,7 +90,9 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
           <div className="w-full bg-white" onClick={(e) => e.stopPropagation()}>
             {/* ✅ 내부 요소 클릭은 닫히지 않도록 이벤트 버블링 차단 */}
             <div className="border-b px-3 py-2 flex justify-between items-center">
-              <span className="text-sm font-semibold">{currentContent.navigation}</span>
+              <span className="text-sm font-semibold">
+                {currentContent.navigation}
+              </span>
               <button
                 className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-50 px-1.5 text-[10px] text-gray-500 cursor-pointer"
                 onClick={() => setOpen(false)} // ✅ 닫기 버튼 정상 작동
@@ -91,31 +102,40 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
             </div>
 
             <div className="max-h-[300px] overflow-y-auto">
-              <div className="py-2">
-                {currentContent.navItems.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={(e) => {
-                      e.stopPropagation() // ✅ 버튼 클릭 시 팝업이 닫히지 않도록 설정
-                      setTimeout(() => {
-                        setOpen(false)
-                        if (item.href.startsWith('http')) {
-                          window.open(item.href, '_blank', 'noopener,noreferrer')
-                        } else {
-                          window.location.href = item.href
-                        }
-                      }, 100) // ✅ 클릭 후 닫히도록 설정
-                    }}
-                    className="w-full group flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    {item.href.startsWith('http') ? (
-                      <span className="external relative">{item.title}</span>
-                    ) : (
-                      item.title
-                    )}
-                  </button>
-                ))}
-              </div>
+              {currentContent.navGroups.map((group, i) => (
+                <div
+                  key={i}
+                  className={`py-2 ${i > 0 ? 'border-t border-gray-100' : ''}`}
+                >
+                  {group.map((item) => (
+                    <button
+                      key={item.href}
+                      onClick={(e) => {
+                        e.stopPropagation() // ✅ 버튼 클릭 시 팝업이 닫히지 않도록 설정
+                        setTimeout(() => {
+                          setOpen(false)
+                          if (item.href.startsWith('http')) {
+                            window.open(
+                              item.href,
+                              '_blank',
+                              'noopener,noreferrer'
+                            )
+                          } else {
+                            window.location.href = item.href
+                          }
+                        }, 100) // ✅ 클릭 후 닫히도록 설정
+                      }}
+                      className="w-full group flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+                    >
+                      {item.href.startsWith('http') ? (
+                        <span className="external relative">{item.title}</span>
+                      ) : (
+                        item.title
+                      )}
+                    </button>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </DialogContent>
