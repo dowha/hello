@@ -52,7 +52,11 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
           { title: 'LinkedIn', href: 'https://www.linkedin.com/in/kimdowha/' },
           { title: 'X(formerly Twitter)', href: 'https://x.com/dowha_kim' },
         ],
-        [{ title: 'Lazydesk Studio', href: 'https://lazydesk.studio/' }],
+        [
+          { title: 'Lazydesk Studio', href: 'https://lazydesk.studio/' },
+          // indent: 상위 항목(레이지데스크 스튜디오)의 하위로 들여쓰기
+          { title: 'K League Calendar', href: 'https://kleague.lazydesk.studio/', indent: true },
+        ],
       ],
     },
     ko: {
@@ -68,7 +72,10 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
           { title: '링크드인', href: 'https://www.linkedin.com/in/kimdowha/' },
           { title: 'X(구 트위터)', href: 'https://x.com/dowha_kim' },
         ],
-        [{ title: '레이지데스크 스튜디오', href: 'https://lazydesk.studio/' }],
+        [
+          { title: '레이지데스크 스튜디오', href: 'https://lazydesk.studio/' },
+          { title: 'K리그 일정 캘린더', href: 'https://kleague.lazydesk.studio/', indent: true },
+        ],
       ],
     },
   }
@@ -139,7 +146,9 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                           }
                         }, 100) // ✅ 클릭 후 닫히도록 설정
                       }}
-                      className="w-full group flex items-center gap-2 px-3 py-2 text-xs text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+                      className={`w-full group flex items-center gap-2 py-2 pr-3 ${
+                        'indent' in item && item.indent ? 'pl-6 text-gray-600' : 'pl-3 text-gray-900'
+                      } text-xs hover:bg-gray-100 transition-colors duration-200`}
                     >
                       {item.href.startsWith('http') ? (
                         <span className="external relative">{item.title}</span>
