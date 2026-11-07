@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Check } from 'lucide-react'
+import { saveLanguage } from '@/lib/language'
 
 type Language = 'en' | 'ko'
 type Theme = 'light' | 'dark' | 'system'
@@ -28,20 +29,11 @@ export default function GNB({
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
 
-  // ✅ 페이지 로드 시 `localStorage`에서 언어 값 가져오기 (페이지 이동 후 유지)
-  const [internalLanguage, setInternalLanguage] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('preferredLanguage') as Language) ?? 'ko'
-    }
-    return 'ko'
-  })
+  // 언어는 페이지가 정해서 내려준다 (자동 저장하지 않음 — 직접 고를 때만 저장)
+  const [internalLanguage, setInternalLanguage] = useState<Language>(externalLanguage ?? 'ko')
 
-  // ✅ 외부에서 언어 변경될 때 `localStorage` 업데이트
   useEffect(() => {
-    if (externalLanguage) {
-      setInternalLanguage(externalLanguage)
-      localStorage.setItem('preferredLanguage', externalLanguage) // ✅ 변경된 언어 저장
-    }
+    if (externalLanguage) setInternalLanguage(externalLanguage)
   }, [externalLanguage])
 
   // 🔹 언어 변경 핸들러
@@ -49,7 +41,7 @@ export default function GNB({
     if (internalLanguage !== newLanguage) {
       setInternalLanguage(newLanguage)
       onLanguageChange?.(newLanguage)
-      localStorage.setItem('preferredLanguage', newLanguage)
+      saveLanguage(newLanguage) // 직접 고른 언어만 기억
     }
     setLanguageOpen(false)
   }

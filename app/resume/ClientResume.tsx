@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import Resume from '@/components/resume';
 import GNB from '@/components/ui/gnb';
+import { resolveLanguage } from '@/lib/language';
 
 function LoadingSpinner() {
   return (
@@ -21,13 +22,7 @@ export default function ClientResume() {
   const [language, setLanguage] = useState<'en' | 'ko' | null>(null);
 
   useEffect(() => {
-    const storedLanguage = localStorage.getItem('preferredLanguage') as 'en' | 'ko' | null;
-    if (storedLanguage) {
-      setLanguage(storedLanguage);
-    } else {
-      const userLang = navigator.language.startsWith('ko') ? 'ko' : 'en';
-      setLanguage(userLang);
-    }
+    setLanguage(resolveLanguage());
   }, []);
 
   if (language === null) {
