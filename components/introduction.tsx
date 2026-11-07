@@ -8,6 +8,7 @@ import CommandPalette from '@/components/ui/commandpalette'
 import { Wordmark } from '@/components/brand'
 import { History } from '@/components/history'
 import { BlogHighlights } from '@/components/blog-highlights'
+import { Spinner } from '@/components/ui/spinner'
 import { supabase } from '@/supabase' // supabase.ts에서 클라이언트 가져오기
 
 // 데이터 타입 정의
@@ -20,7 +21,8 @@ type AboutContent = {
 
 // 본문 HTML(회사 링크·로고 칩 포함)은 DB about.journey에서 관리한다
 // 예전 원문에 남은 각주 번호(<sup>1</sup>)만 제거
-const stripFootnoteMarks = (html: string) => html.replace(/<sup>\s*\d+\s*<\/sup>/g, '')
+const stripFootnoteMarks = (html: string) =>
+  html.replace(/<sup>\s*\d+\s*<\/sup>/g, '')
 
 type AboutProps = {
   language: 'en' | 'ko'
@@ -28,19 +30,6 @@ type AboutProps = {
 
 // 캐싱을 위한 Map 객체 생성
 const cache = new Map<string, AboutContent>()
-
-function LoadingSpinner() {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-white/30 backdrop-blur-sm">
-      <div className="text-center">
-        <div className="inline-block">
-          <div className="w-8 h-8 rounded-full border-4 border-gray-400 border-t-transparent animate-spin" />
-        </div>
-        <p className="mt-2 text-sm text-gray-500 font-medium">Loading...</p>
-      </div>
-    </div>
-  )
-}
 
 export function About({ language }: AboutProps) {
   const [content, setContent] = useState<AboutContent | null>(null)
@@ -73,52 +62,60 @@ export function About({ language }: AboutProps) {
     fetchAboutContent(language)
   }, [language])
 
-  if (loading) {
-    return <LoadingSpinner /> // 로딩 중일 때 스피너 표시
-  }
-
-  if (!content) {
-    return null
-  }
+  // 로고·구분선은 먼저 보여주고, 내용 자리에서만 로딩 표시
   return (
     <div className="main flex flex-col items-center justify-center p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
-          <Link href="/" aria-label="Home" className="!no-underline transition-opacity hover:opacity-80">
+          <Link
+            href="/"
+            aria-label="Home"
+            className="!no-underline transition-opacity hover:opacity-80"
+          >
             <Wordmark className="h-6 w-auto text-brand" />
           </Link>
           <span aria-hidden className="block w-8 h-px bg-gray-200 !my-5" />
-          <div className="flex flex-col justify-center text-center">
-            <h1 className="flex items-center justify-center gap-2">
-              <Image
-                src="/dowha.png"
-                alt=""
-                width={24}
-                height={24}
-                className="w-6 h-6 rounded-full border border-[#f6f5f4] object-cover select-none"
-                priority
-                draggable={false}
-                // 숨은 관리자 진입: 아바타 더블클릭 → /wave (권한은 /wave 로그인 + DB RLS가 확인)
-                onDoubleClick={() => router.push('/wave')}
+          {content && (
+            <div className="flex flex-col justify-center text-center">
+              <h1 className="flex items-center justify-center gap-2">
+                <Image
+                  src="/dowha.png"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 rounded-full border border-[#f6f5f4] object-cover select-none"
+                  priority
+                  draggable={false}
+                  // 숨은 관리자 진입: 아바타 더블클릭 → /wave (권한은 /wave 로그인 + DB RLS가 확인)
+                  onDoubleClick={() => router.push('/wave')}
+                />
+                {content.name}
+              </h1>
+              <h2 className="mt-1 text-sm md:text-base">{content.title}</h2>
+              <CommandPalette language={language} />
+            </div>
+          )}
+        </div>
+        {!content ? (
+          loading && <Spinner className="min-h-[300px]" />
+        ) : (
+          <>
+            <div className="space-y-4 text-left pb-2">
+              <p
+                className="text-sm leading-6 md:text-base md:leading-7"
+                dangerouslySetInnerHTML={{ __html: content.intro }}
               />
-              {content.name}
-            </h1>
-            <h2 className="mt-1 text-sm md:text-base">{content.title}</h2>
-            <CommandPalette language={language} />
-          </div>
-        </div>
-        <div className="space-y-4 text-left pb-2">
-          <p
-            className="text-sm leading-6 md:text-base md:leading-7"
-            dangerouslySetInnerHTML={{ __html: content.intro }}
-          />
-          <p
-            className="text-sm leading-6 md:text-base md:leading-7"
-            dangerouslySetInnerHTML={{ __html: stripFootnoteMarks(content.journey) }}
-          />
-        </div>
-        <BlogHighlights language={language} />
-        <History language={language} />
+              <p
+                className="text-sm leading-6 md:text-base md:leading-7"
+                dangerouslySetInnerHTML={{
+                  __html: stripFootnoteMarks(content.journey),
+                }}
+              />
+            </div>
+            <BlogHighlights language={language} />
+            <History language={language} />
+          </>
+        )}
       </div>
     </div>
   )

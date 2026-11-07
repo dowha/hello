@@ -4,19 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import Resume from '@/components/resume';
 import GNB from '@/components/ui/gnb';
 import { resolveLanguage } from '@/lib/language';
-
-function LoadingSpinner() {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-white/30 backdrop-blur-sm">
-      <div className="text-center">
-        <div className="inline-block">
-          <div className="w-8 h-8 rounded-full border-4 border-gray-400 border-t-transparent animate-spin" />
-        </div>
-        <p className="mt-2 text-sm text-gray-500 font-medium">Loading...</p>
-      </div>
-    </div>
-  );
-}
+import { Spinner } from '@/components/ui/spinner';
 
 export default function ClientResume() {
   const [language, setLanguage] = useState<'en' | 'ko' | null>(null);
@@ -25,12 +13,11 @@ export default function ClientResume() {
     setLanguage(resolveLanguage());
   }, []);
 
-  if (language === null) {
-    return <LoadingSpinner />;
-  }
+  // 언어는 마운트 직후 바로 정해지므로 스피너를 띄우지 않는다
+  if (language === null) return null;
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
+    <Suspense fallback={<Spinner className="min-h-[300px]" />}>
      
       <GNB
         showLanguage={true}
