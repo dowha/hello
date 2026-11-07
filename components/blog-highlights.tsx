@@ -82,7 +82,7 @@ let cached: Promise<Highlights> | null = null
 
 function Card({ emoji, title, children }: { emoji: string; title: string; children: ReactNode }) {
   return (
-    <section className="bg-gray-100 py-2 px-3 rounded-lg">
+    <section className="py-2.5">
       <h2 className="text-sm text-gray-800">
         <span className="mr-1">{emoji}</span> {title}
       </h2>
@@ -109,7 +109,7 @@ export function BlogHighlights({ language }: { language: Language }) {
   const { post, book, short } = data
 
   return (
-    <div className="space-y-3">
+    <div className="bg-gray-100 px-3 rounded-lg divide-y divide-gray-200">
       {post && (
         <Card emoji="🌱" title={copy.post}>
           <a
@@ -142,24 +142,25 @@ export function BlogHighlights({ language }: { language: Language }) {
             href={`${BLOG}/shorts#${short.short_id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative mt-2 mb-3 ml-4 inline-block max-w-[85%] rounded-3xl bg-white px-4 py-2 text-sm leading-relaxed text-gray-600 !no-underline whitespace-pre-wrap transition-colors hover:bg-gray-50 hover:!text-gray-600 after:!hidden"
+            className="relative mt-2 mb-1 ml-4 inline-block max-w-[85%] rounded-3xl bg-white px-4 py-2 text-sm leading-relaxed text-gray-600 !no-underline whitespace-pre-wrap transition-colors hover:bg-gray-50 hover:!text-gray-600 after:!hidden"
           >
             {renderEmphasis(short.content)}
             <span className="absolute -left-2 bottom-3 h-4 w-4 rounded-full bg-inherit" />
             <span className="absolute -left-4 bottom-1 h-2 w-2 rounded-full bg-inherit" />
           </a>
-          <div className="border-t border-gray-200 pt-2 pb-1 text-right text-xs">
-            <a
-              href={BLOG}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="!no-underline text-gray-500 after:!hidden"
-            >
-              {copy.blog} →
-            </a>
-          </div>
         </Card>
       )}
+
+      <div className="py-2 text-right text-xs">
+        <a
+          href={BLOG}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="!no-underline text-gray-500 after:!hidden"
+        >
+          {copy.blog} →
+        </a>
+      </div>
     </div>
   )
 }

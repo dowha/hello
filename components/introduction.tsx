@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import CommandPalette from '@/components/ui/commandpalette'
-import { Logomark } from '@/components/brand'
+import { Wordmark } from '@/components/brand'
 import { History } from '@/components/history'
 import { BlogHighlights } from '@/components/blog-highlights'
 import { supabase } from '@/supabase' // supabase.ts에서 클라이언트 가져오기
@@ -80,7 +80,7 @@ export function About({ language }: AboutProps) {
     <div className="main flex flex-col items-center justify-center bg-white p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
         <div className="flex flex-col items-center space-y-2 pb-3">
-          <Logomark className="w-14 h-14 text-brand" />
+          <Wordmark className="h-9 w-auto text-brand mb-2" />
           <div className="flex flex-col justify-center text-center">
             <h1 className="flex items-center justify-center gap-2">
               <Image
