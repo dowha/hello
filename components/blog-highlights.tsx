@@ -80,12 +80,10 @@ async function fetchHighlights(): Promise<Highlights> {
 // 언어 전환 시 재요청하지 않도록 모듈 단위로 캐싱
 let cached: Promise<Highlights> | null = null
 
-function Card({ emoji, title, children }: { emoji: string; title: string; children: ReactNode }) {
+function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="py-2.5">
-      <h2 className="text-sm text-gray-800">
-        <span className="mr-1">{emoji}</span> {title}
-      </h2>
+      <h2 className="text-sm text-gray-800">{title}</h2>
       {children}
     </section>
   )
@@ -111,7 +109,7 @@ export function BlogHighlights({ language }: { language: Language }) {
   return (
     <div className="bg-gray-100 px-3 rounded-lg divide-y divide-gray-200">
       {post && (
-        <Card emoji="🌱" title={copy.post}>
+        <Card title={copy.post}>
           <a
             href={`${BLOG}/posts/${post.slug}`}
             target="_blank"
@@ -124,7 +122,7 @@ export function BlogHighlights({ language }: { language: Language }) {
       )}
 
       {book && (
-        <Card emoji="📖" title={copy.book}>
+        <Card title={copy.book}>
           <a
             href={`${BLOG}/books/${book.slug}`}
             target="_blank"
@@ -137,7 +135,7 @@ export function BlogHighlights({ language }: { language: Language }) {
       )}
 
       {short && (
-        <Card emoji="💭" title={copy.short}>
+        <Card title={copy.short}>
           <a
             href={`${BLOG}/shorts#${short.short_id}`}
             target="_blank"
