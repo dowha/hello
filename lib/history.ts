@@ -11,9 +11,12 @@ export type HistoryEntry = {
   text_en: string
 }
 
-/** 연도별로 묶어 최신순으로 반환 */
+/** 연도별로 묶어 반환: 연도는 최신순, 같은 해 안에서는 1월 → 12월 순 */
 export function groupByYear(entries: HistoryEntry[]) {
-  const sorted = [...entries].sort((a, b) => b.happened_on.localeCompare(a.happened_on))
+  const sorted = [...entries].sort((a, b) => {
+    const byYear = b.happened_on.slice(0, 4).localeCompare(a.happened_on.slice(0, 4))
+    return byYear || a.happened_on.localeCompare(b.happened_on)
+  })
   const groups: { year: string; entries: HistoryEntry[] }[] = []
   for (const entry of sorted) {
     const year = entry.happened_on.slice(0, 4)
