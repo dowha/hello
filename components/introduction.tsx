@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import CommandPalette from '@/components/ui/commandpalette'
 import { Wordmark } from '@/components/brand'
 import { History } from '@/components/history'
@@ -44,6 +45,7 @@ function LoadingSpinner() {
 export function About({ language }: AboutProps) {
   const [content, setContent] = useState<AboutContent | null>(null)
   const [loading, setLoading] = useState(true) // 로딩 상태 추가
+  const router = useRouter()
 
   async function fetchAboutContent(lang: 'en' | 'ko') {
     if (cache.has(lang)) {
@@ -93,8 +95,11 @@ export function About({ language }: AboutProps) {
                 alt=""
                 width={24}
                 height={24}
-                className="w-6 h-6 rounded-full border border-[#f6f5f4] object-cover"
+                className="w-6 h-6 rounded-full border border-[#f6f5f4] object-cover select-none"
                 priority
+                draggable={false}
+                // 숨은 관리자 진입: 아바타 더블클릭 → /wave (권한은 /wave 로그인 + DB RLS가 확인)
+                onDoubleClick={() => router.push('/wave')}
               />
               {content.name}
             </h1>
