@@ -82,7 +82,7 @@
   }
 
   h1 {
-    @apply text-gray-800 text-xl;
+    @apply text-gray-800 text-lg md:text-xl;
   }
 
   h2 {
