@@ -7,8 +7,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Check } from 'lucide-react'
-import Link from 'next/link'
-import { Wordmark } from '@/components/brand'
 
 type Language = 'en' | 'ko'
 type Theme = 'light' | 'dark' | 'system'
@@ -90,10 +88,7 @@ export default function GNB({
   }
 
   return (
-    <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-between px-4 z-50 print-hide">
-      <Link href="/" aria-label="Home" className="text-brand hover:opacity-80 transition-opacity">
-        <Wordmark className="h-4 w-auto" />
-      </Link>
+    <nav className="top-0 left-0 right-0 h-14 bg-white flex items-center justify-end px-4 z-50 print-hide">
       <div className="flex items-center space-x-2">
         {/* 🌐 언어 변경 버튼 */}
         {showLanguage && (

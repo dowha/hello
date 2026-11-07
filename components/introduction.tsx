@@ -5,6 +5,7 @@ import Image from 'next/image'
 import CommandPalette from '@/components/ui/commandpalette'
 import { Logomark } from '@/components/brand'
 import { History } from '@/components/history'
+import { LatestShort } from '@/components/latest-short'
 import { supabase } from '@/supabase' // supabase.ts에서 클라이언트 가져오기
 
 // 데이터 타입 정의
@@ -108,6 +109,7 @@ export function About({ language }: AboutProps) {
             dangerouslySetInnerHTML={{ __html: stripFootnoteMarks(content.journey) }}
           />
         </div>
+        <LatestShort language={language} />
         <History language={language} />
       </div>
     </div>
