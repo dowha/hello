@@ -75,6 +75,14 @@ export default function WavePage() {
                 *
               </button>
             </h1>
+            <a
+              href="https://blog.dowha.kim/style"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-400 hover:text-gray-700"
+            >
+              표기 규칙 ↗
+            </a>
           </div>
 
           <div className="mb-6 flex gap-1 border-b border-gray-100 text-sm">
