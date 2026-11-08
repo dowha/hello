@@ -26,6 +26,13 @@ const COPY: Record<Language, { post: string; book: string; short: string; blog: 
   },
 }
 
+// 책 제목 표기: 국문 《 》, 영문은 이탤릭. 한글 제목은 기울이면 어색해 영문 모드에서도 《 》 유지
+const HANGUL = /[\u3131-\u318e\uac00-\ud7a3]/
+
+function BookTitle({ title, language }: { title: string; language: Language }) {
+  return language === 'en' && !HANGUL.test(title) ? <i>{title}</i> : <>《{title}》</>
+}
+
 // shorts는 굵게·기울임만 쓰므로 react-markdown 대신 간단히 변환 (blog 홈과 동일)
 function renderEmphasis(text: string) {
   return text
@@ -130,7 +137,7 @@ export function BlogHighlights({ language }: { language: Language }) {
             rel="noopener noreferrer"
             className="block mt-1 mb-1 text-sm"
           >
-            “{book.title}”, {book.author}
+            <BookTitle title={book.title} language={language} />, {book.author}
           </a>
         </Card>
       )}
