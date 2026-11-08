@@ -177,7 +177,9 @@ export default function Resume({ lang }: ResumeProps) {
                 {lang === 'en' ? 'Language Skills' : '언어 능력'}
               </h3>
               <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
+                remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
+                disallowedElements={['del']}
+                unwrapDisallowed
                 rehypePlugins={[rehypeRaw]}
                 components={{
                   p: ({ ...props }) => <p {...props} className="text-sm" />,
