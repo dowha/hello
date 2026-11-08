@@ -76,7 +76,7 @@ export default function WavePage() {
               </button>
             </h1>
             <a
-              href="https://blog.dowha.kim/style"
+              href="https://blog.dowha.kim/style-guide"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-gray-400 hover:text-gray-700"
