@@ -91,7 +91,7 @@ export function About({ language }: AboutProps) {
                 />
                 {content.name}
               </h1>
-              <h2 className="mt-1 text-sm md:text-base">{content.title}</h2>
+              <h2 className="mt-1 text-sm sm:text-[15px] md:text-base">{content.title}</h2>
               <CommandPalette language={language} />
             </div>
           )}
@@ -102,11 +102,11 @@ export function About({ language }: AboutProps) {
           <>
             <div className="space-y-4 text-left pb-2">
               <p
-                className="text-sm leading-6 md:text-base md:leading-7"
+                className="text-sm leading-6 sm:text-[15px] sm:leading-7 md:text-base md:leading-7"
                 dangerouslySetInnerHTML={{ __html: content.intro }}
               />
               <p
-                className="text-sm leading-6 md:text-base md:leading-7"
+                className="text-sm leading-6 sm:text-[15px] sm:leading-7 md:text-base md:leading-7"
                 dangerouslySetInnerHTML={{
                   __html: stripFootnoteMarks(content.journey),
                 }}
