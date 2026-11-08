@@ -4,8 +4,8 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { supabase } from '@/supabase'
 
 type Language = 'ko' | 'en'
-type PostItem = { title: string; slug: string }
-type BookItem = { title: string; author: string; slug: string }
+type PostItem = { title: string; slug: string; lang?: string }
+type BookItem = { title: string; author: string; slug: string; lang?: string }
 type ShortItem = { short_id: number; content: string }
 type Highlights = { post: PostItem | null; book: BookItem | null; short: ShortItem | null }
 
@@ -29,6 +29,19 @@ const COPY: Record<Language, { post: string; book: string; short: string; blog: 
 // 책 제목 표기: 국문 《 》, 영문은 이탤릭. 한글 제목은 기울이면 어색해 영문 모드에서도 《 》 유지
 const HANGUL = /[\u3131-\u318e\uac00-\ud7a3]/
 
+// 영어로 쓴 글·리뷰 표시 (posts.lang, books.lang). blog.dowha.kim components/LangBadge.tsx와 같은 모양
+function LangBadge({ lang }: { lang?: string }) {
+  if (lang !== 'en') return null
+  return (
+    <span
+      title="English"
+      className="ml-1.5 inline-block rounded border border-gray-300 px-1 align-middle text-[10px] font-medium leading-4 tracking-wide text-gray-500"
+    >
+      EN
+    </span>
+  )
+}
+
 function BookTitle({ title, language }: { title: string; language: Language }) {
   return language === 'en' && !HANGUL.test(title) ? <i>{title}</i> : <>《{title}》</>
 }
@@ -51,7 +64,7 @@ async function fetchHighlights(): Promise<Highlights> {
     // 최근에 쓴 글: 외부 글은 블로그 안에 페이지가 없어 제외
     supabase
       .from('posts')
-      .select('title, slug')
+      .select('title, slug, lang')
       .eq('is_published', true)
       .eq('is_external', false)
       .order('created_at', { ascending: false })
@@ -60,7 +73,7 @@ async function fetchHighlights(): Promise<Highlights> {
     // 최근에 읽은 책: 감상이 있고 지금 읽는 중이 아닌 책
     supabase
       .from('books')
-      .select('title, author, slug')
+      .select('title, author, slug, lang')
       .not('content', 'is', null)
       .not('is_reading', 'is', true)
       .order('created_at', { ascending: false })
@@ -125,6 +138,7 @@ export function BlogHighlights({ language }: { language: Language }) {
             className="block mt-1 mb-1 text-sm"
           >
             {post.title}
+            <LangBadge lang={post.lang} />
           </a>
         </Card>
       )}
@@ -138,6 +152,7 @@ export function BlogHighlights({ language }: { language: Language }) {
             className="block mt-1 mb-1 text-sm"
           >
             <BookTitle title={book.title} language={language} />, {book.author}
+            <LangBadge lang={book.lang} />
           </a>
         </Card>
       )}
