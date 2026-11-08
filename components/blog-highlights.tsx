@@ -21,7 +21,7 @@ const COPY: Record<Language, { post: string; book: string; short: string; blog: 
   en: {
     post: 'Latest writing',
     book: 'Recently read',
-    short: 'What I’m thinking lately',
+    short: "What I'm thinking lately",
     blog: 'Visit the blog',
   },
 }
