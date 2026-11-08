@@ -56,7 +56,7 @@ type YearGroup = ReturnType<typeof groupByYear>[number]
 
 function YearRow({ group, language, className = '' }: { group: YearGroup; language: Language; className?: string }) {
   return (
-    <li className={`grid grid-cols-[auto_1fr] gap-x-2 py-4 border-b border-[#f6f5f4] last:border-b-0 ${className}`}>
+    <li className={`grid grid-cols-[auto_1fr] gap-x-2 py-4 border-b border-gray-100 last:border-b-0 ${className}`}>
       <h3 className="text-sm font-normal text-gray-800 tabular-nums pt-px">{group.year}</h3>
       <ul className="list-none space-y-3">
         {group.entries.map((entry) => (

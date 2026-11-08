@@ -83,7 +83,7 @@ export function About({ language }: AboutProps) {
                   alt=""
                   width={24}
                   height={24}
-                  className="w-6 h-6 rounded-full border border-[#f6f5f4] object-cover select-none"
+                  className="w-6 h-6 rounded-full border border-gray-100 object-cover select-none"
                   priority
                   draggable={false}
                   // 숨은 관리자 진입: 아바타 더블클릭 → /wave (권한은 /wave 로그인 + DB RLS가 확인)
