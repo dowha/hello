@@ -5,7 +5,7 @@ import { supabase } from '@/supabase'
 
 type Language = 'ko' | 'en'
 type PostItem = { title: string; slug: string }
-type BookItem = { title: string; author: string; slug: string }
+type BookItem = { title: string; author: string; slug: string; volumes?: string | null }
 type ShortItem = { short_id: number; content: string }
 type Highlights = { post: PostItem | null; book: BookItem | null; short: ShortItem | null }
 
@@ -60,7 +60,7 @@ async function fetchHighlights(): Promise<Highlights> {
     // 최근에 읽은 책: 감상이 있고 지금 읽는 중이 아닌 책
     supabase
       .from('books')
-      .select('title, author, slug')
+      .select('title, author, slug, volumes')
       .not('content', 'is', null)
       .not('is_reading', 'is', true)
       .order('created_at', { ascending: false })
@@ -137,7 +137,8 @@ export function BlogHighlights({ language }: { language: Language }) {
             rel="noopener noreferrer"
             className="block mt-1 mb-1 text-sm"
           >
-            <BookTitle title={book.title} language={language} />, {book.author}
+            <BookTitle title={book.title} language={language} />
+            {book.volumes && `(${book.volumes})`}, {book.author}
           </a>
         </Card>
       )}
