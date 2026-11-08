@@ -112,7 +112,7 @@ export function SaveBar({
     <div className="flex items-center gap-3">
       {children}
       {message && (
-        <span className={`text-xs ${message.ok ? 'text-green-600' : 'text-red-500'}`}>
+        <span className={`text-xs ${message.ok ? 'text-[#006fd6]' : 'text-[#c8481c]'}`}>
           {message.text}
         </span>
       )}

@@ -33,7 +33,7 @@ export function TimelineEditor() {
       })
   }, [])
 
-  if (error) return <p className="text-xs text-red-500">{error}</p>
+  if (error) return <p className="text-xs text-[#c8481c]">{error}</p>
   if (!rows) return <p className="text-xs text-gray-400">불러오는 중…</p>
 
   const addRow = () =>
@@ -150,7 +150,7 @@ function TimelineItem({
         )}
       />
       <SaveBar dirty={dirty} busy={busy} message={message} onSave={save}>
-        <button onClick={remove} disabled={busy} className="text-xs text-gray-400 hover:text-red-500">
+        <button onClick={remove} disabled={busy} className="text-xs text-gray-400 hover:text-[#c8481c]">
           삭제
         </button>
       </SaveBar>
