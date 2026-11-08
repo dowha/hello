@@ -47,6 +47,11 @@ const TAIL_YEARS = 2
 const FADE_DOWN = '[mask-image:linear-gradient(to_bottom,black_20%,transparent)]'
 const FADE_UP = '[mask-image:linear-gradient(to_top,black_20%,transparent)]'
 
+// 영문 작품명(대분류) 이탤릭 표기용: *제목* → <i>제목</i>
+function renderItalic(text: string) {
+  return text.split(/\*([^*]+)\*/).map((part, i) => (i % 2 ? <i key={i}>{part}</i> : part))
+}
+
 type YearGroup = ReturnType<typeof groupByYear>[number]
 
 function YearRow({ group, language, className = '' }: { group: YearGroup; language: Language; className?: string }) {
@@ -63,7 +68,7 @@ function YearRow({ group, language, className = '' }: { group: YearGroup; langua
               {formatMonth(entry.happened_on, language)}
             </time>
             <p className="text-gray-700" style={{ wordBreak: 'keep-all' }}>
-              {language === 'ko' ? entry.text_ko : entry.text_en}
+              {renderItalic(language === 'ko' ? entry.text_ko : entry.text_en)}
             </p>
           </li>
         ))}
