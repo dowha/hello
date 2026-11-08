@@ -137,7 +137,7 @@ export function StyleHints({ text, headline }: { text: string; headline?: boolea
         <li key={idx} title={i.message}>
           {i.rule} · <code className="rounded bg-amber-50 px-1 text-gray-600">{i.excerpt}</code>{' '}
           <a href={STYLE_GUIDE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700">
-            규칙 ↗
+            규칙
           </a>
         </li>
       ))}

@@ -81,7 +81,7 @@ export default function WavePage() {
               rel="noopener noreferrer"
               className="text-xs text-gray-400 hover:text-gray-700"
             >
-              표기 규칙 ↗
+              표기 규칙
             </a>
           </div>
 
