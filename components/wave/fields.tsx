@@ -4,7 +4,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import { checkStyle } from '@/lib/styleCheck'
 
 // 표기 규칙 원본은 blog에 하나만 둔다
-const STYLE_GUIDE_URL = 'https://blog.dowha.kim/desk/style'
+const STYLE_GUIDE_URL = 'https://blog.dowha.kim/style'
 
 export type Lang = 'ko' | 'en'
 export const LANGS: Lang[] = ['ko', 'en']
