@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
-import { AutoTextarea, LANGS, PairRow, SaveBar, inputCls, type Lang } from './fields'
+import { AutoTextarea, LANGS, PairRow, SaveBar, StyleHints, inputCls, type Lang } from './fields'
+import { normalizeQuotes } from '@/lib/styleCheck'
 
 type AboutRow = { id: string; language: Lang; name: string; title: string; intro: string; journey: string }
 type Field = 'name' | 'title' | 'intro' | 'journey'
@@ -50,14 +51,21 @@ export function AboutEditor() {
   const save = async () => {
     setBusy(true)
     for (const lang of changed) {
-      const { id, name, title, intro, journey } = rows[lang]
+      const { id } = rows[lang]
+      // 표기 규칙: 둥근 따옴표는 저장 전에 곧은 따옴표로
+      const [name, title, intro, journey] = FIELDS.map(({ key }) => normalizeQuotes(rows[lang][key]))
       const { error } = await supabase.from('about').update({ name, title, intro, journey }).eq('id', id)
       if (error) {
         setBusy(false)
         return setMessage({ ok: false, text: `${lang.toUpperCase()} 저장 실패: ${error.message}` })
       }
     }
-    setSaved(rows)
+    // 저장된 값(따옴표 교정 반영)으로 화면도 맞춘다
+    const normalized = Object.fromEntries(
+      LANGS.map((l) => [l, { ...rows[l], ...Object.fromEntries(FIELDS.map(({ key }) => [key, normalizeQuotes(rows[l][key])])) }])
+    ) as Record<Lang, AboutRow>
+    setRows(normalized)
+    setSaved(normalized)
     setBusy(false)
     setMessage({ ok: true, text: '저장했습니다.' })
   }
@@ -73,6 +81,7 @@ export function AboutEditor() {
             html ? (
               <>
                 <AutoTextarea value={rows[lang][key]} onChange={(v) => set(lang, key, v)} mono minRows={3} />
+                <StyleHints text={rows[lang][key]} />
                 {preview && (
                   // 실제 페이지와 같은 스타일(.main)로 미리보기
                   <div
@@ -82,7 +91,10 @@ export function AboutEditor() {
                 )}
               </>
             ) : (
-              <input value={rows[lang][key]} onChange={(e) => set(lang, key, e.target.value)} className={inputCls} />
+              <>
+                <input value={rows[lang][key]} onChange={(e) => set(lang, key, e.target.value)} className={inputCls} />
+                <StyleHints text={rows[lang][key]} />
+              </>
             )
           }
         />

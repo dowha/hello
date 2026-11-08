@@ -1,6 +1,10 @@
 'use client'
 
 import { useEffect, useRef, type ReactNode } from 'react'
+import { checkStyle } from '@/lib/styleCheck'
+
+// 표기 규칙 원본은 blog에 하나만 둔다
+const STYLE_GUIDE_URL = 'https://blog.dowha.kim/desk/style'
 
 export type Lang = 'ko' | 'en'
 export const LANGS: Lang[] = ['ko', 'en']
@@ -120,5 +124,23 @@ export function SaveBar({
         {busy ? '저장 중…' : '저장'}
       </button>
     </div>
+  )
+}
+
+/** 표기 규칙 위반 후보. 없으면 아무것도 그리지 않는다 (저장은 막지 않음) */
+export function StyleHints({ text, headline }: { text: string; headline?: boolean }) {
+  const issues = checkStyle(text, { headline })
+  if (!issues.length) return null
+  return (
+    <ul className="list-none space-y-0.5 !pl-0 text-[11px] text-amber-600">
+      {issues.map((i, idx) => (
+        <li key={idx} title={i.message}>
+          {i.rule} · <code className="rounded bg-amber-50 px-1 text-gray-600">{i.excerpt}</code>{' '}
+          <a href={STYLE_GUIDE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700">
+            규칙 ↗
+          </a>
+        </li>
+      ))}
+    </ul>
   )
 }

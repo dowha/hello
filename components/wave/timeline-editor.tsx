@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
-import { AutoTextarea, PairRow, SaveBar, inputCls } from './fields'
+import { AutoTextarea, PairRow, SaveBar, StyleHints, inputCls } from './fields'
+import { normalizeQuotes } from '@/lib/styleCheck'
 
 type Row = {
   id: string | null // null = 아직 저장 안 된 새 항목
@@ -94,8 +95,9 @@ function TimelineItem({
     setBusy(true)
     const values = {
       happened_on: row.happened_on,
-      text_ko: row.text_ko.trim(),
-      text_en: row.text_en.trim(),
+      // 표기 규칙: 둥근 따옴표는 저장 전에 곧은 따옴표로
+      text_ko: normalizeQuotes(row.text_ko.trim()),
+      text_en: normalizeQuotes(row.text_en.trim()),
       is_published: row.is_published,
     }
     const { data, error } = row.id
@@ -138,10 +140,13 @@ function TimelineItem({
       <PairRow
         label="내용"
         render={(lang) => (
-          <AutoTextarea
-            value={lang === 'ko' ? row.text_ko : row.text_en}
-            onChange={(v) => patch(lang === 'ko' ? { text_ko: v } : { text_en: v })}
-          />
+          <>
+            <AutoTextarea
+              value={lang === 'ko' ? row.text_ko : row.text_en}
+              onChange={(v) => patch(lang === 'ko' ? { text_ko: v } : { text_en: v })}
+            />
+            <StyleHints text={lang === 'ko' ? row.text_ko : row.text_en} />
+          </>
         )}
       />
       <SaveBar dirty={dirty} busy={busy} message={message} onSave={save}>
