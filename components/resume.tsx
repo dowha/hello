@@ -4,9 +4,6 @@ import React from 'react'
 import { Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Back from '@/components/ui/back'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeRaw from 'rehype-raw'
 import type { ResumeItem } from '@/lib/site-data'
 
 interface ResumeProps {
@@ -146,19 +143,11 @@ export default function Resume({ lang, data }: ResumeProps) {
               <h3 className="text-sm">
                 {lang === 'en' ? 'Language Skills' : '언어 능력'}
               </h3>
-              <ReactMarkdown
-                remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
-                disallowedElements={['del']}
-                unwrapDisallowed
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                  p: ({ ...props }) => <p {...props} className="text-sm" />,
-                }}
-              >
-                {groupedData['skills'][0].details
-                  ? groupedData['skills'][0].details.join(', ')
-                  : ''}
-              </ReactMarkdown>
+              {/* 링크(새 탭 열기 포함)를 HTML로 저장한다. 홈 about.journey와 같은 방식 (쓰기는 오너만, RLS) */}
+              <p
+                className="text-sm"
+                dangerouslySetInnerHTML={{ __html: (groupedData['skills'][0].details ?? []).join(', ') }}
+              />
             </Section>
           )}
         </div>
