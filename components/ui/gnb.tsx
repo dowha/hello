@@ -69,7 +69,7 @@ export default function GNB({
     {/* 고정 바가 차지하던 자리 (홈 로고 위치 72px 유지) */}
     <div aria-hidden className="h-14 shrink-0 print-hide" />
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 transition-[height,background-color,border-color] duration-200 print-hide border-b ${
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 transition-[height,background-color,border-color] duration-300 print-hide border-b ${
         scrolled ? 'h-11 border-gray-200/70 bg-page/80 backdrop-blur' : 'h-14 border-transparent'
       }`}
     >
@@ -84,7 +84,7 @@ export default function GNB({
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }
         }}
-        className={`no-underline transition-opacity duration-200 ${scrolled ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`no-underline transition-opacity duration-300 ${scrolled ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
       >
         <Logomark className="h-5 w-5 text-brand" aria-hidden />
       </Link>

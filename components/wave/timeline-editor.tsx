@@ -53,7 +53,7 @@ export function TimelineEditor() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-xs text-gray-400">
-          {rows.length}개 · 홈에서는 연도 최신순, 같은 해는 1월→12월 순으로 보입니다
+          {rows.length}개. 홈에서는 연도 최신순, 같은 해는 1월→12월 순으로 보입니다
         </span>
         <button onClick={addRow} className={BTN_SECONDARY}>
           + 새 항목
@@ -142,7 +142,7 @@ function TimelineItem({
           onChange={(v) => patch({ happened_on: `${v}-01` })}
           title="연월"
           // /wave 입력칸과 같은 크기
-          triggerClassName="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-sm text-gray-800 outline-none transition-colors hover:border-gray-400 focus-visible:border-gray-400"
+          triggerClassName="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs text-gray-800 outline-none transition-colors hover:border-gray-400 focus-visible:border-gray-400"
         />
         <label className="flex items-center gap-1.5 text-xs text-gray-600">
           <input type="checkbox" checked={row.is_published} onChange={(e) => patch({ is_published: e.target.checked })} />

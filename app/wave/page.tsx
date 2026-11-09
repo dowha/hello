@@ -58,7 +58,7 @@ export default function WavePage() {
       ) : !isOwner ? (
         <div className="flex flex-col items-center gap-2 pt-4">
           <p className="text-sm text-gray-600">접근 권한이 없는 계정입니다. ({user.email})</p>
-          <button onClick={logout} className="text-xs text-gray-400 hover:text-gray-600">
+          <button onClick={logout} className="text-xs text-gray-400 hover:text-gray-700">
             로그아웃
           </button>
         </div>
@@ -72,7 +72,7 @@ export default function WavePage() {
                 onClick={logout}
                 title="로그아웃"
                 aria-label="로그아웃"
-                className="ml-1 align-super text-sm text-gray-300 hover:text-gray-600"
+                className="ml-1 align-super text-sm text-gray-300 hover:text-gray-700"
               >
                 *
               </button>

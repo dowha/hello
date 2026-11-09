@@ -176,7 +176,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                       }}
                       className={`w-full group flex items-center gap-2 py-2 pr-3 ${
                         'indent' in item && item.indent ? 'pl-6 text-gray-600' : 'pl-3 text-gray-900'
-                      } text-xs outline-none hover:bg-gray-100 focus:bg-gray-100 transition-colors duration-200`}
+                      } text-xs outline-none hover:bg-gray-100 focus:bg-gray-100 transition-colors`}
                     >
                       {item.href.startsWith('http') ? (
                         <span className="external relative">{item.title}</span>
