@@ -21,7 +21,6 @@ export default function ClientResume() {
      
       <GNB
         showLanguage={true}
-        showTheme={false}
         currentLanguage={language}
         onLanguageChange={setLanguage}
       />

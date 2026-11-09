@@ -4,6 +4,7 @@ import Script from 'next/script'
 import GTMTracker from '@/components/GTMTracker' // 👈 GTM 트래킹 컴포넌트 추가
 
 // 모바일 브라우저 상단 색도 배경과 맞춤 (blog와 동일)
+// tailwind page 색과 같은 값
 export const viewport = { themeColor: '#FCFCFC' }
 
 export const metadata = {

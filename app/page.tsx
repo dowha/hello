@@ -24,7 +24,6 @@ export default function Page() {
     <>
       <GNB
         showLanguage={true}
-        showTheme={false}
         currentLanguage={language}
         onLanguageChange={setLanguage}
       />
