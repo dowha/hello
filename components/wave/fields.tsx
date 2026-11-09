@@ -113,7 +113,7 @@ export function SaveBar({
     <div className="flex items-center gap-3">
       {children}
       {message && (
-        <span className={`text-xs ${message.ok ? 'text-[#006fd6]' : 'text-[#c8481c]'}`}>
+        <span className={`text-xs ${message.ok ? 'text-brand-dark' : 'text-warn'}`}>
           {message.text}
         </span>
       )}
@@ -139,7 +139,7 @@ export function StyleHints({ text, headline }: { text: string; headline?: boolea
         <li key={idx}>
           <span className="block text-gray-800">{i.excerpt}</span>
           <span className="block text-gray-400">
-            <span className="font-medium text-[#c8481c]">[{i.rule}]</span> {i.message}{' '}
+            <span className="font-medium text-warn">[{i.rule}]</span> {i.message}{' '}
             <a href={STYLE_GUIDE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-gray-700">
               규칙 ↗
             </a>

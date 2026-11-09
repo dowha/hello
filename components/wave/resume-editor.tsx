@@ -103,7 +103,7 @@ export function ResumeEditor() {
       })
   }, [])
 
-  if (error) return <p className="text-xs text-[#c8481c]">{error}</p>
+  if (error) return <p className="text-xs text-warn">{error}</p>
   if (!pairs) return <p className="text-xs text-gray-400">불러오는 중…</p>
 
   const list = pairs[section]
