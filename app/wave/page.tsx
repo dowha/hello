@@ -33,8 +33,9 @@ export default function WavePage() {
     history.replaceState(null, '', `#${t}`)
   }
 
+  // body가 flex-col이라 w-full이 없으면 내용 폭만큼 줄어든다 → 탭마다 너비가 바뀌지 않게 고정
   return (
-    <div className="mx-auto max-w-5xl px-4 pb-10">
+    <div className="mx-auto w-full max-w-5xl px-4 pb-10">
       {/* 홈과 같은 위치의 로고 + 구분선 (홈 GNB h-14 + 본문 p-4 = 72px) */}
       <header className="flex flex-col items-center space-y-2 pt-[72px]">
         <Link href="/" aria-label="Home" className="transition-opacity hover:opacity-80">
