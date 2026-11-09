@@ -119,7 +119,8 @@ export function SaveBar({
       <button
         onClick={onSave}
         disabled={!dirty || busy}
-        className="ml-auto rounded-md bg-gray-800 px-3 py-1.5 text-xs text-white disabled:opacity-30"
+        // blog /desk의 저장·발행 버튼과 같은 파랑
+        className="ml-auto rounded-md bg-[#0086FF] px-3 py-1.5 text-xs text-white transition-colors hover:bg-[#006FD6] disabled:opacity-30 disabled:hover:bg-[#0086FF]"
       >
         {busy ? '저장 중…' : '저장'}
       </button>
@@ -132,13 +133,17 @@ export function StyleHints({ text, headline }: { text: string; headline?: boolea
   const issues = checkStyle(text, { headline })
   if (!issues.length) return null
   return (
-    <ul className="list-none space-y-0.5 !pl-0 text-[11px] text-amber-600">
+    // blog /desk 표기 확인과 같은 형태: 걸린 문구 / [규칙] 설명
+    <ul className="list-none space-y-1.5 !pl-0 text-[11px]">
       {issues.map((i, idx) => (
-        <li key={idx} title={i.message}>
-          {i.rule} · <code className="rounded bg-amber-50 px-1 text-gray-600">{i.excerpt}</code>{' '}
-          <a href={STYLE_GUIDE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700">
-            규칙
-          </a>
+        <li key={idx}>
+          <span className="block text-gray-800">{i.excerpt}</span>
+          <span className="block text-gray-400">
+            <span className="font-medium text-[#c8481c]">[{i.rule}]</span> {i.message}{' '}
+            <a href={STYLE_GUIDE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-gray-700">
+              규칙 ↗
+            </a>
+          </span>
         </li>
       ))}
     </ul>

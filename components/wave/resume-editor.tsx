@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
-import { AutoTextarea, LANGS, PairRow, SaveBar, inputCls, type Lang } from './fields'
+import { AutoTextarea, LANGS, PairRow, SaveBar, StyleHints, inputCls, type Lang } from './fields'
+import { normalizeQuotes } from '@/lib/styleCheck'
 
 type Section = 'info' | 'experience' | 'education' | 'skills'
 type TextField = 'title' | 'organization' | 'organization_url' | 'period' | 'country'
@@ -244,9 +245,14 @@ function ResumeItem({
         section: r.section,
         // info.title은 화면에서 빈 문자열로 다루므로 null로 바꾸지 않는다
         ...Object.fromEntries(
-          fields.map((f) => [f, (r[f] ?? '').trim() || (r.section === 'info' && f === 'title' ? '' : null)])
+          fields.map((f) => {
+            const v = (r[f] ?? '').trim()
+            // 표기 규칙: 둥근 따옴표는 저장 전에 곧은 따옴표로 (주소는 제외)
+            const fixed = f === 'organization_url' ? v : normalizeQuotes(v)
+            return [f, fixed || (r.section === 'info' && f === 'title' ? '' : null)]
+          })
         ),
-        details: textToDetails(details[lang]),
+        details: textToDetails(normalizeQuotes(details[lang])),
       }
       // 순서(order_index)는 이동 버튼에서만 바꾼다. 새 행만 현재 순서로 넣는다.
       const { data, error } = r.id
@@ -259,6 +265,8 @@ function ResumeItem({
       next[lang] = data as ResumeRow
     }
     setRows(next)
+    // 저장된 값(따옴표 교정 반영)으로 상세 칸도 맞춘다
+    setDetails({ ko: detailsToText(next.ko.details), en: detailsToText(next.en.details) })
     onSaved(next)
     setBusy(false)
     setMessage({ ok: true, text: '저장했습니다.' })
@@ -281,7 +289,7 @@ function ResumeItem({
         <span className="truncate text-sm text-gray-800">
           {rows.ko.title || rows.ko.organization || (isNew ? '새 항목' : '(제목 없음)')}
         </span>
-        {isNew && <span className="text-[11px] font-medium text-amber-600">새 항목</span>}
+        {isNew && <span className="text-[11px] font-medium text-gray-500">새 항목</span>}
         <div className="ml-auto flex shrink-0 gap-1 text-xs text-gray-400">
           <button onClick={() => onMove(-1)} disabled={!canUp || isNew} className="px-1 hover:text-gray-700 disabled:opacity-30" aria-label="위로">
             ↑
@@ -296,7 +304,10 @@ function ResumeItem({
           key={f}
           label={FIELD_LABEL[f]}
           render={(lang) => (
-            <input value={rows[lang][f] ?? ''} onChange={(e) => setField(lang, f, e.target.value)} className={inputCls} />
+            <>
+              <input value={rows[lang][f] ?? ''} onChange={(e) => setField(lang, f, e.target.value)} className={inputCls} />
+              {f !== 'organization_url' && <StyleHints text={rows[lang][f] ?? ''} />}
+            </>
           )}
         />
       ))}
@@ -304,14 +315,17 @@ function ResumeItem({
         label="상세"
         hint={detailsHint}
         render={(lang) => (
-          <AutoTextarea
-            value={details[lang]}
-            onChange={(v) => {
-              setMessage(null)
-              setDetails((prev) => ({ ...prev, [lang]: v }))
-            }}
-            minRows={2}
-          />
+          <>
+            <AutoTextarea
+              value={details[lang]}
+              onChange={(v) => {
+                setMessage(null)
+                setDetails((prev) => ({ ...prev, [lang]: v }))
+              }}
+              minRows={2}
+            />
+            <StyleHints text={details[lang]} />
+          </>
         )}
       />
       <SaveBar dirty={dirty} busy={busy} message={message} onSave={save}>

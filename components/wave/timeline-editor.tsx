@@ -14,7 +14,11 @@ type Row = {
   is_published: boolean
 }
 
-const thisMonth = () => new Date().toISOString().slice(0, 7) + '-01'
+// 브라우저 현지 시각 기준 (toISOString은 UTC라 한국 시간 매달 1일 오전 9시 전엔 지난달이 된다)
+const thisMonth = () => {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`
+}
 
 export function TimelineEditor() {
   const [rows, setRows] = useState<Row[] | null>(null)
@@ -135,7 +139,7 @@ function TimelineItem({
           <input type="checkbox" checked={row.is_published} onChange={(e) => patch({ is_published: e.target.checked })} />
           공개
         </label>
-        {row.id === null && <span className="text-[11px] font-medium text-amber-600">새 항목</span>}
+        {row.id === null && <span className="text-[11px] font-medium text-gray-500">새 항목</span>}
       </div>
       <PairRow
         label="내용"
