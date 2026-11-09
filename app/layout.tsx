@@ -44,6 +44,9 @@ export default function RootLayout({
     // 브라우저 확장(HWP 뷰어 등)이 html 태그에 속성을 붙여 생기는 경고 방지
     <html lang="ko" suppressHydrationWarning>
       <head>
+        {/* 글꼴: CSS @import 대신 head에서 바로 요청하고, 글꼴 파일을 받을 CDN에 미리 연결한다 (blog.dowha.kim과 동일) */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
         {GTM_ID && (
           <Script id="gtm-script" strategy="lazyOnload">
             {`
