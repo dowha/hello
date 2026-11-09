@@ -66,7 +66,11 @@ export default function WavePage() {
         <>
           <div className="mb-6 flex items-center justify-between">
             <h1 className="text-lg text-gray-800">
-              Wave
+              {/* 제목을 누르면 /wave를 새로 불러온다 (/desk와 동일, 탭은 소개로 돌아감) */}
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+              <a href="/wave" className="no-underline hover:text-inherit hover:opacity-80">
+                Wave
+              </a>
               {/* 로그아웃은 제목 옆 *로 숨긴다 (/desk와 동일) */}
               <button
                 onClick={logout}
