@@ -142,7 +142,7 @@ function TimelineItem({
           onChange={(v) => patch({ happened_on: `${v}-01` })}
           title="연월"
           // /wave 입력칸과 같은 크기
-          triggerClassName="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs text-gray-800 outline-none transition-colors hover:border-gray-400 focus-visible:border-gray-400"
+          triggerClassName="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-[5px] text-xs text-gray-800 outline-none transition-colors hover:border-gray-400 focus-visible:border-gray-400"
         />
         <label className="flex items-center gap-1.5 text-xs text-gray-600">
           <input type="checkbox" checked={row.is_published} onChange={(e) => patch({ is_published: e.target.checked })} />

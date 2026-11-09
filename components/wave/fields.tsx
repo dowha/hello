@@ -11,9 +11,9 @@ export type Lang = 'ko' | 'en'
 export const LANGS: Lang[] = ['ko', 'en']
 export const LANG_LABEL: Record<Lang, string> = { ko: 'KO', en: 'EN' }
 
-// 한 줄 입력칸은 12px, 긴 글 칸(AutoTextarea)은 14px (/desk와 같은 기준)
-const inputBase = 'w-full rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-gray-800 outline-none focus:border-gray-400'
-export const inputCls = `${inputBase} text-xs`
+// 한 줄 입력칸은 12px·높이 28px(버튼과 같음), 긴 글 칸(AutoTextarea)은 14px (/desk와 같은 기준)
+const inputBase = 'w-full rounded-md border border-gray-200 bg-white px-2.5 text-gray-800 outline-none focus:border-gray-400'
+export const inputCls = `${inputBase} py-[5px] text-xs`
 
 /** 내용 길이에 맞춰 높이가 늘어나는 textarea */
 export function AutoTextarea({
@@ -61,7 +61,7 @@ export function AutoTextarea({
       value={value}
       placeholder={placeholder}
       onChange={(e) => onChange(e.target.value)}
-      className={`${inputBase} resize-none leading-relaxed ${mono ? 'font-mono text-xs' : 'text-sm'}`}
+      className={`${inputBase} py-1.5 resize-none leading-relaxed ${mono ? 'font-mono text-xs' : 'text-sm'}`}
     />
   )
 }
