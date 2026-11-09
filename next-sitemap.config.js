@@ -18,10 +18,7 @@ module.exports = {
   },
   robotsTxtOptions: {
     // 모든 크롤러(검색·AI 포함) 허용, 관리자 페이지만 제외
+    // blog 사이트맵·RSS는 blog.dowha.kim/robots.txt가 직접 알린다 (다른 호스트 사이트맵은 검색엔진이 무시할 수 있어 여기선 빼둠)
     policies: [{ userAgent: '*', allow: '/', disallow: '/wave' }],
-    additionalSitemaps: [
-      'https://blog.dowha.kim/sitemap.xml', // ✅ 서브도메인 사이트맵 추가
-      'https://blog.dowha.kim/api/rss',
-    ],
   },
 }
