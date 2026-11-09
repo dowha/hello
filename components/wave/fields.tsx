@@ -110,6 +110,14 @@ export function SaveBar({
   onSave: () => void
   children?: ReactNode
 }) {
+  // 저장 안 한 내용이 있으면 새로고침·탭 닫기·제목 클릭 전에 브라우저 경고를 띄운다
+  useEffect(() => {
+    if (!dirty) return
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault()
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [dirty])
+
   return (
     <div className="flex items-center gap-3">
       {children}
