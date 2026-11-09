@@ -50,7 +50,8 @@ export function About({ language, about, highlights, timeline }: AboutProps) {
                 />
                 {content.name}
               </h1>
-              <h2 className="mt-1 text-sm sm:text-[15px] md:text-base">{content.title}</h2>
+              {/* 직함은 부제라 제목 태그가 아니다 (아래 카드 h2와 같은 단계가 되지 않게). 모양은 기존 h2 그대로 */}
+              <p className="mt-1 text-sm font-semibold text-gray-600 break-keep sm:text-[15px] md:text-base">{content.title}</p>
               <CommandPalette language={language} />
             </div>
           )}

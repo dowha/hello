@@ -47,17 +47,18 @@ export default function Resume({ lang, data }: ResumeProps) {
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
           <header className="text-center mb-4">
-            {/* 페이지 제목(h1). 크기·색은 예전 h2 모습 그대로 (전역 h1 스타일 덮어씀) */}
-            <h1 className="text-lg font-bold text-gray-600 md:text-lg">
+            {/* 페이지 제목(h1). 색은 전역 h1(진한 회색)을 따르고, 인쇄용 문서라 크기만 18px로 고정 */}
+            <h1 className="text-lg md:text-lg">
               {lang === 'en' ? 'Dowha Kim' : '김도화'}
             </h1>
-            <h3 className="text-sm">
+            {/* 직함은 부제라 제목 태그가 아니다 (h1 다음 바로 h3가 오던 구조 정리, 모양은 그대로) */}
+            <p className="text-sm font-semibold break-keep">
               {groupedData['info'] && groupedData['info'][0]?.title
                 ? groupedData['info'][0].title
                 : lang === 'en'
                 ? 'B2B SaaS Specialist'
                 : 'B2B SaaS 전문가'}
-            </h3>
+            </p>
             <section className="text-sm mb-4 text-center">
               <p>
                 <a
