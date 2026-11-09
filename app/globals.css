@@ -33,32 +33,6 @@
     --radius: 0.5rem;
   }
 
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
 
   * {
     scrollbar-width: thin;
@@ -126,7 +100,13 @@
     display: none !important;
   }
 
-  .main a {
+  /* 링크: blog.dowha.kim(styles/globals.css)과 같은 규칙
+     모든 링크는 밑줄 색과 hover 파랑만, 본문(main) 안 링크에만 밑줄을 그린다 */
+  a {
+    @apply break-words decoration-gray-200 hover:text-[#0086FF];
+  }
+
+  main a {
     @apply break-words underline underline-offset-4 decoration-gray-200 hover:text-[#0086FF];
   }
 
@@ -167,9 +147,10 @@
     outline: none;
   }
 
-  /* target="_blank" 링크에 아이콘 표시 */
+  /* target="_blank" 링크에 아이콘 표시: 본문(.main) 안과 .external에만
+     (blog.dowha.kim처럼 영역을 지정한다. 관리자 화면 등은 ↗를 글자로 직접 쓴다) */
   .external:after,
-  a[target='_blank']:after {
+  .main a[target='_blank']:after {
     @apply text-gray-300 group-hover:text-[#0086FF] hover:text-[#0086FF];
 
     content: '↗';

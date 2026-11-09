@@ -67,7 +67,8 @@ export default function RootLayout({
           </noscript>
         )}
         <GTMTracker /> {/* 👈 GTM 트래킹 컴포넌트 삽입 */}
-        {children}
+        {/* 링크 밑줄은 main 안에만 적용된다 (blog.dowha.kim과 같은 규칙) */}
+        <main className="flex w-full flex-1 flex-col">{children}</main>
         <Footer />
       </body>
     </html>

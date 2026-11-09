@@ -112,7 +112,7 @@ export default function GNB({
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }
         }}
-        className={`transition-opacity duration-200 ${scrolled ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`no-underline transition-opacity duration-200 ${scrolled ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
       >
         <Logomark className="h-5 w-5 text-brand" aria-hidden />
       </Link>
