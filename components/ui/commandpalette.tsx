@@ -61,7 +61,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const content = {
     en: {
       buttonText: 'Get to know me more...',
-      navigation: 'Navigation',
+      navigation: 'Explore',
       // 그룹 사이에 구분선이 들어간다
       navGroups: [
         [

@@ -34,7 +34,7 @@ export default function Resume({ lang, data }: ResumeProps) {
       {/* Print control area */}
       <div className="print-hide w-full max-w-[640px] mx-auto">
         <div className="header-controls flex justify-between items-center mb-4">
-          <Back />
+          <Back lang={lang} />
           <Button onClick={handlePrint} variant="outline" className="mb-4">
             <Download className="mr-2 h-4 w-4" />
             {lang === 'en' ? 'Download as PDF' : 'PDF 다운로드'}
@@ -47,9 +47,10 @@ export default function Resume({ lang, data }: ResumeProps) {
         <div className="mx-auto max-w-screen-sm space-y-4">
           {/* Header */}
           <header className="text-center mb-4">
-            <h2 className="text-lg font-bold">
+            {/* 페이지 제목(h1). 크기·색은 예전 h2 모습 그대로 (전역 h1 스타일 덮어씀) */}
+            <h1 className="text-lg font-bold text-gray-600 md:text-lg">
               {lang === 'en' ? 'Dowha Kim' : '김도화'}
-            </h2>
+            </h1>
             <h3 className="text-sm">
               {groupedData['info'] && groupedData['info'][0]?.title
                 ? groupedData['info'][0].title
