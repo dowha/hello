@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Search } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Dialog, DialogContent, DialogTitle } from './dialog'
 
 type Language = 'en' | 'ko'
@@ -9,6 +10,7 @@ type CommandPaletteProps = {
 
 const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [open, setOpen] = useState(false)
+  const router = useRouter()
   const [platform, setPlatform] = useState('')
   const [isMobile, setIsMobile] = useState(false)
   const listRef = useRef<HTMLDivElement>(null)
@@ -170,7 +172,8 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                               'noopener,noreferrer'
                             )
                           } else {
-                            window.location.href = item.href
+                            // 사이트 안 이동은 공통 JS·폰트를 다시 받지 않도록 클라이언트 이동
+                            router.push(item.href)
                           }
                         }, 100) // ✅ 클릭 후 닫히도록 설정
                       }}
