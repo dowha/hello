@@ -1,33 +1,16 @@
-'use client'
+import ClientHome from './ClientHome'
+import { LanguagePending } from '@/components/language-pending'
+import { getHomeData } from '@/lib/site-data'
 
-import { useEffect, useState } from 'react'
-import { About } from '@/components/introduction'
-import GNB from '@/components/ui/gnb'
-import { resolveLanguage, type Language } from '@/lib/language'
+// 서버에서 데이터를 넣어 그린 페이지를 10분마다 다시 만든다 (/wave 저장 시에는 바로).
+export const revalidate = 600
 
-export default function Page() {
-  // 서버 렌더링과 어긋나지 않도록 언어는 마운트 후 결정 (직접 고른 언어 → 브라우저 언어 순)
-  const [language, setLanguage] = useState<Language | null>(null)
-
-  useEffect(() => {
-    setLanguage(resolveLanguage())
-  }, [])
-
-  // 스크린리더·번역기가 화면 언어를 알 수 있도록 html lang도 맞춘다
-  useEffect(() => {
-    if (language) document.documentElement.lang = language
-  }, [language])
-
-  if (!language) return null
-
+export default async function Page() {
+  const data = await getHomeData()
   return (
     <>
-      <GNB
-        showLanguage={true}
-        currentLanguage={language}
-        onLanguageChange={setLanguage}
-      />
-      <About language={language} />
+      <LanguagePending />
+      <ClientHome data={data} />
     </>
   )
 }

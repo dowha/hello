@@ -3,10 +3,7 @@
 import { useEffect, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { supabase } from '@/supabase'
-
-// 관리자(/wave) 소유자 이메일. blog.dowha.kim /desk와 동일.
-// 실제 보안은 Supabase RLS(쓰기 = 이 이메일)에서 강제하고, 여기선 UI 노출만 제어한다.
-export const OWNER_EMAIL = 'mail@dowha.kim'
+import { OWNER_EMAIL } from '@/lib/site'
 
 export function useOwner() {
   const [user, setUser] = useState<User | null>(null)
@@ -23,7 +20,21 @@ export function useOwner() {
     return () => sub.subscription.unsubscribe()
   }, [])
 
+  // 여기선 UI 노출만 제어하고, 실제 쓰기 권한은 Supabase RLS가 확인한다
   return { user, loading, isOwner: user?.email === OWNER_EMAIL }
+}
+
+/** 저장·삭제 후 홈·이력서를 바로 다시 만들게 요청한다. 실패해도 10분 안에 저절로 반영되므로 저장 흐름은 막지 않는다 */
+export async function refreshSite() {
+  try {
+    const { data } = await supabase.auth.getSession()
+    const token = data.session?.access_token
+    if (!token) return
+    const res = await fetch('/api/revalidate', { method: 'POST', headers: { Authorization: `Bearer ${token}` } })
+    if (!res.ok) console.error('사이트 갱신 요청 실패:', res.status)
+  } catch (e) {
+    console.error('사이트 갱신 요청 실패:', e)
+  }
 }
 
 export const loginWithGoogle = () =>

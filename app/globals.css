@@ -155,6 +155,19 @@
     font-family: 'Pretendard Variable', sans-serif;
   }
 
+  /* 영어 방문자: 언어가 정해질 때까지 본문 숨김 (lib/language.ts LANGUAGE_PENDING_SCRIPT).
+     JS가 끝내 안 돌면 3초 뒤 그대로 보인다 */
+  html[data-lang-pending] main {
+    visibility: hidden;
+    animation: lang-pending-fallback 0s 3s forwards;
+  }
+
+  @keyframes lang-pending-fallback {
+    to {
+      visibility: visible;
+    }
+  }
+
   .bg-black\/80 {
     background-color: rgb(0 0 0 / 0.2) !important;
   }

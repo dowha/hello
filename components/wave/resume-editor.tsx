@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
 import { AutoTextarea, LANGS, PairRow, SaveBar, StyleHints, inputCls, type Lang } from './fields'
 import { normalizeQuotes } from '@/lib/styleCheck'
+import { refreshSite } from '@/lib/owner'
 import ConfirmDialog from './confirm-dialog'
 import { BTN_DANGER_SMALL, BTN_SECONDARY } from './ui'
 
@@ -146,6 +147,7 @@ export function ResumeEditor() {
       return next
     })
     setReordering(false)
+    void refreshSite()
   }
 
   return (
@@ -273,6 +275,7 @@ function ResumeItem({
     onSaved(next)
     setBusy(false)
     setMessage({ ok: true, text: '저장했습니다.' })
+    void refreshSite()
   }
 
   const savedIds = LANGS.map((l) => pair.rows[l].id).filter((id): id is string => !!id)
@@ -288,6 +291,7 @@ function ResumeItem({
       return setMessage({ ok: false, text: '삭제 실패: ' + error.message })
     }
     onDeleted()
+    void refreshSite()
   }
 
   return (

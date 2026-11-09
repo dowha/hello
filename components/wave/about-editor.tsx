@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
 import { AutoTextarea, LANGS, PairRow, SaveBar, StyleHints, inputCls, type Lang } from './fields'
 import { normalizeQuotes } from '@/lib/styleCheck'
+import { refreshSite } from '@/lib/owner'
 
 type AboutRow = { id: string; language: Lang; name: string; title: string; intro: string; journey: string }
 type Field = 'name' | 'title' | 'intro' | 'journey'
@@ -68,6 +69,7 @@ export function AboutEditor() {
     setSaved(normalized)
     setBusy(false)
     setMessage({ ok: true, text: '저장했습니다.' })
+    void refreshSite()
   }
 
   return (

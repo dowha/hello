@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { supabase } from '@/supabase'
+import { useState } from 'react'
 import { groupByYear, type HistoryEntry, type Language } from '@/lib/history'
 
 const TITLE: Record<Language, string> = {
@@ -14,24 +13,6 @@ function formatMonth(date: string, lang: Language) {
   return lang === 'ko'
     ? `${m}월`
     : new Date(y, m - 1).toLocaleString('en-US', { month: 'short' })
-}
-
-// 언어 전환 시 재요청하지 않도록 모듈 단위로 캐싱
-let cached: Promise<HistoryEntry[]> | null = null
-
-function fetchTimeline() {
-  cached ??= Promise.resolve(
-    supabase
-      .from('timeline')
-      .select('id, happened_on, text_ko, text_en')
-      .eq('is_published', true)
-      .order('happened_on', { ascending: false })
-      .order('created_at', { ascending: false })
-  ).then(({ data, error }) => {
-    if (error) console.error('타임라인 fetch 오류:', error.message)
-    return (data as HistoryEntry[] | null) ?? []
-  })
-  return cached
 }
 
 const MORE: Record<Language, string> = {
@@ -77,20 +58,11 @@ function YearRow({ group, language, className = '' }: { group: YearGroup; langua
   )
 }
 
-/** 소개 아래에 붙는 연도별 최신순 타임라인 (Supabase timeline 테이블). 가운데는 접어 두고 클릭 시 전체 표시 */
-export function History({ language }: { language: Language }) {
-  const [entries, setEntries] = useState<HistoryEntry[] | null>(null)
+/** 소개 아래에 붙는 연도별 최신순 타임라인 (Supabase timeline 테이블, 서버에서 조회). 가운데는 접어 두고 클릭 시 전체 표시 */
+export function History({ language, entries }: { language: Language; entries: HistoryEntry[] }) {
   const [expanded, setExpanded] = useState(false)
 
-  useEffect(() => {
-    let alive = true
-    fetchTimeline().then((rows) => alive && setEntries(rows))
-    return () => {
-      alive = false
-    }
-  }, [])
-
-  if (!entries?.length) return null
+  if (!entries.length) return null
 
   const groups = groupByYear(entries)
   // 숨길 연도가 2개 이상일 때만 접는다 (1개만 숨기면 버튼이 더 자리를 차지함)

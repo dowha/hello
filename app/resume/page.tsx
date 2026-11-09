@@ -1,6 +1,11 @@
 // app/resume/page.tsx
 import { Metadata } from 'next';
 import ClientResume from './ClientResume';
+import { LanguagePending } from '@/components/language-pending';
+import { getResumeData } from '@/lib/site-data';
+
+// 홈과 같이 10분마다 다시 만든다 (/wave 저장 시에는 바로)
+export const revalidate = 600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const canonicalUrl = 'https://dowha.kim/resume';
@@ -16,6 +21,12 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function ResumePage() {
-  return <ClientResume />;
+export default async function ResumePage() {
+  const data = await getResumeData();
+  return (
+    <>
+      <LanguagePending />
+      <ClientResume data={data} />
+    </>
+  );
 }

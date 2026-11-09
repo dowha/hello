@@ -1,13 +1,8 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
-import { supabase } from '@/supabase'
-
-type Language = 'ko' | 'en'
-type PostItem = { title: string; slug: string }
-type BookItem = { title: string; author: string; slug: string; volumes?: string | null }
-type ShortItem = { short_id: number; content: string }
-type Highlights = { post: PostItem | null; book: BookItem | null; short: ShortItem | null }
+import type { ReactNode } from 'react'
+import type { Language } from '@/lib/language'
+import type { Highlights } from '@/lib/site-data'
 
 const BLOG = 'https://blog.dowha.kim'
 
@@ -45,49 +40,6 @@ function renderEmphasis(text: string) {
     })
 }
 
-// 조회 조건은 blog.dowha.kim 홈(pages/index.tsx)과 동일하게 유지
-async function fetchHighlights(): Promise<Highlights> {
-  const [post, book, short] = await Promise.all([
-    // 최근에 쓴 글: 외부 글은 블로그 안에 페이지가 없어 제외
-    supabase
-      .from('posts')
-      .select('title, slug')
-      .eq('is_published', true)
-      .eq('is_external', false)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle(),
-    // 최근에 읽은 책: 감상이 있고 지금 읽는 중이 아닌 책
-    supabase
-      .from('books')
-      .select('title, author, slug, volumes')
-      .not('content', 'is', null)
-      .not('is_reading', 'is', true)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle(),
-    supabase
-      .from('shorts')
-      .select('short_id, content')
-      .eq('is_published', true)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle(),
-  ])
-
-  for (const { error } of [post, book, short]) {
-    if (error) console.error('블로그 하이라이트 fetch 오류:', error.message)
-  }
-  return {
-    post: (post.data as PostItem | null) ?? null,
-    book: (book.data as BookItem | null) ?? null,
-    short: (short.data as ShortItem | null) ?? null,
-  }
-}
-
-// 언어 전환 시 재요청하지 않도록 모듈 단위로 캐싱
-let cached: Promise<Highlights> | null = null
-
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="py-2.5">
@@ -97,21 +49,9 @@ function Card({ title, children }: { title: string; children: ReactNode }) {
   )
 }
 
-/** blog.dowha.kim 홈처럼 최근 글·읽은 책·요즘 하는 생각을 보여준다 */
-export function BlogHighlights({ language }: { language: Language }) {
-  const [data, setData] = useState<Highlights | null>(null)
+/** blog.dowha.kim 홈처럼 최근 글·읽은 책·요즘 하는 생각을 보여준다 (조회는 lib/site-data.ts) */
+export function BlogHighlights({ language, data }: { language: Language; data: Highlights }) {
   const copy = COPY[language]
-
-  useEffect(() => {
-    let alive = true
-    cached ??= fetchHighlights()
-    cached.then((d) => alive && setData(d))
-    return () => {
-      alive = false
-    }
-  }, [])
-
-  if (!data) return null
   const { post, book, short } = data
 
   return (

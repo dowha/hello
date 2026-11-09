@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -8,61 +7,21 @@ import CommandPalette from '@/components/ui/commandpalette'
 import { Wordmark } from '@/components/brand'
 import { History } from '@/components/history'
 import { BlogHighlights } from '@/components/blog-highlights'
-import { Spinner } from '@/components/ui/spinner'
-import { supabase } from '@/supabase' // supabase.ts에서 클라이언트 가져오기
-
-// 데이터 타입 정의
-type AboutContent = {
-  name: string
-  title: string
-  intro: string
-  journey: string
-}
+import type { HomeData } from '@/lib/site-data'
+import type { Language } from '@/lib/language'
 
 // 본문 HTML(회사 링크·로고 칩 포함)은 DB about.journey에서 관리한다
 // 예전 원문에 남은 각주 번호(<sup>1</sup>)만 제거
 const stripFootnoteMarks = (html: string) =>
   html.replace(/<sup>\s*\d+\s*<\/sup>/g, '')
 
-type AboutProps = {
-  language: 'en' | 'ko'
-}
+type AboutProps = HomeData & { language: Language }
 
-// 캐싱을 위한 Map 객체 생성
-const cache = new Map<string, AboutContent>()
-
-export function About({ language }: AboutProps) {
-  const [content, setContent] = useState<AboutContent | null>(null)
-  const [loading, setLoading] = useState(true) // 로딩 상태 추가
+/** 데이터는 서버(app/page.tsx)에서 받아 온다 */
+export function About({ language, about, highlights, timeline }: AboutProps) {
+  const content = about[language]
   const router = useRouter()
 
-  async function fetchAboutContent(lang: 'en' | 'ko') {
-    if (cache.has(lang)) {
-      setContent(cache.get(lang)!)
-      return
-    }
-
-    const { data, error } = await supabase
-      .from('about')
-      .select('name, title, intro, journey')
-      .eq('language', lang)
-      .single()
-    if (error) {
-      console.error('Error fetching data:', error.message)
-      setLoading(false) // 에러 발생 시 로딩 종료
-      return
-    }
-
-    cache.set(lang, data)
-    setContent(data)
-    setLoading(false) // 데이터 로드 완료 시 로딩 종료
-  }
-
-  useEffect(() => {
-    fetchAboutContent(language)
-  }, [language])
-
-  // 로고·구분선은 먼저 보여주고, 내용 자리에서만 로딩 표시
   return (
     <div className="main flex flex-col items-center justify-center p-4 pb-12">
       <div className="max-w-md w-full space-y-4">
@@ -96,9 +55,7 @@ export function About({ language }: AboutProps) {
             </div>
           )}
         </div>
-        {!content ? (
-          loading && <Spinner className="min-h-[300px]" />
-        ) : (
+        {content && (
           <>
             <div className="space-y-4 text-left pb-2">
               <p
@@ -112,8 +69,8 @@ export function About({ language }: AboutProps) {
                 }}
               />
             </div>
-            <BlogHighlights language={language} />
-            <History language={language} />
+            <BlogHighlights language={language} data={highlights} />
+            <History language={language} entries={timeline} />
           </>
         )}
       </div>

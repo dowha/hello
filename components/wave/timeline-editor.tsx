@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
 import { AutoTextarea, PairRow, SaveBar, StyleHints } from './fields'
 import { normalizeQuotes } from '@/lib/styleCheck'
+import { refreshSite } from '@/lib/owner'
 import { MonthPicker } from '@/components/ui/date-picker'
 import ConfirmDialog from './confirm-dialog'
 import { BTN_DANGER_SMALL, BTN_SECONDARY } from './ui'
@@ -117,6 +118,7 @@ function TimelineItem({
     setRow(next)
     onSaved(next)
     setMessage({ ok: true, text: '저장했습니다.' })
+    void refreshSite()
   }
 
   // 저장 전 새 항목은 바로 지우고, 저장된 항목은 확인창을 거친다
@@ -132,6 +134,7 @@ function TimelineItem({
       return setMessage({ ok: false, text: '삭제 실패: ' + error.message })
     }
     onDeleted()
+    void refreshSite()
   }
 
   return (
