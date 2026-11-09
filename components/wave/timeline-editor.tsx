@@ -88,8 +88,8 @@ function TimelineItem({
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
   const [confirmOpen, setConfirmOpen] = useState(false)
 
+  // 새 항목도 처음 상태와 비교한다 (빈 새 카드만 있을 땐 저장 버튼·이탈 경고 없음)
   const dirty =
-    initial.id === null ||
     (['happened_on', 'text_ko', 'text_en', 'is_published'] as const).some((k) => row[k] !== initial[k])
 
   const patch = (p: Partial<Row>) => {

@@ -227,8 +227,8 @@ function ResumeItem({
   const [confirmOpen, setConfirmOpen] = useState(false)
 
   const isNew = !pair.rows.ko.id && !pair.rows.en.id
+  // 새 항목도 처음 상태와 비교한다 (빈 새 카드만 있을 땐 저장 버튼·이탈 경고 없음)
   const dirty =
-    isNew ||
     LANGS.some(
       (l) =>
         fields.some((f) => (rows[l][f] ?? '') !== (pair.rows[l][f] ?? '')) ||
