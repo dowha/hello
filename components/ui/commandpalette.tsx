@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Search } from 'lucide-react'
 import { Dialog, DialogContent, DialogTitle } from './dialog'
 
@@ -11,6 +11,25 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
   const [open, setOpen] = useState(false)
   const [platform, setPlatform] = useState('')
   const [isMobile, setIsMobile] = useState(false)
+  const listRef = useRef<HTMLDivElement>(null)
+
+  const items = () => Array.from(listRef.current?.querySelectorAll<HTMLButtonElement>('[data-palette-item]') ?? [])
+
+  // ↑↓·Home·End로 항목 사이 포커스 이동 (Enter는 포커스된 버튼이 처리)
+  const onListKeyDown = (e: React.KeyboardEvent) => {
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key) || e.nativeEvent.isComposing) return
+    const list = items()
+    if (!list.length) return
+    e.preventDefault()
+    const cur = list.indexOf(document.activeElement as HTMLButtonElement)
+    const last = list.length - 1
+    const next =
+      e.key === 'Home' ? 0
+      : e.key === 'End' ? last
+      : e.key === 'ArrowDown' ? (cur < 0 || cur === last ? 0 : cur + 1)
+      : cur <= 0 ? last : cur - 1
+    list[next].focus()
+  }
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
@@ -106,6 +125,12 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
           aria-describedby={undefined}
           className="p-0 custom-dialog-content border w-[90%] max-w-[600px] mx-auto rounded-lg overflow-hidden bg-white"
           onClick={handleClose} // ✅ 바깥 클릭 감지
+          onKeyDown={onListKeyDown}
+          // 열리면 ESC 버튼 대신 첫 항목에 포커스
+          onOpenAutoFocus={(e) => {
+            e.preventDefault()
+            items()[0]?.focus()
+          }}
         >
           <div className="w-full bg-white" onClick={(e) => e.stopPropagation()}>
             {/* ✅ 내부 요소 클릭은 닫히지 않도록 이벤트 버블링 차단 */}
@@ -122,7 +147,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
               </button>
             </div>
 
-            <div className="max-h-[300px] overflow-y-auto">
+            <div ref={listRef} className="max-h-[300px] overflow-y-auto">
               {currentContent.navGroups.map((group, i) => (
                 <div
                   key={i}
@@ -131,6 +156,9 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                   {group.map((item) => (
                     <button
                       key={item.href}
+                      data-palette-item
+                      // 마우스를 올린 항목에도 포커스를 옮겨 키보드와 강조가 어긋나지 않게 한다
+                      onMouseMove={(e) => e.currentTarget.focus()}
                       onClick={(e) => {
                         e.stopPropagation() // ✅ 버튼 클릭 시 팝업이 닫히지 않도록 설정
                         setTimeout(() => {
@@ -148,7 +176,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
                       }}
                       className={`w-full group flex items-center gap-2 py-2 pr-3 ${
                         'indent' in item && item.indent ? 'pl-6 text-gray-600' : 'pl-3 text-gray-900'
-                      } text-xs hover:bg-gray-100 transition-colors duration-200`}
+                      } text-xs outline-none hover:bg-gray-100 focus:bg-gray-100 transition-colors duration-200`}
                     >
                       {item.href.startsWith('http') ? (
                         <span className="external relative">{item.title}</span>
