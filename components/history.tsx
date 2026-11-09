@@ -48,7 +48,7 @@ function YearRow({ group, language, className = '' }: { group: YearGroup; langua
             >
               {formatMonth(entry.happened_on, language)}
             </time>
-            <p className="text-gray-700" style={{ wordBreak: 'keep-all' }}>
+            <p className="break-keep text-gray-600">
               {renderItalic(language === 'ko' ? entry.text_ko : entry.text_en)}
             </p>
           </li>
