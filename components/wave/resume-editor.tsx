@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
 import { AutoTextarea, LANGS, PairRow, SaveBar, StyleHints, inputCls, type Lang } from './fields'
 import { normalizeQuotes } from '@/lib/styleCheck'
+import ConfirmDialog from './confirm-dialog'
+import { BTN_DANGER_SMALL, BTN_SECONDARY } from './ui'
 
 type Section = 'info' | 'experience' | 'education' | 'skills'
 type TextField = 'title' | 'organization' | 'organization_url' | 'period' | 'country'
@@ -161,7 +163,7 @@ export function ResumeEditor() {
         ))}
         <button
           onClick={addPair}
-          className="ml-auto rounded-md border border-gray-200 px-3 py-1.5 text-gray-700 hover:bg-gray-50"
+          className={`ml-auto ${BTN_SECONDARY}`}
         >
           + 새 항목
         </button>
@@ -220,6 +222,7 @@ function ResumeItem({
   })
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
+  const [confirmOpen, setConfirmOpen] = useState(false)
 
   const isNew = !pair.rows.ko.id && !pair.rows.en.id
   const dirty =
@@ -272,14 +275,18 @@ function ResumeItem({
     setMessage({ ok: true, text: '저장했습니다.' })
   }
 
+  const savedIds = LANGS.map((l) => pair.rows[l].id).filter((id): id is string => !!id)
+  // 저장 전 새 항목은 바로 지우고, 저장된 항목은 확인창을 거친다
+  const askRemove = () => (savedIds.length === 0 ? onDeleted() : setConfirmOpen(true))
+
   const remove = async () => {
-    const ids = LANGS.map((l) => pair.rows[l].id).filter((id): id is string => !!id)
-    if (ids.length === 0) return onDeleted()
-    if (!window.confirm('KO/EN 두 항목을 함께 삭제할까요?')) return
     setBusy(true)
-    const { error } = await supabase.from('resume').delete().in('id', ids)
+    const { error } = await supabase.from('resume').delete().in('id', savedIds)
     setBusy(false)
-    if (error) return setMessage({ ok: false, text: '삭제 실패: ' + error.message })
+    if (error) {
+      setConfirmOpen(false)
+      return setMessage({ ok: false, text: '삭제 실패: ' + error.message })
+    }
     onDeleted()
   }
 
@@ -329,10 +336,20 @@ function ResumeItem({
         )}
       />
       <SaveBar dirty={dirty} busy={busy} message={message} onSave={save}>
-        <button onClick={remove} disabled={busy} className="text-xs text-gray-400 hover:text-[#c8481c]">
+        <button onClick={askRemove} disabled={busy} className={BTN_DANGER_SMALL}>
           삭제
         </button>
       </SaveBar>
+      <ConfirmDialog
+        open={confirmOpen}
+        message={'KO/EN 두 항목을 함께 삭제합니다.\n되돌릴 수 없습니다.'}
+        confirmLabel="삭제"
+        busyLabel="삭제 중…"
+        busy={busy}
+        danger
+        onConfirm={remove}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </li>
   )
 }

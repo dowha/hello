@@ -7,6 +7,7 @@ import { useOwner, loginWithGoogle, logout } from '@/lib/owner'
 import { AboutEditor } from '@/components/wave/about-editor'
 import { TimelineEditor } from '@/components/wave/timeline-editor'
 import { ResumeEditor } from '@/components/wave/resume-editor'
+import { BTN_SECONDARY } from '@/components/wave/ui'
 
 type Tab = 'about' | 'timeline' | 'resume'
 const TABS: { key: Tab; label: string }[] = [
@@ -49,7 +50,7 @@ export default function WavePage() {
         <div className="flex justify-center pt-4">
           <button
             onClick={loginWithGoogle}
-            className="rounded-md border border-gray-200 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+            className={BTN_SECONDARY}
           >
             🔐 관리자 로그인
           </button>

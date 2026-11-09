@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from 'react'
 import { checkStyle } from '@/lib/styleCheck'
+import { BTN_PRIMARY } from './ui'
 
 // 표기 규칙 원본은 blog에 하나만 둔다
 const STYLE_GUIDE_URL = 'https://blog.dowha.kim/style-guide'
@@ -119,8 +120,7 @@ export function SaveBar({
       <button
         onClick={onSave}
         disabled={!dirty || busy}
-        // blog /desk의 저장·발행 버튼과 같은 파랑
-        className="ml-auto rounded-md bg-[#0086FF] px-3 py-1.5 text-xs text-white transition-colors hover:bg-[#006FD6] disabled:opacity-30 disabled:hover:bg-[#0086FF]"
+        className={`ml-auto ${BTN_PRIMARY}`}
       >
         {busy ? '저장 중…' : '저장'}
       </button>

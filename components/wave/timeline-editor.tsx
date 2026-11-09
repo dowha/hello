@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase'
-import { AutoTextarea, PairRow, SaveBar, StyleHints, inputCls } from './fields'
+import { AutoTextarea, PairRow, SaveBar, StyleHints } from './fields'
 import { normalizeQuotes } from '@/lib/styleCheck'
+import { MonthPicker } from '@/components/ui/date-picker'
+import ConfirmDialog from './confirm-dialog'
+import { BTN_DANGER_SMALL, BTN_SECONDARY } from './ui'
 
 type Row = {
   id: string | null // null = 아직 저장 안 된 새 항목
@@ -52,7 +55,7 @@ export function TimelineEditor() {
         <span className="text-xs text-gray-400">
           {rows.length}개 · 홈에서는 연도 최신순, 같은 해는 1월→12월 순으로 보입니다
         </span>
-        <button onClick={addRow} className="rounded-md border border-gray-200 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50">
+        <button onClick={addRow} className={BTN_SECONDARY}>
           + 새 항목
         </button>
       </div>
@@ -82,6 +85,7 @@ function TimelineItem({
   const [row, setRow] = useState(initial)
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
+  const [confirmOpen, setConfirmOpen] = useState(false)
 
   const dirty =
     initial.id === null ||
@@ -115,25 +119,30 @@ function TimelineItem({
     setMessage({ ok: true, text: '저장했습니다.' })
   }
 
+  // 저장 전 새 항목은 바로 지우고, 저장된 항목은 확인창을 거친다
+  const askRemove = () => (row.id === null ? onDeleted() : setConfirmOpen(true))
+
   const remove = async () => {
-    if (row.id === null) return onDeleted()
-    if (!window.confirm('이 항목을 삭제할까요?')) return
+    if (row.id === null) return
     setBusy(true)
     const { error } = await supabase.from('timeline').delete().eq('id', row.id)
     setBusy(false)
-    if (error) return setMessage({ ok: false, text: '삭제 실패: ' + error.message })
+    if (error) {
+      setConfirmOpen(false)
+      return setMessage({ ok: false, text: '삭제 실패: ' + error.message })
+    }
     onDeleted()
   }
 
   return (
     <li className={`space-y-3 rounded-lg border p-4 ${row.is_published ? 'border-gray-200' : 'border-dashed border-gray-300 bg-gray-50/60'}`}>
       <div className="flex flex-wrap items-center gap-3">
-        <input
-          type="month"
+        <MonthPicker
           value={row.happened_on.slice(0, 7)}
-          onChange={(e) => e.target.value && patch({ happened_on: `${e.target.value}-01` })}
-          className={`${inputCls} !w-auto tabular-nums`}
-          aria-label="연월"
+          onChange={(v) => patch({ happened_on: `${v}-01` })}
+          title="연월"
+          // /wave 입력칸과 같은 크기
+          triggerClassName="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-sm text-gray-800 outline-none transition-colors hover:border-gray-400 focus-visible:border-gray-400"
         />
         <label className="flex items-center gap-1.5 text-xs text-gray-600">
           <input type="checkbox" checked={row.is_published} onChange={(e) => patch({ is_published: e.target.checked })} />
@@ -154,10 +163,20 @@ function TimelineItem({
         )}
       />
       <SaveBar dirty={dirty} busy={busy} message={message} onSave={save}>
-        <button onClick={remove} disabled={busy} className="text-xs text-gray-400 hover:text-[#c8481c]">
+        <button onClick={askRemove} disabled={busy} className={BTN_DANGER_SMALL}>
           삭제
         </button>
       </SaveBar>
+      <ConfirmDialog
+        open={confirmOpen}
+        message={'이 항목을 삭제합니다.\n되돌릴 수 없습니다.'}
+        confirmLabel="삭제"
+        busyLabel="삭제 중…"
+        busy={busy}
+        danger
+        onConfirm={remove}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </li>
   )
 }
