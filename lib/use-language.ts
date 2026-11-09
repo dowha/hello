@@ -1,23 +1,23 @@
 'use client'
 
 import { useLayoutEffect, useState } from 'react'
-import { LANGUAGE_PENDING_ATTR, resolveLanguage, type Language } from '@/lib/language'
+import { storedLanguage, type Language } from '@/lib/language'
 
 /**
- * 홈·이력서 화면 언어. 서버는 한국어로 그리고, 화면에 그려지기 전(layout effect)에 방문자 언어로 바꾼다.
- * useEffect를 쓰면 페이지 이동 때 한국어가 한 번 그려진 뒤 바뀔 수 있다
+ * 홈·이력서 화면 언어. 서버(middleware.ts)가 정한 언어로 시작하고,
+ * 쿠키 없이 예전에 고른 언어만 화면이 그려지기 전(layout effect)에 바로잡는다
  */
-export function usePageLanguage() {
-  const [language, setLanguage] = useState<Language>('ko')
+export function usePageLanguage(initial: Language) {
+  const [language, setLanguage] = useState<Language>(initial)
 
   useLayoutEffect(() => {
-    setLanguage(resolveLanguage())
-  }, [])
+    const stored = storedLanguage()
+    if (stored && stored !== initial) setLanguage(stored)
+  }, [initial])
 
-  // 스크린리더·번역기가 화면 언어를 알 수 있도록 html lang도 맞추고, 숨겨 둔 본문을 보인다
+  // 스크린리더·번역기가 화면 언어를 알 수 있도록 html lang도 맞춘다
   useLayoutEffect(() => {
     document.documentElement.lang = language
-    document.documentElement.removeAttribute(LANGUAGE_PENDING_ATTR)
   }, [language])
 
   return [language, setLanguage] as const

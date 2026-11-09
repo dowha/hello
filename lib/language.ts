@@ -1,39 +1,56 @@
 // 사이트 언어 결정 규칙
 // - 언어 버튼으로 직접 고른 경우에만 저장하고, 그 외에는 항상 브라우저 언어를 따른다
+// - 서버(middleware.ts)가 쿠키 → Accept-Language 순으로 정해 그 언어로 만든 페이지를 보낸다
+// - localStorage는 쿠키를 쓰기 전에 고른 방문자를 위해 함께 읽는다
 // - 예전 키(preferredLanguage)는 첫 방문 때 자동 저장된 값이 섞여 있어 버리고 새 키를 쓴다
 
 export type Language = 'ko' | 'en'
 
+export const LANGUAGES: Language[] = ['ko', 'en']
+export const LANGUAGE_COOKIE = 'lang'
+
 const STORAGE_KEY = 'dowha:language'
 const LEGACY_KEY = 'preferredLanguage'
 
-function isLanguage(value: unknown): value is Language {
+export function isLanguage(value: unknown): value is Language {
   return value === 'ko' || value === 'en'
 }
 
-/** 직접 고른 언어 → 브라우저 언어 순으로 결정 (클라이언트 전용) */
-export function resolveLanguage(): Language {
+/**
+ * 서버용: 직접 고른 언어(쿠키) → 브라우저 언어(Accept-Language 첫 항목) 순.
+ * 언어 정보가 없으면(검색 로봇 등) 한국어
+ */
+export function languageFromRequest(cookie: string | undefined, acceptLanguage: string | null): Language {
+  if (isLanguage(cookie)) return cookie
+  const first = acceptLanguage?.trim().toLowerCase()
+  if (!first || first.startsWith('*')) return 'ko'
+  return first.startsWith('ko') ? 'ko' : 'en'
+}
+
+function writeCookie(language: Language) {
+  document.cookie = `${LANGUAGE_COOKIE}=${language}; path=/; max-age=31536000; samesite=lax`
+}
+
+/** 클라이언트용: 직접 고른 언어가 있으면 반환. 쿠키가 없던 시절에 고른 값은 쿠키로 옮긴다 */
+export function storedLanguage(): Language | null {
   try {
     localStorage.removeItem(LEGACY_KEY)
     const stored = localStorage.getItem(STORAGE_KEY)
-    if (isLanguage(stored)) return stored
+    if (!isLanguage(stored)) return null
+    if (!document.cookie.split('; ').includes(`${LANGUAGE_COOKIE}=${stored}`)) writeCookie(stored)
+    return stored
   } catch {
-    // 시크릿 모드 등 저장소를 못 쓰면 브라우저 언어만 사용
+    // 시크릿 모드 등 저장소를 못 쓰면 서버가 정한 언어를 따른다
+    return null
   }
-  return navigator.language.toLowerCase().startsWith('ko') ? 'ko' : 'en'
 }
 
 /** 언어 버튼으로 직접 골랐을 때만 호출 */
 export function saveLanguage(language: Language) {
+  writeCookie(language)
   try {
     localStorage.setItem(STORAGE_KEY, language)
   } catch {
-    // 저장 실패는 무시 (이번 방문 동안만 적용)
+    // 저장 실패는 무시 (쿠키로 기억)
   }
 }
-
-/** 영어로 보일 방문자는 언어가 정해질 때까지 본문을 숨긴다 (서버는 한국어로 그리므로 한국어가 잠깐 보이는 것을 막음) */
-export const LANGUAGE_PENDING_ATTR = 'data-lang-pending'
-
-/** resolveLanguage와 같은 규칙을 화면이 그려지기 전에 실행하는 인라인 스크립트 */
-export const LANGUAGE_PENDING_SCRIPT = `(function(){var l;try{l=localStorage.getItem('${STORAGE_KEY}')}catch(e){}if(l!=='ko'&&l!=='en')l=navigator.language.toLowerCase().indexOf('ko')===0?'ko':'en';if(l!=='ko')document.documentElement.setAttribute('${LANGUAGE_PENDING_ATTR}','')})()`

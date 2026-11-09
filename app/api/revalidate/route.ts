@@ -17,7 +17,8 @@ export async function POST(req: Request) {
     return Response.json({ error: '권한이 없습니다.' }, { status: 403 })
   }
 
-  revalidatePath('/')
-  revalidatePath('/resume')
+  // 실제 페이지는 언어별 내부 경로(app/[lang])에 있다
+  revalidatePath('/[lang]', 'page')
+  revalidatePath('/[lang]/resume', 'page')
   return Response.json({ ok: true })
 }
