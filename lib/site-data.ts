@@ -80,21 +80,22 @@ async function fetchHighlights(): Promise<Highlights> {
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle(),
+    // 요즘 생각: 공개된 최근 5개 중 랜덤 1개 (서버에서 선택 → revalidate 주기로 로테이션)
     db
       .from('shorts')
       .select('short_id, content')
       .eq('is_published', true)
       .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle(),
+      .limit(5),
   ])
   logError('최근 글', post.error)
   logError('최근 책', book.error)
   logError('요즘 생각', short.error)
+  const shorts = (short.data as ShortItem[] | null) ?? []
   return {
     post: (post.data as PostItem | null) ?? null,
     book: (book.data as BookItem | null) ?? null,
-    short: (short.data as ShortItem | null) ?? null,
+    short: shorts.length ? shorts[Math.floor(Math.random() * shorts.length)] : null,
   }
 }
 
