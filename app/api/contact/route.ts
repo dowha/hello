@@ -33,7 +33,9 @@ const fail = (status: number, error: string) => NextResponse.json({ ok: false, e
 // 메일 헤더(제목·이름)에 줄바꿈이 섞이지 않게 한 줄로 만든다
 const oneLine = (value: string) => value.replace(/[\r\n\t]+/g, ' ').trim()
 
-// Cloudflare 프록시를 거치므로 실제 방문자 IP는 cf-connecting-ip에 있다
+// Cloudflare 프록시를 거치므로 실제 방문자 IP는 cf-connecting-ip에 있다.
+// 단, Vercel 주소로 직접 보내면 이 헤더를 꾸밀 수 있어 IP 제한은 보조 수단이다
+// (DB 함수가 이메일당·전체 횟수 제한도 함께 건다)
 function clientIp(req: NextRequest) {
   return (
     req.headers.get('cf-connecting-ip') ??
@@ -137,8 +139,8 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           from: mailFrom,
           to: [mailTo],
-          // 메일함에서 '답장'을 누르면 방문자에게 간다
-          reply_to: name ? `${name.replace(/["<>]/g, '')} <${email}>` : email,
+          // 메일함에서 '답장'을 누르면 방문자에게 간다. 이름을 넣으면 쉼표 등으로 수신자를 끼워 넣을 수 있어 검증된 주소만 쓴다
+          reply_to: email,
           subject: oneLine(`[dowha.kim] ${name || email}`),
           text: [
             `이름: ${name || '(없음)'}`,
