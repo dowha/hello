@@ -32,6 +32,7 @@ export const CONTACT_TEXT = {
     send: '보내기',
     sending: '보내는 중…',
     done: '감사합니다. 빠르게 답장드리겠습니다.',
+    privacy: '보내 주신 개인정보는 답장에만 사용하며, 저장된 기록은 1년 뒤 삭제합니다.',
     errors: {
       invalid: '이메일과 내용을 확인해 주세요.',
       captcha: '로봇 확인이 끝나지 않았어요. 잠시 후 다시 보내 주세요.',
@@ -49,6 +50,7 @@ export const CONTACT_TEXT = {
     send: 'Send',
     sending: 'Sending…',
     done: 'Thank you. I will get back to you soon.',
+    privacy: 'Your personal information is used only to reply, and stored records are deleted after one year.',
     errors: {
       invalid: 'Please check your email and message.',
       captcha: 'The verification is not complete yet. Please try again in a moment.',
@@ -187,6 +189,8 @@ export default function ContactForm({ lang }: { lang: Language }) {
         <Button type="submit" className="w-full bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
           {status === 'sending' ? t.sending : t.send}
         </Button>
+        {/* 개인정보 안내. 1년 보관은 DB 예약 작업(contact-messages-retention)이 지운다 */}
+        <p className="text-center text-xs text-gray-400 break-keep">{t.privacy}</p>
       </form>
     </section>
   )
