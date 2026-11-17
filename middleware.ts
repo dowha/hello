@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { LANGUAGE_COOKIE, languageFromRequest } from '@/lib/language'
 
 /**
- * / · /resume 요청을 방문자 언어로 미리 만든 페이지(app/[lang])에 연결한다. 주소창 주소는 그대로.
+ * / · /resume · /contact 요청을 방문자 언어로 미리 만든 페이지(app/[lang])에 연결한다. 주소창 주소는 그대로.
  * 언어별 내부 경로(/ko·/en)는 공개하지 않으므로 직접 들어오면 404
  */
 export function middleware(req: NextRequest) {
@@ -20,5 +20,5 @@ export function middleware(req: NextRequest) {
 
 // 페이지 HTML 요청에만 실행 (이미지·JS·폰트 요청에는 실행되지 않음)
 export const config = {
-  matcher: ['/', '/resume', '/ko/:path*', '/en/:path*', '/ko', '/en'],
+  matcher: ['/', '/resume', '/contact', '/ko/:path*', '/en/:path*', '/ko', '/en'],
 }

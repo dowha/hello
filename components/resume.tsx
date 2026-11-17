@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Back from '@/components/ui/back'
@@ -61,13 +62,10 @@ export default function Resume({ lang, data }: ResumeProps) {
             </p>
             <section className="text-sm mb-4 text-center">
               <p>
-                <a
-                  href="https://letterbird.co/hello-7bc2f9f1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                {/* 주소는 글자로만 보이고(인쇄용), 누르면 연락 폼으로 간다 */}
+                <Link href="/contact">
                   &#109;&#97;&#105;&#108;&#64;&#100;&#111;&#119;&#104;&#97;&#46;&#107;&#105;&#109;
-                </a>{' '}
+                </Link>{' '}
                 | {lang === 'en' ? 'South Korea' : '대한민국'}
               </p>
             </section>

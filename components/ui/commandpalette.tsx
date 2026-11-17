@@ -66,7 +66,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       navGroups: [
         [
           { title: 'Resume', href: `/resume` },
-          { title: 'Contact', href: 'https://letterbird.co/hello-dowha' },
+          { title: 'Contact', href: '/contact' },
         ],
         [
           { title: 'Blog', href: 'https://blog.dowha.kim' },
@@ -86,7 +86,7 @@ const CommandPalette = ({ language = 'en' }: CommandPaletteProps) => {
       navGroups: [
         [
           { title: '이력서', href: `/resume` },
-          { title: '연락하기', href: 'https://letterbird.co/hello-dowha' },
+          { title: '연락하기', href: '/contact' },
         ],
         [
           { title: '블로그', href: 'https://blog.dowha.kim' },
