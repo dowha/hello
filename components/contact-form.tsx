@@ -32,8 +32,8 @@ export const CONTACT_TEXT = {
     send: '보내기',
     sending: '보내는 중…',
     done: '감사합니다. 빠르게 답장드리겠습니다.',
-    // 보관 기간은 DB 예약 작업(contact-messages-retention, 30일)과 맞춘다. retention 부분은 밑줄로 강조
-    privacy: ['보내 주신 개인정보는 답장에만 사용하며, 저장된 기록은 ', '30일 뒤 삭제', '합니다.'],
+    // 보관 기간은 DB 예약 작업(contact-messages-retention: 29일 지난 기록을 매일 삭제 → 늦어도 30일 내)과 맞춘다. 기간 부분은 굵게
+    privacy: ['보내 주신 개인정보는 답장에만 사용하며, 저장된 기록은 ', '30일 내 삭제', '합니다.'],
     errors: {
       invalid: '이메일과 내용을 확인해 주세요.',
       captcha: '로봇 확인이 끝나지 않았어요. 잠시 후 다시 보내 주세요.',
@@ -51,7 +51,7 @@ export const CONTACT_TEXT = {
     send: 'Send',
     sending: 'Sending…',
     done: 'Thank you. I will get back to you soon.',
-    privacy: ['Your details are used only to reply. Stored data is ', 'deleted after 30 days', '.'],
+    privacy: ['Your details are used only to reply. Stored data is ', 'deleted within 30 days', '.'],
     errors: {
       invalid: 'Please check your email and message.',
       captcha: 'The verification is not complete yet. Please try again in a moment.',
@@ -194,10 +194,10 @@ export default function ContactForm({ lang }: { lang: Language }) {
         <Button type="submit" className="w-full h-10 rounded-lg bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
           {status === 'sending' ? t.sending : t.send}
         </Button>
-        {/* 개인정보 안내. 30일 지난 기록은 DB 예약 작업(contact-messages-retention)이 지운다 */}
+        {/* 개인정보 안내. 기록은 DB 예약 작업(contact-messages-retention)이 30일 내 지운다 */}
         <p className="text-center text-xs text-gray-400 break-keep">
           {t.privacy[0]}
-          <span className="underline underline-offset-2">{t.privacy[1]}</span>
+          <strong className="font-semibold">{t.privacy[1]}</strong>
           {t.privacy[2]}
         </p>
       </form>
