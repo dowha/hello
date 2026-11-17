@@ -62,8 +62,9 @@ export const CONTACT_TEXT = {
 
 type ErrorKey = keyof (typeof CONTACT_TEXT)['ko']['errors']
 
+// 홈 검색창과 같은 모서리(rounded-lg)·테두리, 포커스는 사이트 강조색
 const inputCls =
-  'w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 outline-none transition-colors focus:border-gray-400'
+  'w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 outline-none transition-colors focus:border-brand'
 
 export default function ContactForm({ lang }: { lang: Language }) {
   const t = CONTACT_TEXT[lang]
@@ -86,6 +87,7 @@ export default function ContactForm({ lang }: { lang: Language }) {
       sitekey: SITE_KEY,
       language: lang,
       theme: 'light', // 사이트가 밝은 테마뿐이라 고정
+      size: 'flexible', // 입력칸·버튼과 같은 폭으로 채운다
       callback: (value: string) => setToken(value),
       'expired-callback': () => setToken(''),
       'error-callback': () => setToken(''),
@@ -158,11 +160,11 @@ export default function ContactForm({ lang }: { lang: Language }) {
           <span className="text-sm font-medium text-gray-700">
             {t.name} <span className="font-normal text-gray-400">({t.optional})</span>
           </span>
-          <input name="name" type="text" maxLength={100} autoComplete="name" className={inputCls} />
+          <input name="name" type="text" maxLength={100} autoComplete="name" className={`${inputCls} h-10`} />
         </label>
         <label className="block space-y-1.5">
           <span className="text-sm font-medium text-gray-700">{t.email}</span>
-          <input name="email" type="email" required maxLength={254} autoComplete="email" className={inputCls} />
+          <input name="email" type="email" required maxLength={254} autoComplete="email" className={`${inputCls} h-10`} />
         </label>
         <label className="block space-y-1.5">
           <span className="text-sm font-medium text-gray-700">{t.message}</span>
@@ -186,7 +188,7 @@ export default function ContactForm({ lang }: { lang: Language }) {
         )}
 
         {/* 페이지의 주요 동작이라 사이트 강조색(브랜드 파랑)을 쓴다 */}
-        <Button type="submit" className="w-full bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
+        <Button type="submit" className="w-full h-10 rounded-lg bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
           {status === 'sending' ? t.sending : t.send}
         </Button>
         {/* 개인정보 안내. 1년 보관은 DB 예약 작업(contact-messages-retention)이 지운다 */}
