@@ -26,13 +26,14 @@ export const CONTACT_TEXT = {
     title: '연락하기',
     lead: '질문이나 피드백, 협업 제안 등 무엇이든 편하게 보내 주세요.',
     name: '이름',
-    optional: '선택',
+    optional: '(선택)', // 국문은 괄호를 앞말에 붙인다
     email: '답장받을 이메일',
     message: '내용',
     send: '보내기',
     sending: '보내는 중…',
     done: '감사합니다. 빠르게 답장드리겠습니다.',
-    privacy: '보내 주신 개인정보는 답장에만 사용하며, 저장된 기록은 1년 뒤 삭제합니다.',
+    // 보관 기간은 DB 예약 작업(contact-messages-retention, 30일)과 맞춘다. retention 부분은 밑줄로 강조
+    privacy: ['보내 주신 개인정보는 답장에만 사용하며, 저장된 기록은 ', '30일 뒤 삭제', '합니다.'],
     errors: {
       invalid: '이메일과 내용을 확인해 주세요.',
       captcha: '로봇 확인이 끝나지 않았어요. 잠시 후 다시 보내 주세요.',
@@ -42,15 +43,15 @@ export const CONTACT_TEXT = {
   },
   en: {
     title: 'Contact',
-    lead: 'Questions, feedback, or ideas to collaborate on — feel free to reach out.',
+    lead: 'Questions, feedback, or ideas? Feel free to reach out.',
     name: 'Name',
-    optional: 'optional',
+    optional: ' (optional)', // 영문은 괄호 앞을 띄운다 (표기 지침 7. 괄호)
     email: 'Your email',
     message: 'Message',
     send: 'Send',
     sending: 'Sending…',
     done: 'Thank you. I will get back to you soon.',
-    privacy: 'Your personal information is used only to reply, and stored records are deleted after one year.',
+    privacy: ['Your details are used only to reply. Stored data is ', 'deleted after 30 days', '.'],
     errors: {
       invalid: 'Please check your email and message.',
       captcha: 'The verification is not complete yet. Please try again in a moment.',
@@ -158,7 +159,9 @@ export default function ContactForm({ lang }: { lang: Language }) {
       <form onSubmit={onSubmit} className="space-y-4" noValidate={false}>
         <label className="block space-y-1.5">
           <span className="text-sm font-medium text-gray-700">
-            {t.name} <span className="font-normal text-gray-400">({t.optional})</span>
+            {t.name}
+            {/* 국문은 괄호를 앞말에 붙이고 영문은 띄운다 (blog 표기 지침 7. 괄호) */}
+            <span className="font-normal text-gray-400">{t.optional}</span>
           </span>
           <input name="name" type="text" maxLength={100} autoComplete="name" className={`${inputCls} h-10`} />
         </label>
@@ -191,8 +194,12 @@ export default function ContactForm({ lang }: { lang: Language }) {
         <Button type="submit" className="w-full h-10 rounded-lg bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
           {status === 'sending' ? t.sending : t.send}
         </Button>
-        {/* 개인정보 안내. 1년 보관은 DB 예약 작업(contact-messages-retention)이 지운다 */}
-        <p className="text-center text-xs text-gray-400 break-keep">{t.privacy}</p>
+        {/* 개인정보 안내. 30일 지난 기록은 DB 예약 작업(contact-messages-retention)이 지운다 */}
+        <p className="text-center text-xs text-gray-400 break-keep">
+          {t.privacy[0]}
+          <span className="underline underline-offset-2">{t.privacy[1]}</span>
+          {t.privacy[2]}
+        </p>
       </form>
     </section>
   )
