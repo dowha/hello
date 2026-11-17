@@ -15,5 +15,5 @@ export const openGraphFor = (lang: Language, url: string) => ({
   type: 'website' as const,
   url,
   locale: lang === 'ko' ? 'ko_KR' : 'en_US',
-  images: [{ url: '/opengraph-image.png?v=2', width: 2400, height: 1260, alt: 'dowha kim — B2B SaaS Specialist' }],
+  images: [{ url: '/opengraph-image.png?v=3', width: 2400, height: 1260, alt: 'dowha kim — B2B SaaS Specialist' }],
 })
