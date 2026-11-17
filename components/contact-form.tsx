@@ -22,7 +22,7 @@ declare global {
 const TEXT = {
   ko: {
     title: '연락하기',
-    lead: '질문이나 피드백, 협업 제안 등 무엇이든 편하게 보내 주세요. 남겨 주신 이메일로 답장드립니다.',
+    lead: '질문이나 피드백, 협업 제안 등 무엇이든 편하게 보내 주세요.',
     name: '이름',
     optional: '선택',
     email: '답장받을 이메일',
@@ -40,7 +40,7 @@ const TEXT = {
   },
   en: {
     title: 'Contact',
-    lead: 'Questions, feedback, or ideas to collaborate on — feel free to reach out. I will reply to the email you leave.',
+    lead: 'Questions, feedback, or ideas to collaborate on — feel free to reach out.',
     name: 'Name',
     optional: 'optional',
     email: 'Your email',
@@ -195,7 +195,8 @@ export default function ContactForm({ lang }: { lang: Language }) {
             </p>
           )}
 
-          <Button type="submit" className="w-full" disabled={status === 'sending'}>
+          {/* 페이지의 주요 동작이라 사이트 강조색(브랜드 파랑)을 쓴다 */}
+          <Button type="submit" className="w-full bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
             {status === 'sending' ? t.sending : t.send}
           </Button>
         </form>
