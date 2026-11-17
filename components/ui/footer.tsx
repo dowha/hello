@@ -7,7 +7,7 @@ export default function Footer() {
       <span aria-hidden className="block w-8 h-px bg-gray-200 mb-5" />
       <div className="max-w-md mx-auto flex items-center gap-1.5 text-xs text-gray-500">
         <Logomark className="w-3 h-3 text-brand" aria-hidden />
-        Proudly generalist, embracing an open-source mindset.
+        Proudly generalist, guided by a deep sense of humanity.
       </div>
     </footer>
   )

@@ -10,7 +10,7 @@ export async function generateMetadata(props: LangParams): Promise<Metadata> {
   const lang = await pageLanguage(props)
   const canonicalUrl = 'https://dowha.kim/contact'
   return {
-    title: lang === 'ko' ? '연락하기' : 'Contact',
+    title: 'Contact', // 이력서(Resume)처럼 탭 제목은 언어와 관계없이 영문
     description: lang === 'ko' ? '김도화에게 메시지 보내기' : 'Send a message to Dowha Kim',
     alternates: { canonical: canonicalUrl },
     openGraph: openGraphFor(lang, canonicalUrl),
