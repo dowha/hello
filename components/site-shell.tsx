@@ -1,6 +1,6 @@
 import Script from 'next/script'
 import Footer from '@/components/ui/footer'
-import GTMTracker from '@/components/GTMTracker'
+import GTMTracker from '@/components/gtm-tracker'
 import type { Language } from '@/lib/language'
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
