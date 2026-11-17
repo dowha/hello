@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-const TEXT = {
+export const CONTACT_TEXT = {
   ko: {
     title: '연락하기',
     lead: '질문이나 피드백, 협업 제안 등 무엇이든 편하게 보내 주세요.',
@@ -58,13 +58,13 @@ const TEXT = {
   },
 } as const
 
-type ErrorKey = keyof (typeof TEXT)['ko']['errors']
+type ErrorKey = keyof (typeof CONTACT_TEXT)['ko']['errors']
 
 const inputCls =
   'w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 outline-none transition-colors focus:border-gray-400'
 
 export default function ContactForm({ lang }: { lang: Language }) {
-  const t = TEXT[lang]
+  const t = CONTACT_TEXT[lang]
   const router = useRouter()
   const widgetRef = useRef<HTMLDivElement>(null)
   const widgetId = useRef<string | undefined>(undefined)
@@ -150,10 +150,8 @@ export default function ContactForm({ lang }: { lang: Language }) {
         strategy="afterInteractive"
         onReady={() => setScriptReady(true)}
       />
-      <h1 className="text-center">{t.title}</h1>
-      <p className="mt-2 text-center text-sm text-gray-500 break-keep">{t.lead}</p>
-
-      <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate={false}>
+      {/* 제목·설명은 페이지 머리(ClientContact)에서 홈과 같은 자리에 그린다 */}
+      <form onSubmit={onSubmit} className="space-y-4" noValidate={false}>
         <label className="block space-y-1.5">
           <span className="text-sm font-medium text-gray-700">
             {t.name} <span className="font-normal text-gray-400">({t.optional})</span>
