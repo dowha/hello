@@ -203,3 +203,14 @@
     text-wrap: balance;
   }
 }
+
+/* 토스트(sonner richColors) 색을 사이트 색에 맞춘다 — blog.dowha.kim과 같은 규칙
+   성공=브랜드 파랑, 실패=경고 주황. sonner가 런타임에 넣는 변수보다 우선하도록 html을 앞에 붙였다. */
+html [data-sonner-toaster][data-sonner-theme='light'] {
+  --success-bg: theme('colors.brand.bg');
+  --success-border: theme('colors.brand.border');
+  --success-text: theme('colors.brand.dark');
+  --error-bg: theme('colors.warn.bg');
+  --error-border: theme('colors.warn.border');
+  --error-text: theme('colors.warn.DEFAULT');
+}

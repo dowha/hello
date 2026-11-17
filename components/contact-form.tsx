@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Script from 'next/script'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import type { Language } from '@/lib/language'
 
@@ -29,8 +31,7 @@ const TEXT = {
     message: '내용',
     send: '보내기',
     sending: '보내는 중…',
-    done: '잘 받았습니다. 남겨 주신 이메일로 답장드릴게요.',
-    again: '다른 메시지 보내기',
+    done: '감사합니다. 빠르게 답장드리겠습니다.',
     errors: {
       invalid: '이메일과 내용을 확인해 주세요.',
       captcha: '로봇 확인이 끝나지 않았어요. 잠시 후 다시 보내 주세요.',
@@ -47,8 +48,7 @@ const TEXT = {
     message: 'Message',
     send: 'Send',
     sending: 'Sending…',
-    done: 'Thanks, your message has been sent. I will get back to you by email.',
-    again: 'Send another message',
+    done: 'Thank you. I will get back to you soon.',
     errors: {
       invalid: 'Please check your email and message.',
       captcha: 'The verification is not complete yet. Please try again in a moment.',
@@ -65,11 +65,12 @@ const inputCls =
 
 export default function ContactForm({ lang }: { lang: Language }) {
   const t = TEXT[lang]
+  const router = useRouter()
   const widgetRef = useRef<HTMLDivElement>(null)
   const widgetId = useRef<string | undefined>(undefined)
   const [scriptReady, setScriptReady] = useState(false)
   const [token, setToken] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle')
+  const [status, setStatus] = useState<'idle' | 'sending'>('idle')
   const [error, setError] = useState<ErrorKey | null>(null)
 
   // 스크립트가 이미 있으면(페이지 재방문) 바로 그린다
@@ -90,8 +91,8 @@ export default function ContactForm({ lang }: { lang: Language }) {
   }, [lang])
 
   useEffect(() => {
-    if (scriptReady && status !== 'done') renderWidget()
-  }, [scriptReady, status, renderWidget])
+    if (scriptReady) renderWidget()
+  }, [scriptReady, renderWidget])
 
   // 페이지를 떠나면 위젯 정리
   useEffect(
@@ -127,10 +128,9 @@ export default function ContactForm({ lang }: { lang: Language }) {
       })
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string }
       if (res.ok && data.ok) {
-        if (widgetId.current) window.turnstile?.remove(widgetId.current)
-        widgetId.current = undefined
-        setToken('')
-        setStatus('done')
+        // 보냈으면 안내 토스트를 띄우고 홈으로 돌아간다 (토스트는 공통 틀에 있어 이동 후에도 보인다)
+        toast.success(t.done)
+        router.push('/')
         return
       }
       setError((data.error && data.error in t.errors ? data.error : 'default') as ErrorKey)
@@ -153,54 +153,43 @@ export default function ContactForm({ lang }: { lang: Language }) {
       <h1 className="text-center">{t.title}</h1>
       <p className="mt-2 text-center text-sm text-gray-500 break-keep">{t.lead}</p>
 
-      {status === 'done' ? (
-        <div className="mt-8 space-y-4 text-center">
-          <p className="text-sm text-gray-700 break-keep" role="status">
-            {t.done}
-          </p>
-          <Button variant="outline" onClick={() => setStatus('idle')}>
-            {t.again}
-          </Button>
+      <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate={false}>
+        <label className="block space-y-1.5">
+          <span className="text-sm font-medium text-gray-700">
+            {t.name} <span className="font-normal text-gray-400">({t.optional})</span>
+          </span>
+          <input name="name" type="text" maxLength={100} autoComplete="name" className={inputCls} />
+        </label>
+        <label className="block space-y-1.5">
+          <span className="text-sm font-medium text-gray-700">{t.email}</span>
+          <input name="email" type="email" required maxLength={254} autoComplete="email" className={inputCls} />
+        </label>
+        <label className="block space-y-1.5">
+          <span className="text-sm font-medium text-gray-700">{t.message}</span>
+          <textarea name="message" required maxLength={5000} rows={7} className={`${inputCls} resize-y leading-relaxed`} />
+        </label>
+
+        {/* 숨김 필드: 화면·읽기 프로그램 모두에서 숨기고, 자동 입력도 막는다 */}
+        <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+          <label>
+            Website
+            <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </label>
         </div>
-      ) : (
-        <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate={false}>
-          <label className="block space-y-1.5">
-            <span className="text-sm font-medium text-gray-700">
-              {t.name} <span className="font-normal text-gray-400">({t.optional})</span>
-            </span>
-            <input name="name" type="text" maxLength={100} autoComplete="name" className={inputCls} />
-          </label>
-          <label className="block space-y-1.5">
-            <span className="text-sm font-medium text-gray-700">{t.email}</span>
-            <input name="email" type="email" required maxLength={254} autoComplete="email" className={inputCls} />
-          </label>
-          <label className="block space-y-1.5">
-            <span className="text-sm font-medium text-gray-700">{t.message}</span>
-            <textarea name="message" required maxLength={5000} rows={7} className={`${inputCls} resize-y leading-relaxed`} />
-          </label>
 
-          {/* 숨김 필드: 화면·읽기 프로그램 모두에서 숨기고, 자동 입력도 막는다 */}
-          <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-            <label>
-              Website
-              <input name="website" type="text" tabIndex={-1} autoComplete="off" />
-            </label>
-          </div>
+        <div ref={widgetRef} className="min-h-[65px]" />
 
-          <div ref={widgetRef} className="min-h-[65px]" />
+        {error && (
+          <p className="text-sm text-warn break-keep" role="alert">
+            {t.errors[error]}
+          </p>
+        )}
 
-          {error && (
-            <p className="text-sm text-warn break-keep" role="alert">
-              {t.errors[error]}
-            </p>
-          )}
-
-          {/* 페이지의 주요 동작이라 사이트 강조색(브랜드 파랑)을 쓴다 */}
-          <Button type="submit" className="w-full bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
-            {status === 'sending' ? t.sending : t.send}
-          </Button>
-        </form>
-      )}
+        {/* 페이지의 주요 동작이라 사이트 강조색(브랜드 파랑)을 쓴다 */}
+        <Button type="submit" className="w-full bg-brand text-white hover:bg-brand-dark" disabled={status === 'sending'}>
+          {status === 'sending' ? t.sending : t.send}
+        </Button>
+      </form>
     </section>
   )
 }

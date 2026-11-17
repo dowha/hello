@@ -1,4 +1,5 @@
 import Script from 'next/script'
+import { Toaster } from 'sonner'
 import Footer from '@/components/ui/footer'
 import GTMTracker from '@/components/gtm-tracker'
 import type { Language } from '@/lib/language'
@@ -46,6 +47,8 @@ export function SiteShell({ lang, children }: { lang: Language; children: React.
         {/* 링크 밑줄은 main 안에만 적용된다 (blog.dowha.kim과 같은 규칙) */}
         <main className="flex w-full flex-1 flex-col">{children}</main>
         <Footer />
+        {/* 알림 토스트 (blog.dowha.kim과 같은 설정). 페이지를 옮겨도 이어서 보이도록 공통 틀에 둔다 */}
+        <Toaster richColors position="top-center" duration={2500} />
       </body>
     </html>
   )
